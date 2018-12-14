@@ -1,9 +1,15 @@
-import java.util.ArrayList;
 
 public class Character {
 	private int health;
-	private int damage;
+	private int strength;
 	private double speed;
+	
+	
+	Character(int health, int strength, double speed){
+		  this.health = health;
+		  this.strength = strength;
+		  this.speed = speed;
+		}
 	
 	public int getHealth() {
 		return health;
@@ -13,12 +19,12 @@ public class Character {
 		this.health = health;
 	}
 	
-	public int getDamage() {
-		return damage;
+	public int getStrength() {
+		return strength;
 	}
 	
-	public void setDamage(int damage) {
-		this.damage = damage;
+	public void setStrength(int strength) {
+		this.strength = strength;
 	}
 	
 	public double getSpeed() {
