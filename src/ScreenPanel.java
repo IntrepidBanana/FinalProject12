@@ -132,10 +132,10 @@ public class ScreenPanel extends JPanel implements KeyListener {
    dy+= new Random().nextInt(1000)-500;
    break;
     case KeyEvent.VK_UP:
-      moveSpeed+=.5;
+      moveSpeed+=.2;
       break;
   case KeyEvent.VK_DOWN:
-      moveSpeed = Math.max(moveSpeed-.1, 0);
+      moveSpeed = Math.max(moveSpeed-.2, 0);
       break;
   }
  }

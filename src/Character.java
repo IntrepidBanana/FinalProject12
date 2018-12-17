@@ -4,6 +4,8 @@ public class Character {
 	private int strength;
 	private double speed;
 	
+
+	
 	
 	Character(int health, int strength, double speed){
 		  this.health = health;
@@ -33,5 +35,9 @@ public class Character {
 	
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+	
+	public void move() {
+		
 	}
 }

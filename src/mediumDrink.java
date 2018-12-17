@@ -1,7 +1,7 @@
 
-public class mediumDrink extends Drink {
+public class MediumDrink extends Drink {
 
-	public mediumDrink(double weight, int stackSize, int thirst) {
+	public MediumDrink(double weight, int stackSize, int thirst) {
 		super(weight, stackSize, thirst);
 	}
 
