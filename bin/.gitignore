@@ -1,7 +1,7 @@
-/Camera.class
-/Entity.class
-/IOHandler.class
-/Screen.class
-/ScreenPanel.class
-/Tile.class
-/WorldMap.class
+/Character.class
+/World.class
+/Enemy.class
+/Slug.class
+/Monster.class
+/Item.class
+/Weapon.class
