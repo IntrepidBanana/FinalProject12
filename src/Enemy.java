@@ -4,7 +4,7 @@ public class Enemy extends Entity {
 	public Enemy(int x, int y, int health, int strength, double speed) {
 		super(x, y, 1, 1);
 		resistance = 0.9f;
-		setCollisionBox(new HitBox(this, -75, -75, 150, 150, true));
+		setCollisionBox(new HitBox(this, -150, -150, 150, 150, true));
 	}
 
 	@Override

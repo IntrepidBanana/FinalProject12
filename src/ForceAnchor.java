@@ -6,27 +6,41 @@ public class ForceAnchor extends Force {
 	float magnitude;
 	float pull;
 	float offset = 0;
-
-	public ForceAnchor(float magnitude, Entity owner, Entity anchor) {
+	float threshold = 1f;
+	boolean inversion = false;
+	
+	
+	
+	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float threshold) {
 		super(magnitude, (float) Math.atan2(owner.y - anchor.y, owner.x - anchor.y));
 		setReduction(0);
 		this.magnitude = -magnitude;
 		this.pull = pull;
 		this.owner = owner;
 		this.anchor = anchor;
+		this.threshold = threshold;
 	}
+	
+	public ForceAnchor(float magnitude, Entity owner, Entity anchor){
+		this(magnitude, owner, anchor, 1f);
+	}
+	
 
-	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float offset) {
-		this(magnitude, owner, anchor);
+	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float threshold, float offset) {
+		this(magnitude, owner, anchor, threshold);
 		this.offset = offset;
 
 	}
 
+	public void setInversion(boolean isInverted) {
+		inversion = isInverted;
+	}
+	
 	@Override
 	public boolean update() {
 		System.out.println(owner.x + " " + anchor.y);
 		float dist = (float) Math.sqrt(Math.pow(owner.x - anchor.x, 2) + Math.pow(owner.y - anchor.y, 2));
-		if (dist <= 1f) {
+		if (dist <= threshold) {
 			dx = 0;
 			dy = 0;
 			return true;
@@ -34,9 +48,15 @@ public class ForceAnchor extends Force {
 
 		// magnitude = 1/dist;
 		theta = (float) ((float) Math.atan2(owner.y - anchor.y, owner.x - anchor.x) + Math.toRadians(offset));
-
-		dx = (float) (magnitude * (Math.min(100 / dist, 1)) * Math.cos(theta));
-		dy = (float) (magnitude * (Math.min(100 / dist, 1)) * Math.sin(theta));
+		
+		
+		float multiplier = (Math.min(100 / dist, 1));
+		if(inversion){
+			multiplier = (dist/100);
+		}
+		
+		dx = (float) (magnitude * multiplier * Math.cos(theta));
+		dy = (float) (magnitude * multiplier * Math.sin(theta));
 		System.out.println(magnitude + "\n");
 
 		return false;

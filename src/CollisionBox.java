@@ -43,10 +43,10 @@ public abstract class CollisionBox {
 	}
 	
 	public float getX() {
-		return owner.x;
+		return getLeft() + len/2;
 	}
 	public float getY() {
-		return owner.y;
+		return getTop() + len/2;
 	}
 
 	public void notifyOwner(CollisionBox box) {

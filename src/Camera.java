@@ -10,6 +10,9 @@ public class Camera extends Entity {
 		super(0, 0, 1f, 1);
 		this.size = size;
 		this.player = player;
+		ForceAnchor f = new ForceAnchor(1f, this, player, -1f);
+		f.setInversion(true);
+		forces.addForce(f);
 	}
 
 	public int getSize() {
@@ -29,10 +32,10 @@ public class Camera extends Entity {
 	@Override
 	public void update() {
 		forceUpdate();
-		if (forces.getX() != 0 && forces.getY() != 0) {
-		} else {
-			cameraSmooth(player.x, player.y);
-		}
+//		if (forces.getX() != 0 && forces.getY() != 0) {
+//		} else {
+//			cameraSmooth(player.x, player.y);
+//		}
 	}
 
 	public float camX() {
