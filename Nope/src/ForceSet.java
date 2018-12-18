@@ -60,6 +60,7 @@ public class ForceSet {
 		f.setReduction(reduction);
 		forces.add(f);
 	}
+	
 	public void addForce(Force f) {
 		forces.add(f);
 	}

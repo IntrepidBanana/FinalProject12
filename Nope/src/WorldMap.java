@@ -14,8 +14,8 @@ public class WorldMap {
 			tiles[i] = new Tile(i % 36 * Tile.size, Tile.size * (int) (i / 36),
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
-//		addEntity(new Wall(1, 1, 1, 1));
-		addEntity(new Enemy(100, 100, 50, 10, 0.5));
+
+		// addEntity(new Enemy(90, 90));
 
 		System.out.println(entities.size());
 	}

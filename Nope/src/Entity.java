@@ -4,15 +4,12 @@ public abstract class Entity {
 	float x;
 	float y;
 	float moveSpeed;
-	int health;
-	int strength;
+	float health;
 	CollisionBox hitbox;
 	ForceSet forces = new ForceSet();
 	float resistance = 0f;
-	int time = 0;
-	
 
-	Entity(float x, float y, float moveSpeed, int health) {
+	Entity(float x, float y, float moveSpeed, float health) {
 		this.x = x;
 		this.y = y;
 		this.moveSpeed = moveSpeed / 10;
