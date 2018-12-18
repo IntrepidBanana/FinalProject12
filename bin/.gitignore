@@ -23,3 +23,16 @@
 /LargeDrink.class
 /SmallDrink.class
 /MediumDrink.class
+/Bullet.class
+/CollisionBox.class
+/CollisionHelper.class
+/Coord.class
+/Force.class
+/ForceAnchor.class
+/ForceSet.class
+/HitBox.class
+/HurtBox.class
+/Keys.class
+/Mouse.class
+/PainterLoop.class
+/Player.class
