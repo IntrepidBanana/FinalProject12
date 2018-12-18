@@ -15,7 +15,7 @@ public class WorldMap {
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
-		// addEntity(new Enemy(90, 90));
+		//addEntity(new Enemy(90, 90));
 
 		System.out.println(entities.size());
 	}
