@@ -6,8 +6,8 @@ public class Bullet extends Entity {
 	Bullet(float x, float y, float moveSpeed, float theta) {
 		super((float) (x + 15 * Math.cos(theta)), (float) (y + 15 * Math.sin(theta)),
 				moveSpeed, 1);
-		Force f = new Force(0.95f, theta);
-		f.setReduction(0f);
+		Force f = new Force(moveSpeed, theta);
+		f.setReduction(0.01f);
 		forces.addForce(f);
 //		forces.addForce(new ForceAnchor(0.3f, this, WorldMap.entities.get(0)));
 //		forces.addForce(new ForceAnchor(1f, this, WorldMap.entities.get(0),90));

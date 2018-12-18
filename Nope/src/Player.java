@@ -53,8 +53,8 @@ public class Player extends Entity {
 		}
 
 		if (mouse.isPressed()) {
-//			screenShake(mouse.getCamera(), 500);
-			 wm.addEntity(new Bullet(x, y, 3f, mouse.theta()));
+			screenShake(mouse.getCamera(), 500);
+			// wm.addEntity(new Bullet(x, y, 3f, mouse.theta()));
 			mouse.setPressed(false);
 		}
 
