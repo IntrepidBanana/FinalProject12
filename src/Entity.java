@@ -9,12 +9,8 @@ public abstract class Entity {
 	CollisionBox hitbox;
 	ForceSet forces = new ForceSet();
 	float resistance = 0f;
-<<<<<<< HEAD
 	WorldMap wm;
-=======
 	int time = 0;
-	
->>>>>>> 5cc20ffa8673206e8cba17fd7d74d32f40a0c6ef
 
 	Entity(float x, float y, float moveSpeed, int health) {
 		this.x = x;

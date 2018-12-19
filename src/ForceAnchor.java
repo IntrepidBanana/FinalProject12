@@ -38,7 +38,6 @@ public class ForceAnchor extends Force {
 	
 	@Override
 	public boolean update() {
-		System.out.println(owner.x + " " + anchor.y);
 		float dist = (float) Math.sqrt(Math.pow(owner.x - anchor.x, 2) + Math.pow(owner.y - anchor.y, 2));
 		if (dist <= threshold) {
 			dx = 0;
@@ -57,7 +56,6 @@ public class ForceAnchor extends Force {
 		
 		dx = (float) (magnitude * multiplier * Math.cos(theta));
 		dy = (float) (magnitude * multiplier * Math.sin(theta));
-		System.out.println(magnitude + "\n");
 
 		return false;
 

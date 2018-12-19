@@ -9,8 +9,8 @@ public class Bullet extends Entity {
 		Force f = new Force(0.95f, theta);
 		f.setReduction(0f);
 		forces.addForce(f);
-//		forces.addForce(new ForceAnchor(0.3f, this, WorldMap.entities.get(0)));
-//		forces.addForce(new ForceAnchor(1f, this, WorldMap.entities.get(0),90));
+		//forces.addForce(new ForceAnchor(0.3f, this, WorldMap.entities.get(0)));
+		//forces.addForce(new ForceAnchor(1f, this, WorldMap.entities.get(0),90));
 		setCollisionBox(new HurtBox(this, -2.5f, -2.5f, 5, 5, 1));
 	}
 
