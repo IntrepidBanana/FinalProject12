@@ -8,9 +8,8 @@ public class ForceAnchor extends Force {
 	float offset = 0;
 	float threshold = 1f;
 	boolean inversion = false;
-	
-	
-	
+	 boolean isVariable = true;
+
 	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float threshold) {
 		super(magnitude, (float) Math.atan2(owner.y - anchor.y, owner.x - anchor.y));
 		setReduction(0);
@@ -20,11 +19,10 @@ public class ForceAnchor extends Force {
 		this.anchor = anchor;
 		this.threshold = threshold;
 	}
-	
-	public ForceAnchor(float magnitude, Entity owner, Entity anchor){
+
+	public ForceAnchor(float magnitude, Entity owner, Entity anchor) {
 		this(magnitude, owner, anchor, 1f);
 	}
-	
 
 	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float threshold, float offset) {
 		this(magnitude, owner, anchor, threshold);
@@ -32,10 +30,14 @@ public class ForceAnchor extends Force {
 
 	}
 
+	public void hasVariableSpeed(boolean b) {
+		isVariable = b;
+	}
+
 	public void setInversion(boolean isInverted) {
 		inversion = isInverted;
 	}
-	
+
 	@Override
 	public boolean update() {
 		float dist = (float) Math.sqrt(Math.pow(owner.x - anchor.x, 2) + Math.pow(owner.y - anchor.y, 2));
@@ -47,13 +49,14 @@ public class ForceAnchor extends Force {
 
 		// magnitude = 1/dist;
 		theta = (float) ((float) Math.atan2(owner.y - anchor.y, owner.x - anchor.x) + Math.toRadians(offset));
-		
-		
-		float multiplier = (Math.min(100 / dist, 1));
-		if(inversion){
-			multiplier = (dist/100);
+		float multiplier = 1;
+		if (isVariable) {
+			multiplier = (Math.min(100 / dist, 1));
+			if (inversion) {
+				multiplier = (dist / 100);
+			}
 		}
-		
+
 		dx = (float) (magnitude * multiplier * Math.cos(theta));
 		dy = (float) (magnitude * multiplier * Math.sin(theta));
 

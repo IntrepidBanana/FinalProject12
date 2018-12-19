@@ -1,8 +1,8 @@
 
 public class Enemy extends Entity {
 
-	public Enemy(int x, int y, int health, int strength, float speed) {
-		super(x, y, 1, 1);
+	public Enemy(WorldMap wm, int x, int y, int health, int strength, float speed) {
+		super(wm, x, y, 1, 1);
 		resistance = 0.9f;
 
 		setCollisionBox(new HitBox(this, -150, -150, 150, 150, true));
@@ -10,6 +10,7 @@ public class Enemy extends Entity {
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));
 		health = 10;
 		speed = 0.45f;
+		move();
 	}
 
 	@Override
@@ -27,18 +28,17 @@ public class Enemy extends Entity {
 		forceUpdate();
 		time++;
 
-		if (time % 750 == 0) {
-			move();
-		}
+//		if (time % 750 == 0) {
+//			move();
+//		}
 	}
 
 	public void move() {
-		
-		Force f = new ForceAnchor(0.15f, this, WorldMap.entities.get(2));
-		f.setReduction(1f);
+
+		ForceAnchor f = new ForceAnchor(0.45f, this, wm.getPlayer(), -1);
+		f.hasVariableSpeed(false);
 		forces.addForce(f);
-//		forces.addForce(new ForceAnchor(0.45f, this, WorldMap.entities.get(2)));
-//		forces.get(forces.size() -1).setReduction(0.005f);
+
 	}
 
 }

@@ -27,11 +27,15 @@ public class PainterLoop extends JPanel {
 	int timePressed[] = new int[4];
 	double camSpeed = 1;
 	WorldMap wm = new WorldMap();
-	Player player = new Player(0, 0, 0.65f, wm);
+	Player player = new Player(wm, 0, 0, 0.65f);
 
 	public PainterLoop(IOHandler io) {
 		wm.addEntity(player);
-		this.camera = new Camera(camSize, player);
+		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 1));
+		wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.5f));
+
+		
+		this.camera = new Camera(wm, camSize, player);
 		this.io = io;
 		this.io.setCamera(camera);
 		addKeyListener(io);

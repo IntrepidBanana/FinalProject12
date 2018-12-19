@@ -23,7 +23,6 @@
 /LargeDrink.class
 /SmallDrink.class
 /MediumDrink.class
-<<<<<<< Updated upstream
 /Bullet.class
 /CollisionBox.class
 /CollisionHelper.class
@@ -38,7 +37,3 @@
 /PainterLoop.class
 /Player.class
 /Wall.class
-=======
-/StopWatch.class
-/StopWatchEvent.class
->>>>>>> Stashed changes

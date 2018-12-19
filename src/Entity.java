@@ -12,11 +12,12 @@ public abstract class Entity {
 	WorldMap wm;
 	int time = 0;
 
-	Entity(float x, float y, float moveSpeed, int health) {
+	Entity(WorldMap wm, float x, float y, float moveSpeed, int health) {
 		this.x = x;
 		this.y = y;
 		this.moveSpeed = moveSpeed / 10;
 		this.health = health;
+		this.wm = wm;
 	}
 
 	public void setWorldMap(WorldMap wm) {

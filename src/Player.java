@@ -6,8 +6,8 @@ import java.util.Map;
 public class Player extends Entity {
 	WorldMap wm;
 	boolean test = false;
-	Player(float x, float y, float moveSpeed, WorldMap wm) {
-		super(x, y, moveSpeed, 10);
+	Player(WorldMap wm, float x, float y, float moveSpeed) {
+		super(wm, x, y, moveSpeed, 10);
 		this.wm = wm;
 		setCollisionBox(new HitBox(this, -7.5f, -7.5f, 15, 15, false));
 	}
@@ -55,7 +55,7 @@ public class Player extends Entity {
 
 		if (mouse.isPressed()) {
 			// screenShake(mouse.getCamera(), 500);
-			wm.addEntity(new Bullet(x, y, 3f, mouse.theta()));
+			wm.addEntity(new Bullet(wm, x, y, 3f, mouse.theta()));
 			mouse.setPressed(false);
 		}
 

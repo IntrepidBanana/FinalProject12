@@ -15,17 +15,11 @@ public class WorldMap {
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
+		
 
-		addEntity(new Slug(90, 90, 1, 1, 1));
-
-//		addEntity(new Wall(1, 1, 1, 1));
-		addEntity(new Enemy(100, 100, 50, 10, 0.5f));
-
-
-//		addEntity(new Wall(1, 1, 1, 1));
+		// addEntity(new Wall(1, 1, 1, 1));
 		System.out.println(entities.size());
 	}
-	
 
 	public void update() {
 		for (Entity e : entities) {
@@ -43,7 +37,10 @@ public class WorldMap {
 	}
 
 	public void addEntity(Entity e) {
+
+		e.setWorldMap(this);
 		entities.add(e);
+
 		collisionBoxes.add(e.getCollisionBox());
 	}
 
@@ -62,6 +59,15 @@ public class WorldMap {
 				i.remove();
 			}
 		}
+	}
+
+	public Player getPlayer() {
+		for (Entity e : entities) {
+			if (e instanceof Player) {
+				return (Player) e;
+			}
+		}
+		return null;
 	}
 
 }

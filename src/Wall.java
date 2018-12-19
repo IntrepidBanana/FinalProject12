@@ -1,8 +1,8 @@
 
 public class Wall extends Entity{
 
-	Wall(float x, float y, float moveSpeed, int health) {
-		super(x, y, moveSpeed, health);
+	Wall(WorldMap wm, float x, float y, float moveSpeed, int health) {
+		super(wm, x, y, moveSpeed, health);
 //		 TODO Auto-generated constructor stub
 	
 		setCollisionBox(new HitBox(this, 0, 0, 10, 1000, true));

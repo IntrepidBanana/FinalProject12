@@ -3,8 +3,8 @@ public class Bullet extends Entity {
 
 	float lifeSpan = 100f;
 
-	Bullet(float x, float y, float moveSpeed, float theta) {
-		super((float) (x + 15 * Math.cos(theta)), (float) (y + 15 * Math.sin(theta)),
+	Bullet(WorldMap wm, float x, float y, float moveSpeed, float theta) {
+		super(wm, (float) (x + 15 * Math.cos(theta)), (float) (y + 15 * Math.sin(theta)),
 				moveSpeed, 1);
 		Force f = new Force(0.95f, theta);
 		f.setReduction(0f);
