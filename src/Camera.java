@@ -7,7 +7,7 @@ public class Camera extends Entity {
 	private static int size = 720;
 
 	public Camera(int size, Entity player) {
-		super(0, 0, 1f, 1);
+		super(0, 0, 1, 1);
 		this.size = size;
 		this.player = player;
 		ForceAnchor f = new ForceAnchor(1f, this, player, -1f);
