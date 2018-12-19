@@ -1,10 +1,11 @@
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.sql.Time;
 import java.util.Map;
 
 public class Player extends Entity {
 	WorldMap wm;
-
+	boolean test = false;
 	Player(float x, float y, float moveSpeed, WorldMap wm) {
 		super(x, y, moveSpeed, 10);
 		this.wm = wm;
@@ -53,8 +54,8 @@ public class Player extends Entity {
 		}
 
 		if (mouse.isPressed()) {
-//			screenShake(mouse.getCamera(), 500);
-			 wm.addEntity(new Bullet(x, y, 3f, mouse.theta()));
+			// screenShake(mouse.getCamera(), 500);
+			wm.addEntity(new Bullet(x, y, 3f, mouse.theta()));
 			mouse.setPressed(false);
 		}
 

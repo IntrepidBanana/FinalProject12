@@ -10,7 +10,6 @@ public class Enemy extends Entity {
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));
 		health = 10;
 		speed = 0.45f;
-
 	}
 
 	@Override

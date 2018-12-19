@@ -22,6 +22,7 @@ public class WorldMap {
 		addEntity(new Enemy(100, 100, 50, 10, 0.5f));
 
 
+//		addEntity(new Wall(1, 1, 1, 1));
 		System.out.println(entities.size());
 	}
 	
