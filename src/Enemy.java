@@ -1,16 +1,16 @@
 
 public class Enemy extends Entity {
 
-	public Enemy(int x, int y, int health, int strength, double speed) {
+	public Enemy(int x, int y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
 		resistance = 0.9f;
-<<<<<<< HEAD
+
 		setCollisionBox(new HitBox(this, -150, -150, 150, 150, true));
-=======
+
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));
 		health = 10;
-		speed = 0.5;
->>>>>>> 5cc20ffa8673206e8cba17fd7d74d32f40a0c6ef
+		speed = 0.45f;
+
 	}
 
 	@Override
@@ -28,15 +28,18 @@ public class Enemy extends Entity {
 		forceUpdate();
 		time++;
 
-		if (time % 500 == 0) {
+		if (time % 750 == 0) {
 			move();
 		}
 	}
 
 	public void move() {
-		Force f = new Force(0.45f, (float) Math.toRadians(Math.random() * 360));
-		f.setReduction(0.005f);
+		
+		Force f = new ForceAnchor(0.15f, this, WorldMap.entities.get(2));
+		f.setReduction(1f);
 		forces.addForce(f);
+//		forces.addForce(new ForceAnchor(0.45f, this, WorldMap.entities.get(2)));
+//		forces.get(forces.size() -1).setReduction(0.005f);
 	}
 
 }
