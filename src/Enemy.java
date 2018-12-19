@@ -28,17 +28,23 @@ public class Enemy extends Entity {
 		forceUpdate();
 		time++;
 
-//		if (time % 750 == 0) {
-//			move();
-//		}
+		// (time % 750 == 0) {
+		// move();
+		// }
 	}
 
 	public void move() {
+		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
 
-		ForceAnchor f = new ForceAnchor(0.45f, this, wm.getPlayer(), -1);
-		f.hasVariableSpeed(false);
-		forces.addForce(f);
-
+		if (dist < 200) {
+			ForceAnchor f = new ForceAnchor(0.15f, this, wm.getPlayer(), -1);
+			f.hasVariableSpeed(false);
+			forces.addForce(f);
+		}else if(dist > 200){
+		 Force f = new Force(0.45f, (float)Math.toRadians(Math.random() * 360));
+		 f.setReduction(1f);
+		 forces.addForce(f);
+		}
 	}
 
 }
