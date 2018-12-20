@@ -6,8 +6,7 @@ public class Camera extends Entity {
 	IOHandler io;
 	float mouseOffsetX = 0;
 	float mouseOffsetY = 0;
-	
-	
+
 	private static int size = 720;
 
 	public Camera(WorldMap wm, int size, Entity player, IOHandler io) {
@@ -15,7 +14,7 @@ public class Camera extends Entity {
 		this.io = io;
 		this.size = size;
 		this.player = player;
-		ForceAnchor f = new ForceAnchor(1f, this, player, -1f);
+		ForceAnchor f = new ForceAnchor(0.9f, this, player, -1f);
 		f.setInversion(true);
 		forces.addForce(f);
 	}
@@ -42,11 +41,11 @@ public class Camera extends Entity {
 	}
 
 	public float camX() {
-		return x - getRadius()+ (mouseOffsetX/8);
+		return x - getRadius() + (mouseOffsetX / 4);
 	}
 
 	public float camY() {
-		return y - getRadius() + (mouseOffsetY/8);
+		return y - getRadius() + (mouseOffsetY / 4);
 	}
 
 	public float relX(float x) {
@@ -81,7 +80,33 @@ public class Camera extends Entity {
 
 	}
 
+	public void cameraShake(float theta, float angle, float power) {
 
-	
-	
+		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
+		Force f = new Force(power, (float) (theta + angle));
+		f.setReduction(0.1f);
+		forces.addForce(f);
+
+	}
+
+	public void cameraShake(float power, int spawns) {
+		ForceAnchor f = new ForceAnchor(5f, this, player, -1f);
+		f.setId("cameraAnchor");
+		forces.addForce(f);
+		for (int i = 0; i < spawns; i++) {
+			Force a, b;
+			a = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
+			b = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
+
+			a.setLifeSpan(10);
+			b.setLifeSpan(10);
+
+			forces.addForce(a, 10 * i);
+			forces.addForce(b, 10 * i);
+		}
+		
+		forces.removeForce("cameraAnchor");
+
+	}
+
 }

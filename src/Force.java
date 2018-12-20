@@ -87,11 +87,11 @@ public class Force {
 		this.id = id;
 	}
 
-	private int getLifeSpan() {
+	public int getLifeSpan() {
 		return lifeSpan;
 	}
 
-	private void setLifeSpan(int lifeSpan) {
+	public void setLifeSpan(int lifeSpan) {
 		this.lifeSpan = lifeSpan;
 	}
 

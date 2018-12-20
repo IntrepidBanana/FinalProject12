@@ -67,6 +67,13 @@ public class ForceAnchor extends Force {
 
 	@Override
 	public void update() {
+		if (getLifeSpan() != Integer.MAX_VALUE && getLifeSpan() <= 0) {
+			setTerminated(true);
+			dx = 0;
+			dy = 0;
+			return;
+		}
+setLifeSpan(getLifeSpan()-1);
 		float dist = (float) Math.sqrt(Math.pow(getOwner().x - getAnchor().x, 2) + Math.pow(getOwner().y - getAnchor().y, 2));
 
 		if (dist <= getThreshold()) {

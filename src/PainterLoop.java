@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class PainterLoop extends JPanel {
 
 	int camSize = 720;
-	static Camera camera;
+	Camera camera;
 	IOHandler io;
 	boolean keys[] = new boolean[4];
 	int timePressed[] = new int[4];
@@ -30,7 +30,6 @@ public class PainterLoop extends JPanel {
 	Player player = new Player(wm, 0, 0, .4f);
 
 	public PainterLoop(IOHandler io) {
-		wm.setCamera(camera);
 		wm.addEntity(player);
 //		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 1));
 //		wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.5f));
@@ -38,6 +37,7 @@ public class PainterLoop extends JPanel {
 		
 		this.io = io;
 		this.camera = new Camera(wm, camSize, player,io);
+		wm.setCamera(camera);
 		this.io.setCamera(camera);
 		addKeyListener(io);
 		addMouseListener(io);
