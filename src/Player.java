@@ -92,7 +92,7 @@ public class Player extends Entity {
 	@Override
 	public void contactReply(CollisionBox box) {
 		if (box.isSolid) {
-			collide(box.getX(), box.getY(), 1f);
+			collide(box);
 		} // TODO Auto-generated method stub
 			// System.out.println("yo");
 	}

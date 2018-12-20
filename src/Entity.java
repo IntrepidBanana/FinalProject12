@@ -32,20 +32,18 @@ public abstract class Entity {
 		return hitbox;
 	}
 
-	public void collide(float centerX, float centerY, float reduction) {
-		float dx = x - centerX;
-		float dy = y - centerY;
+	public void collide(CollisionBox box) {
+		
+		
 
-		float fx = 0;
-		float fy = 0;
-
-		if (Math.abs(dx) / Math.abs(dy) > Math.abs(dy) / Math.abs(dx)) {
-			fx = (dx > 0) ? 1 : -1;
-			forces.setNetX(0.1f, fx);
-		} else {
-			fy = (dy > 0) ? 1 : -1;
-			forces.setNetY(0.1f, fy);
-		}
+		
+		
+		float top = box.getTop();
+		float bot = box.getBottom();
+		
+		float left = box.getLeft();
+		float right = box.getRight();
+		
 
 		// forces.addForce(magnitude, fx, fy);
 

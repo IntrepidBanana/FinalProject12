@@ -16,7 +16,7 @@ public class Enemy extends Entity {
 			damage((HurtBox) box);
 		}
 		if (box.isSolid) {
-			collide(box.getX(), box.getY(), 1f);
+			collide(box);
 		}
 
 	}
