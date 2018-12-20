@@ -5,7 +5,14 @@ public class Slug extends Enemy {
 		super(wm, x, y, health, strength, speed);
 		health = 50;
 		strength = 5;
-		speed = 0.45f;
+		moveSpeed = 0.15f;
 	}
+	
+	
+	
+	
+	
+	
+	
 
 }

@@ -31,8 +31,8 @@ public class PainterLoop extends JPanel {
 
 	public PainterLoop(IOHandler io) {
 		wm.addEntity(player);
-		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 1));
-		wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.5f));
+		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 0.2f));
+		wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.2f));
 
 		
 		this.io = io;
