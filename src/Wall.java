@@ -5,17 +5,19 @@ public class Wall extends Entity{
 		super(wm, x, y, moveSpeed, health);
 //		 TODO Auto-generated constructor stub
 	
-		setCollisionBox(new HitBox(this, 0, 0, 10, 1000, true));
+		setCollisionBox(new HitBox(this, 0, 0, 40, 1000, true));
 	}
 
+
 	@Override
-	public void contactReply(CollisionBox box) {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}
 
+
 	@Override
-	public void update() {
+	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		// TODO Auto-generated method stub
 		
 	}

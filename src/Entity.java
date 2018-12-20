@@ -32,20 +32,51 @@ public abstract class Entity {
 		return hitbox;
 	}
 
-	public void collide(CollisionBox box) {
-		
-		
+	public void collide(CollisionBox box, CollisionBox myBox) {
 
-		
-		
-		float top = box.getTop();
-		float bot = box.getBottom();
-		
-		float left = box.getLeft();
-		float right = box.getRight();
-		
+		// 0 up
+		// 1 right
+		// 2 down
+		// 3 left;
+		int direction = 0;
+		float smallestDifference = myBox.getBottom() - box.getTop();
+		if (box.getRight() - myBox.getLeft() < smallestDifference) {
+			smallestDifference = box.getRight() - myBox.getLeft();
+			direction = 1;
+		}
 
-		// forces.addForce(magnitude, fx, fy);
+		if (box.getBottom() - myBox.getTop() < smallestDifference) {
+			smallestDifference = box.getBottom() - myBox.getTop();
+			direction = 2;
+		}
+
+		if (myBox.getRight() - box.getLeft() < smallestDifference) {
+			smallestDifference = myBox.getRight() - box.getLeft();
+			direction = 3;
+		}
+
+		System.out.println();
+		System.out.println("0 " + (myBox.getBottom() - box.getTop()));
+		System.out.println("1 " + (box.getRight() - myBox.getLeft()));
+		System.out.println("2 " + (box.getBottom() - myBox.getTop()));
+		System.out.println("3 " + (myBox.getRight() - box.getLeft()));
+		System.out.println(direction);
+		float mag  =0.1f;
+		switch (direction) {
+		case 0:
+			forces.setNetY(mag, -1);
+			break;
+		case 1:
+
+			forces.setNetX(mag,1);
+			break;
+		case 2:
+			forces.setNetY(mag, 1);
+			break;
+		case 3:
+			forces.setNetX(mag,-1);
+			break;
+		}
 
 	}
 
@@ -71,7 +102,7 @@ public abstract class Entity {
 		System.out.println(health);
 	}
 
-	public abstract void contactReply(CollisionBox box);
+	public abstract void contactReply(CollisionBox box, CollisionBox myBox);
 
 	public abstract void update();
 

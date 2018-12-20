@@ -50,7 +50,7 @@ public abstract class CollisionBox {
 	}
 
 	public void notifyOwner(CollisionBox box) {
-		owner.contactReply(box);
+		owner.contactReply(box, this);
 	}
 
 }

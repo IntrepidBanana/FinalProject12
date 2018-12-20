@@ -11,12 +11,12 @@ public class Enemy extends Entity {
 	}
 
 	@Override
-	public void contactReply(CollisionBox box) {
+	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (box instanceof HurtBox) {
 			damage((HurtBox) box);
 		}
 		if (box.isSolid) {
-			collide(box);
+			collide(box, myBox);
 		}
 
 	}

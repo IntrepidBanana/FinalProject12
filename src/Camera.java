@@ -28,12 +28,6 @@ public class Camera extends Entity {
 	}
 
 	@Override
-	public void contactReply(CollisionBox box) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void update() {
 		mouseOffsetX = io.mouse.planeX();
 		mouseOffsetY = io.mouse.planeY();
@@ -104,8 +98,14 @@ public class Camera extends Entity {
 			forces.addForce(a, 10 * i);
 			forces.addForce(b, 10 * i);
 		}
-		
+
 		forces.removeForce("cameraAnchor");
+
+	}
+
+	@Override
+	public void contactReply(CollisionBox box, CollisionBox myBox) {
+		// TODO Auto-generated method stub
 
 	}
 
