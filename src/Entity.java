@@ -57,7 +57,8 @@ public abstract class Entity {
 
 		System.out.println(dx / dy);
 		float theta = (float) ((float) Math.atan2(dy, dx) + Math.PI);
-		forces.addForce(power, theta);
+		Force f = new Force(power, theta);
+		forces.addForce(f);
 
 	}
 
@@ -75,5 +76,9 @@ public abstract class Entity {
 	public abstract void contactReply(CollisionBox box);
 
 	public abstract void update();
+
+	public ForceSet getForces() {
+		return forces;
+	}
 
 }

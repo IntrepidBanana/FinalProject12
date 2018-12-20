@@ -3,11 +3,16 @@ public class Camera extends Entity {
 
 	// x and y are the centers
 	static Entity player;
-
+	IOHandler io;
+	float mouseOffsetX = 0;
+	float mouseOffsetY = 0;
+	
+	
 	private static int size = 720;
 
-	public Camera(WorldMap wm, int size, Entity player) {
+	public Camera(WorldMap wm, int size, Entity player, IOHandler io) {
 		super(wm, 0, 0, 1f, 1);
+		this.io = io;
 		this.size = size;
 		this.player = player;
 		ForceAnchor f = new ForceAnchor(1f, this, player, -1f);
@@ -31,19 +36,17 @@ public class Camera extends Entity {
 
 	@Override
 	public void update() {
+		mouseOffsetX = io.mouse.planeX();
+		mouseOffsetY = io.mouse.planeY();
 		forceUpdate();
-//		if (forces.getX() != 0 && forces.getY() != 0) {
-//		} else {
-//			cameraSmooth(player.x, player.y);
-//		}
 	}
 
 	public float camX() {
-		return x - getRadius();
+		return x - getRadius()+ (mouseOffsetX/8);
 	}
 
 	public float camY() {
-		return y - getRadius();
+		return y - getRadius() + (mouseOffsetY/8);
 	}
 
 	public float relX(float x) {
@@ -78,4 +81,7 @@ public class Camera extends Entity {
 
 	}
 
+
+	
+	
 }

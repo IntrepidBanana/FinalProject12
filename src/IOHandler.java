@@ -41,7 +41,6 @@ public class IOHandler implements KeyListener, MouseMotionListener,MouseListener
 		// TODO Auto-generated method stub
 
 	}
-
 	
 	private void setMouse(MouseEvent m){
 		Point point = m.getPoint();

@@ -1,22 +1,46 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ForceSet {
+	
 	private ArrayList<Force> forces = new ArrayList<>();
-
+	private Map<Force, Integer> forceQueue = new HashMap<>();
+	
+	
+	
+	
+	
 	public ArrayList<Force> getForces() {
 		return forces;
 	}
 
 	public void update() {
+		for(Force f : forceQueue.keySet()) {
+			int timeLeft = forceQueue.get(f);
+			timeLeft--;
+			
+			if(timeLeft <= 0) {
+				forces.add(f);
+			}
+			forceQueue.put(f, timeLeft);
+			
+		}
 		Iterator<Force> i = forces.iterator();
 
 		while (i.hasNext()) {
 			Force next = i.next();
-			if (next.update()) {
+			if (next.isTerminated()) {
+				System.out.println("Terminated: " + next.getId());
 				i.remove();
+				continue;
 			}
+			next.update();
 		}
+		
+		
+		
 	}
 
 	public float getX() {
@@ -48,18 +72,32 @@ public class ForceSet {
 		forces.add(new Force(magnitude,0,y));
 	}
 	
+	public void addForce(Force f, int milliseconds) {
+		forceQueue.put(f, milliseconds);
+	}
 	
-	public void addForce(float magnitude, float x, float y) {
-		forces.add(new Force(magnitude, x, y));
+	public Force getForce(String id) {
+		for(Force f : forces) {
+			if(f.getId().equals(f)) {
+				return f;
+			}
+		}
+		return null;
 	}
-	public void addForce(float magnitude, float theta) {
-		forces.add(new Force(magnitude,theta));
+	
+	public boolean removeForce(String id) {
+		Iterator<Force> i = forces.iterator();
+		while(i.hasNext()) {
+			Force f = i.next();
+			
+			if(f.getId().equals(id)) {
+				i.remove();
+				return true;
+			}
+		}
+		return false;
 	}
-	public void addForce(float magnitude, float x, float y, float reduction) {
-		Force f = new Force(magnitude, x, y);
-		f.setReduction(reduction);
-		forces.add(f);
-	}
+	
 	public void addForce(Force f) {
 		forces.add(f);
 	}
