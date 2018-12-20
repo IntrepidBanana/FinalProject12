@@ -27,7 +27,7 @@ public class PainterLoop extends JPanel {
 	int timePressed[] = new int[4];
 	double camSpeed = 1;
 	WorldMap wm = new WorldMap();
-	Player player = new Player(wm, 0, 0, .4f);
+	Player player = new Player(wm, 0, 0, .3f);
 
 	public PainterLoop(IOHandler io) {
 		wm.addEntity(player);

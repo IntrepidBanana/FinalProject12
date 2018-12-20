@@ -24,10 +24,8 @@ public class Enemy extends Entity {
 	public void update() {
 		forceUpdate();
 		time++;
-
-		// if (time % 500 == 0) {
 		move();
-		// }
+		
 	}
 
 	public void move() {
