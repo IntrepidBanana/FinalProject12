@@ -31,9 +31,12 @@ public class ForceSet {
 
 		while (i.hasNext()) {
 			Force next = i.next();
+			System.out.println(next.isTerminated());
 			if (next.isTerminated()) {
+				
 				System.out.println("Terminated: " + next.getId());
 				i.remove();
+				removeForce(next.getId());
 				continue;
 			}
 			next.update();
@@ -78,7 +81,9 @@ public class ForceSet {
 	
 	public Force getForce(String id) {
 		for(Force f : forces) {
-			if(f.getId().equals(f)) {
+			
+			if(f.getId().equals(id)) {
+				
 				return f;
 			}
 		}

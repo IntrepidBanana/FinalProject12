@@ -21,17 +21,17 @@ public class Force {
 	}
 
 	public void update() {
-		if (getLifeSpan() != Integer.MAX_VALUE && getLifeSpan() <= 0) {
-			terminated = false;
+		if (getLifeSpan() <= 0) {
+			setTerminated(true);
 			dx = 0;
 			dy = 0;
 			return;
 		}
 
-		setLifeSpan(getLifeSpan() - 1);
+		setLifeSpan(getLifeSpan()-1);
 
 		if (Math.abs(dx) < 0.02f && Math.abs(dy) < 0.02f) {
-			terminated = false;
+			terminated = true;
 			dx = 0;
 			dy = 0;
 			return;

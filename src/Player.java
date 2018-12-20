@@ -56,8 +56,8 @@ public class Player extends Entity {
 			float theta = (float) Math.atan2(mouse.realY()-y, mouse.realX()-x);
 			wm.addEntity(new Bullet(wm, x, y, 2f, theta));
 			System.out.println(wm.getCamera());
-//			wm.getCamera().cameraShake((float) (theta + Math.PI), 30, 20f);
-			wm.getCamera().cameraShake(3f,10);
+			wm.getCamera().cameraShake((float) (theta + Math.PI), 30, 1f);
+//			wm.getCamera().cameraShake(3f,10);
 			mouse.setPressed(false);
 		}
 

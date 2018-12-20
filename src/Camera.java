@@ -41,11 +41,11 @@ public class Camera extends Entity {
 	}
 
 	public float camX() {
-		return x - getRadius() + (mouseOffsetX / 4);
+		return x - getRadius() + (mouseOffsetX / 20);
 	}
 
 	public float camY() {
-		return y - getRadius() + (mouseOffsetY / 4);
+		return y - getRadius() + (mouseOffsetY / 20);
 	}
 
 	public float relX(float x) {
