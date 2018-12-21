@@ -53,4 +53,6 @@ public abstract class CollisionBox {
 		owner.contactReply(box, this);
 	}
 
+	
+	
 }

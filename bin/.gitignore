@@ -37,3 +37,8 @@
 /PainterLoop.class
 /Player.class
 /Wall.class
+/Gun.class
+/Projectile.class
+/MachineGun.class
+/Shotgun.class
+/ShotgunShell.class

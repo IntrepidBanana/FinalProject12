@@ -4,14 +4,13 @@ import java.sql.Time;
 import java.util.Map;
 
 public class Player extends Entity {
-	WorldMap wm;
-	boolean test = false;
 
-	Player(WorldMap wm, float x, float y, float moveSpeed) {
-		super(wm, x, y, moveSpeed, 10);
-		this.wm = wm;
+	Gun gun = new Shotgun();
+
+	Player(float x, float y, float moveSpeed) {
+		super(x, y, moveSpeed, 10);
 		setCollisionBox(new HitBox(this, -7.5f, -7.5f, 15, 15, false));
-		
+
 	}
 
 	public void parseInput(Map<Integer, Boolean> keys, Mouse mouse) {
@@ -34,17 +33,24 @@ public class Player extends Entity {
 		if (keys.get(KeyEvent.VK_D)) {
 			dx += 1;
 			idle = false;
+		}if (keys.containsKey(KeyEvent.VK_Z) && keys.get(KeyEvent.VK_Z)) {
+			gun.setDamage(gun.getDamage()+10);
+			keys.put(KeyEvent.VK_Z, false);
 		}
 		if (keys.containsKey(KeyEvent.VK_SPACE) && keys.get(KeyEvent.VK_SPACE)) {
 
-			
+			if (gun instanceof Shotgun) {
+				gun = new MachineGun();
+
+			} else
+				gun = new Shotgun();
 			keys.put(KeyEvent.VK_SPACE, false);
 		}
 
 		if (dx != 0 || dy != 0) {
 			Force f = new Force(moveSpeed, dx, dy);
 			if (dx != 0 && dy != 0) {
-				f.setMagnitude(moveSpeed*1.3f);
+				f.setMagnitude(moveSpeed * 1.3f);
 			}
 			forces.addForce(f);
 
@@ -52,13 +58,8 @@ public class Player extends Entity {
 		}
 
 		if (mouse.isPressed()) {
-			// screenShake(mouse.getCamera(), 500);
-			float theta = (float) Math.atan2(mouse.realY()-y, mouse.realX()-x);
-			wm.addEntity(new Bullet(wm, x, y, 2f, theta));
-			System.out.println(wm.getCamera());
-			wm.getCamera().cameraShake((float) (theta + Math.PI), 30, 1f);
-//			wm.getCamera().cameraShake(3f,10);
-			mouse.setPressed(false);
+			float theta = (float) Math.atan2(mouse.realY() - y, mouse.realX() - x);
+			gun.fireGun(theta);
 		}
 
 		if (idle) {
@@ -96,4 +97,6 @@ public class Player extends Entity {
 		} // TODO Auto-generated method stub
 			// System.out.println("yo");
 	}
+
+	
 }

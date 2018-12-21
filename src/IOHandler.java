@@ -42,20 +42,25 @@ public class IOHandler implements KeyListener, MouseMotionListener,MouseListener
 
 	}
 	
-	private void setMouse(MouseEvent m){
-		Point point = m.getPoint();
-		mouse = new Mouse(point.getX(), point.getY(), isPressed, camera);
+	private void setMouse(double x, double y){
+		mouse.setMouseX(x);
+		mouse.setMouseY(y);
+//		mouse = new Mouse(point.getX(), point.getY(), isPressed, camera);
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
-		setMouse(arg0);
+		Point point = arg0.getPoint();
+		
+		setMouse(point.getX(), point.getY());
 		
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		setMouse(arg0);
+		Point point = arg0.getPoint();
+		
+		setMouse(point.getX(), point.getY());
 		
 	}
 
@@ -86,6 +91,10 @@ public class IOHandler implements KeyListener, MouseMotionListener,MouseListener
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		mouse.setPressed(false);
+	}
+
+	public Mouse getMouse() {
+		return mouse;
 	}
 
 	

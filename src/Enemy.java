@@ -1,19 +1,22 @@
 
 public class Enemy extends Entity {
 
-	public Enemy(WorldMap wm, int x, int y, int health, int strength, float speed) {
-		super(wm, x, y, 1, 1);
+	public Enemy(int x, int y, int health, int strength, float speed) {
+		super(x, y, 1, 1);
 		resistance = 0.9f;
 
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, false));
-		health = 10;
+		this.health = 200;
 		speed = 0.45f;
 	}
 
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (box instanceof HurtBox) {
+			knockBack(box.getOwner().forces.getNetMagnitude()/3, box.getOwner().forces.getX(),
+					box.getOwner().forces.getY());
 			damage((HurtBox) box);
+//			WorldMap.sleep();
 		}
 		if (box.isSolid) {
 			collide(box, myBox);
@@ -31,9 +34,10 @@ public class Enemy extends Entity {
 	}
 
 	public void move() {
-		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
+		float dist = (float) Math
+				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		if (dist < 300) {
-			ForceAnchor f = new ForceAnchor(0.20f, this, wm.getPlayer(), -1);
+			ForceAnchor f = new ForceAnchor(0.20f, this, WorldMap.getPlayer(), -1);
 			f.setId("PlayerFollow");
 			f.hasVariableSpeed(false);
 			if (forces.getForce("PlayerFollow") == null) {
@@ -48,6 +52,15 @@ public class Enemy extends Entity {
 				forces.addForce(f);
 			}
 		}
+	}
+
+	@Override
+	public void kill() {
+		for (int i = 0; i < 2 + Math.random() * 4 - 2; i++) {
+			WorldMap.addEntity(new Enemy(300 + i * 30, 300 + i *30, 200, 0, 1f));
+		}
+
+		removeSelf();
 	}
 
 }

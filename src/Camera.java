@@ -6,17 +6,17 @@ public class Camera extends Entity {
 	IOHandler io;
 	float mouseOffsetX = 0;
 	float mouseOffsetY = 0;
-
-	private static int size = 720;
-
-	public Camera(WorldMap wm, int size, Entity player, IOHandler io) {
-		super(wm, 0, 0, 1f, 1);
+	int size = 720;
+	
+	public Camera(int size, Entity player, IOHandler io) {
+		super(0, 0, 1f, 1);
 		this.io = io;
 		this.size = size;
 		this.player = player;
 		ForceAnchor f = new ForceAnchor(0.9f, this, player, -1f);
 		f.setInversion(true);
 		forces.addForce(f);
+		System.out.println(this.size);
 	}
 
 	public int getSize() {
@@ -74,10 +74,10 @@ public class Camera extends Entity {
 
 	}
 
-	public void cameraShake(float theta, float angle, float power) {
+	public void cameraShake(double theta, float angle, float power) {
 
 		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
-		Force f = new Force(power, (float) (theta + angle));
+		Force f = new Force(power, (float) (theta + Math.PI + angle));
 		f.setReduction(0.1f);
 		forces.addForce(f);
 
@@ -108,5 +108,7 @@ public class Camera extends Entity {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

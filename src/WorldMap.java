@@ -1,66 +1,89 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
 
 public class WorldMap {
-	Tile[] tiles = new Tile[36 * 36];
-	private Camera camera;
+	static Tile[] tiles = new Tile[36 * 36];
+	static private Camera camera;
 	static ArrayList<Entity> entities = new ArrayList<>();
-
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
-
+	static long globalTime = 0;
+	static ArrayList<Entity> toRemove = new ArrayList<>();
+	static boolean sleep = false;
+	static int sleepTime = 0;
+	
 	public WorldMap() {
 		for (int i = 0; i < tiles.length; i++) {
 			tiles[i] = new Tile(i % 36 * Tile.size, Tile.size * (int) (i / 36),
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
-		// addEntity(new Wall(1, 1, 1, 1));
 		System.out.println(entities.size());
 	}
 
-	public void update() {
-		for (Entity e : entities) {
-			e.update();
+	public synchronized static void update() {
+		if(sleep == true) {
+			if(sleepTime > 0) {
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			System.out.println("yo");
+			sleep = false;
+			sleepTime=0;
 		}
-		pruneEntities();
-		for (CollisionBox cb : collisionBoxes) {
-			for (CollisionBox hb : collisionBoxes) {
+		globalTime++;
+		for(int i = 0; i < entities.size();i ++) {
+			Entity e = entities.get(i);
+			if(e != null) {
+				e.update();
+				
+			}
+		}
+		try {
+		ArrayList<CollisionBox> boxes = getCollisionBoxes();
+		for (int i = 0; i < boxes.size();i ++) {
+			for (int j = 0; j < boxes.size();j ++) {
+				CollisionBox cb = boxes.get(i);
+				CollisionBox hb = boxes.get(j);
 				if (cb == hb)
 					continue;
 				CollisionHelper.sendReply(cb, hb);
 
 			}
+		}}
+		catch (IndexOutOfBoundsException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public void addEntity(Entity e) {
+	public synchronized static void addEntity(Entity e) {
 
-		e.setWorldMap(this);
 		entities.add(e);
 
 		collisionBoxes.add(e.getCollisionBox());
 	}
 
-	public void pruneEntities() {
-		Iterator<Entity> i = entities.iterator();
-		while (i.hasNext()) {
-			Entity e = i.next();
-			if (e.health <= 0) {
-				Iterator<CollisionBox> j = collisionBoxes.iterator();
-				while (j.hasNext()) {
-					CollisionBox cb = j.next();
-					if (cb.getOwner() == e) {
-						j.remove();
-					}
+	public synchronized static void removeEntity(Entity e) {
+		if (entities.contains(e)) {
+			Iterator<CollisionBox> i = collisionBoxes.iterator();
+			while(i.hasNext()) {
+				CollisionBox cb = i.next();
+				if(cb.getOwner() == e) {
+					i.remove();
 				}
-				i.remove();
 			}
+			System.out.println("removing: " + e);
+			entities.remove(e);
 		}
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 
 		for (Entity e : entities) {
 			if (e instanceof Player) {
@@ -70,13 +93,35 @@ public class WorldMap {
 		return null;
 	}
 
-	public void setCamera(Camera camera) {
-		this.camera = camera;
+	public static void setCamera(Camera cam) {
+		camera = cam;
 
 	}
 
-	Camera getCamera() {
+	static Camera getCamera() {
 		return camera;
 	}
 
+	public static void init() {
+		for (int i = 0; i < tiles.length; i++) {
+			tiles[i] = new Tile(i % 36 * Tile.size, Tile.size * (int) (i / 36),
+					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
+		}
+
+		addEntity(new Enemy(300, 300, 100, 0, .2f));
+	}
+	public static ArrayList<CollisionBox> getCollisionBoxes() {
+		return (ArrayList<CollisionBox>) collisionBoxes.clone();
+	}
+
+	public static void sleep() {
+		if(sleepTime > 0) {
+			sleepTime += 10;
+		}
+		else {
+			sleepTime = 50;
+		}
+		sleep = true;
+		
+	}
 }

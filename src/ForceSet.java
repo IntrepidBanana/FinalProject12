@@ -61,6 +61,10 @@ public class ForceSet {
 		return y;
 	}
 	
+	public float getNetMagnitude() {
+		return (float) Math.sqrt(Math.pow(getX(), 2) + Math.pow(getY(),2));
+	}
+	
 	public void setNetX(float magnitude, float x) {
 		for (Force f : forces) {
 			f.setDx(0);

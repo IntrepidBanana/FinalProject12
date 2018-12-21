@@ -6,18 +6,18 @@ public class Mouse {
 	private Camera camera;
 
 	Mouse(double x, double y, boolean pressed, Camera c) {
-		mouseX = (float) x;
-		mouseY = (float) y;
+		setMouseX((float) x);
+		setMouseY((float) y);
 		isPressed = pressed;
 		setCamera(c);
 	}
 
 	public float getX() {
-		return mouseX;
+		return getMouseX();
 	}
 
 	public float getY() {
-		return mouseY;
+		return getMouseY();
 	}
 
 	public boolean isPressed() {
@@ -30,28 +30,28 @@ public class Mouse {
 
 	public float realX() {
 		if (getCamera() != null) {
-			return mouseX + getCamera().camX();
+			return getMouseX() + getCamera().camX();
 		}
 		return 0;
 	}
 
 	public float realY() {
 		if (getCamera() != null) {
-			return mouseY + getCamera().camY();
+			return getMouseY() + getCamera().camY();
 		}
 		return 0;
 	}
 
 	public float planeX() {
 		if (getCamera() != null) {
-			return mouseX - getCamera().getRadius();
+			return getMouseX() - getCamera().getRadius();
 		}
 		return 0;
 	}
 
 	public float planeY() {
 		if (getCamera() != null) {
-			return mouseY - getCamera().getRadius();
+			return getMouseY() - getCamera().getRadius();
 		}
 		return 0;
 	}
@@ -65,11 +65,27 @@ public class Mouse {
 	}
 
 	public Camera getCamera() {
-		return camera;
+		return WorldMap.getCamera();
 	}
 
 	public void setCamera(Camera camera) {
 		this.camera = camera;
+	}
+
+	public float getMouseX() {
+		return mouseX;
+	}
+
+	public void setMouseX(double d) {
+		this.mouseX = (float) d;
+	}
+
+	public float getMouseY() {
+		return mouseY;
+	}
+
+	public void setMouseY(double d) {
+		this.mouseY = (float) d;
 	}
 
 }
