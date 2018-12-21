@@ -27,7 +27,12 @@ public class PainterLoop extends JPanel {
 	boolean keys[] = new boolean[4];
 	int timePressed[] = new int[4];
 	double camSpeed = 1;
+<<<<<<< HEAD
 	Player player = new Player(50, 50, .3f);
+=======
+	WorldMap wm = new WorldMap();
+	Player player = new Player(wm, 0, 0, .3f);
+>>>>>>> master
 
 	public PainterLoop(IOHandler io) {
 <<<<<<< HEAD

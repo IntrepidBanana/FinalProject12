@@ -32,8 +32,6 @@ public class ForceSet {
 		while (i.hasNext()) {
 			Force next = i.next();
 			if (next.isTerminated()) {
-				
-//				System.out.println("Terminated: " + next.getId());
 				i.remove();
 				removeForce(next.getId());
 				continue;

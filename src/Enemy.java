@@ -31,11 +31,14 @@ public class Enemy extends Entity {
 
 	public void update() {
 		forceUpdate();
+		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
 		time++;
-
-		// if (time % 500 == 0) {
 		move();
-		// }
+		
+		if (dist < 20) {
+			attack();
+		}
+		
 	}
 
 	public void move() {
@@ -54,7 +57,7 @@ public class Enemy extends Entity {
 			if (forces.getForce("PlayerFollow") == null) {
 				forces.removeForce("Random");
 				forces.addForce(f);
-				attack();
+				System.out.println("Running Attack");
 			}
 		} else {
 			Force f = new Force(moveSpeed, (float) Math.toRadians(Math.random() * 360));
