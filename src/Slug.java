@@ -13,8 +13,14 @@ public class Slug extends Enemy {
 	public void attack() {
 		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
 		Force f = forces.getForce("PlayerFollow");
+		System.out.println(dist);
 		if (dist<20) {
-			
+			System.out.println("Boom!");
+			f.setReduction(0f);
+			//f.setMagnitude(wm.getPlayer().moveSpeed);
+			//System.out.println(f.getMagnitude());
+			f.setLifeSpan(500);
+			wm.getPlayer().forces.addForce(f);
 		}
 	}
 	

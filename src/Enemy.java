@@ -23,8 +23,13 @@ public class Enemy extends Entity {
 
 	public void update() {
 		forceUpdate();
+		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
 		time++;
 		move();
+		
+		if (dist < 20) {
+			attack();
+		}
 		
 	}
 
@@ -37,6 +42,7 @@ public class Enemy extends Entity {
 			if (forces.getForce("PlayerFollow") == null) {
 				forces.removeForce("Random");
 				forces.addForce(f);
+				System.out.println("Running Attack");
 				attack();
 			}
 		} else {

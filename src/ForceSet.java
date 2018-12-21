@@ -33,7 +33,7 @@ public class ForceSet {
 			Force next = i.next();
 			if (next.isTerminated()) {
 				
-				System.out.println("Terminated: " + next.getId());
+				//System.out.println("Terminated: " + next.getId());
 				i.remove();
 				removeForce(next.getId());
 				continue;
