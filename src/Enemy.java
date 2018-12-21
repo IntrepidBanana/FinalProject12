@@ -43,7 +43,6 @@ public class Enemy extends Entity {
 				forces.removeForce("Random");
 				forces.addForce(f);
 				System.out.println("Running Attack");
-				attack();
 			}
 		} else {
 			Force f = new Force(moveSpeed, (float) Math.toRadians(Math.random() * 360));
