@@ -6,8 +6,13 @@ public class Enemy extends Entity {
 		resistance = 0.9f;
 
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, false));
+<<<<<<< HEAD
 		this.health = 2000;
 		speed = 0.45f;
+=======
+		this.health = health;
+		moveSpeed = speed;
+>>>>>>> master
 	}
 
 	@Override
@@ -34,24 +39,37 @@ public class Enemy extends Entity {
 	}
 
 	public void move() {
+<<<<<<< HEAD
 		float dist = (float) Math
 				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		if (dist < 300) {
 			ForceAnchor f = new ForceAnchor(0.20f, this, WorldMap.getPlayer(), -1);
+=======
+		float dist = (float) Math.sqrt(Math.pow(wm.getPlayer().x - x, 2) + Math.pow(wm.getPlayer().y - y, 2));
+		if (dist < 200) {
+			ForceAnchor f = new ForceAnchor(moveSpeed, this, wm.getPlayer(), -1);
+>>>>>>> master
 			f.setId("PlayerFollow");
 			f.hasVariableSpeed(false);
 			if (forces.getForce("PlayerFollow") == null) {
+				forces.removeForce("Random");
 				forces.addForce(f);
+				attack();
 			}
 		} else {
-			Force f = new Force(0.15f, (float) Math.toRadians(Math.random() * 360));
+			Force f = new Force(moveSpeed, (float) Math.toRadians(Math.random() * 360));
 			f.setId("Random");
 			f.setLifeSpan(1000);
 			f.setReduction(0f);
 			if (forces.getForce("Random") == null) {
+				forces.removeForce("PlayerFollow");
 				forces.addForce(f);
 			}
 		}
+	}
+	
+	public void attack(){
+		
 	}
 
 	@Override

@@ -30,6 +30,7 @@ public class PainterLoop extends JPanel {
 	Player player = new Player(50, 50, .3f);
 
 	public PainterLoop(IOHandler io) {
+<<<<<<< HEAD
 		WorldMap.init();
 		WorldMap.addEntity(player);
 //		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 1));
@@ -38,6 +39,12 @@ public class PainterLoop extends JPanel {
 		WorldMap.addEntity(new Wall(0, 0, 1000, 40));
 		WorldMap.addEntity(new Wall(800, 0, 1000, 40));
 		WorldMap.addEntity(new Wall(0, 800, 40, 1000));
+=======
+		wm.addEntity(player);
+		wm.addEntity(new Slug(wm, 90, 90, 1, 1, 0.2f));
+		wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.2f));
+
+>>>>>>> master
 		
 		this.io = io;
 		this.camera = new Camera(camSize, player,io);
