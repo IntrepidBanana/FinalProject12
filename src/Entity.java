@@ -5,6 +5,7 @@ import java.util.Map;
 
 public abstract class Entity {
 
+	float weight = 1;
 	float x;
 	float y;
 	float moveSpeed;

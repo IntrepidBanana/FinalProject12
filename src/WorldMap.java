@@ -13,7 +13,8 @@ public class WorldMap {
 	static ArrayList<Entity> toRemove = new ArrayList<>();
 	static boolean sleep = false;
 	static int sleepTime = 0;
-	
+	final static int sleepReset = 50;
+
 	public WorldMap() {
 		for (int i = 0; i < tiles.length; i++) {
 			tiles[i] = new Tile(i % 36 * Tile.size, Tile.size * (int) (i / 36),
@@ -24,40 +25,43 @@ public class WorldMap {
 	}
 
 	public synchronized static void update() {
-		if(sleep == true) {
-			if(sleepTime > 0) {
+		if (sleep == true) {
+			if (sleepTime > 0) {
 				try {
 					Thread.sleep(sleepTime);
+					sleepTime = 0;
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			System.out.println("yo");
-			sleep = false;
-			sleepTime=0;
+			if (sleepTime > -sleepReset) {
+				sleepTime--;
+			} else {
+				sleepTime = 0;
+				sleep = false;
+			}
 		}
 		globalTime++;
-		for(int i = 0; i < entities.size();i ++) {
+		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
-			if(e != null) {
+			if (e != null) {
 				e.update();
-				
+
 			}
 		}
 		try {
-		ArrayList<CollisionBox> boxes = getCollisionBoxes();
-		for (int i = 0; i < boxes.size();i ++) {
-			for (int j = 0; j < boxes.size();j ++) {
-				CollisionBox cb = boxes.get(i);
-				CollisionBox hb = boxes.get(j);
-				if (cb == hb)
-					continue;
-				CollisionHelper.sendReply(cb, hb);
+			ArrayList<CollisionBox> boxes = getCollisionBoxes();
+			for (int i = 0; i < boxes.size(); i++) {
+				for (int j = 0; j < boxes.size(); j++) {
+					CollisionBox cb = boxes.get(i);
+					CollisionBox hb = boxes.get(j);
+					if (cb == hb)
+						continue;
+					CollisionHelper.sendReply(cb, hb);
 
+				}
 			}
-		}}
-		catch (IndexOutOfBoundsException e) {
+		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
 	}
@@ -72,9 +76,9 @@ public class WorldMap {
 	public synchronized static void removeEntity(Entity e) {
 		if (entities.contains(e)) {
 			Iterator<CollisionBox> i = collisionBoxes.iterator();
-			while(i.hasNext()) {
+			while (i.hasNext()) {
 				CollisionBox cb = i.next();
-				if(cb.getOwner() == e) {
+				if (cb.getOwner() == e) {
 					i.remove();
 				}
 			}
@@ -109,19 +113,25 @@ public class WorldMap {
 		}
 
 		addEntity(new Enemy(300, 300, 100, 0, .2f));
+
+		addEntity(new Enemy(400, 300, 100, 0, .2f));
+
+		addEntity(new Enemy(200, 300, 100, 0, .2f));
+
 	}
+
 	public static ArrayList<CollisionBox> getCollisionBoxes() {
 		return (ArrayList<CollisionBox>) collisionBoxes.clone();
 	}
 
 	public static void sleep() {
-		if(sleepTime > 0) {
-			sleepTime += 10;
-		}
-		else {
-			sleepTime = 50;
+		if (sleepTime > 0) {
+			return;
+			// sleepTime += 1/(2*sleepTime);
+		} else {
+			sleepTime = 30;
 		}
 		sleep = true;
-		
+
 	}
 }

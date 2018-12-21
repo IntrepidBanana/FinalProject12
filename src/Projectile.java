@@ -6,9 +6,9 @@ public abstract class Projectile extends Entity {
 	private float damage = 1;
 	private float reduction = 0.003f;
 
-	Projectile(float x, float y, float moveSpeed, float theta, float gunOffset, float reduction) {
+	Projectile(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
 		super((float) (x + gunOffset * Math.cos(theta)), (float) (y + gunOffset * Math.sin(theta)), moveSpeed, 1);
-
+		this.damage = damage;
 		this.theta = theta;
 		setCollisionBox(new HurtBox(this, -2, -2, 4, 4, 0));
 		setReduction(reduction);
@@ -32,7 +32,7 @@ public abstract class Projectile extends Entity {
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (!(box.getOwner() instanceof Player) && !(box.getOwner() instanceof Projectile)) {
-			System.out.println(this+" collided with: " + box.getOwner());
+			System.out.println(this + " collided with: " + box.getOwner());
 			kill();
 		}
 
@@ -41,7 +41,7 @@ public abstract class Projectile extends Entity {
 	@Override
 	public void update() {
 		forceUpdate();
-		if(forces.getNetMagnitude() < 0.1) {
+		if (forces.getNetMagnitude() < 0.1) {
 			kill();
 		}
 		lifeSpanTick();

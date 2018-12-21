@@ -6,17 +6,17 @@ public class Enemy extends Entity {
 		resistance = 0.9f;
 
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, false));
-		this.health = 200;
+		this.health = 2000;
 		speed = 0.45f;
 	}
 
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (box instanceof HurtBox) {
-			knockBack(box.getOwner().forces.getNetMagnitude()/3, box.getOwner().forces.getX(),
+			knockBack(box.getOwner().forces.getNetMagnitude()*box.getOwner().weight/3, box.getOwner().forces.getX(),
 					box.getOwner().forces.getY());
 			damage((HurtBox) box);
-//			WorldMap.sleep();
+			WorldMap.sleep();
 		}
 		if (box.isSolid) {
 			collide(box, myBox);
@@ -56,10 +56,8 @@ public class Enemy extends Entity {
 
 	@Override
 	public void kill() {
-		for (int i = 0; i < 2 + Math.random() * 4 - 2; i++) {
-			WorldMap.addEntity(new Enemy(300 + i * 30, 300 + i *30, 200, 0, 1f));
-		}
-
+			WorldMap.addEntity(new Enemy(300 + 1 * 30, 300 + 1 *30, 200, 0, 1f));
+		
 		removeSelf();
 	}
 

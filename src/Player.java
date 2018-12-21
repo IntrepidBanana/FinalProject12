@@ -42,7 +42,9 @@ public class Player extends Entity {
 			if (gun instanceof Shotgun) {
 				gun = new MachineGun();
 
-			} else
+			} else if( gun instanceof MachineGun)
+				gun = new Cannon();
+			else
 				gun = new Shotgun();
 			keys.put(KeyEvent.VK_SPACE, false);
 		}

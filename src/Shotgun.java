@@ -2,10 +2,10 @@
 public class Shotgun extends Gun {
 
 	public Shotgun() {
-		super(1,1,30,60);
+		super(1,1,30,150);
 		setLength(20);
 		setAccuracy(10);
-		setAuto(true);
+		setAuto(false);
 		setReduction(0.005f);
 		// TODO Auto-generated constructor stub
 	}
