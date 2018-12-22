@@ -68,7 +68,8 @@ public class Enemy extends Entity {
 
 	@Override
 	public void kill() {
-			WorldMap.addEntity(new Enemy(300 + 1 * 30, 300 + 1 *30, 200, 0, 1f));
+		WorldMap.addEntity(new Enemy(300 + 1 * 30, 300 + 1 *30, 200, 0, 1f));
+		WorldMap.addEntity(new Enemy(300 + 1 * 30, 300 + 1 *30, 200, 0, 1f));
 		
 		removeSelf();
 	}

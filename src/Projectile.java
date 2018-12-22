@@ -32,7 +32,7 @@ public abstract class Projectile extends Entity {
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (!(box.getOwner() instanceof Player) && !(box.getOwner() instanceof Projectile)) {
-			System.out.println(this + " collided with: " + box.getOwner());
+//			System.out.println(this + " collided with: " + box.getOwner());
 			kill();
 		}
 

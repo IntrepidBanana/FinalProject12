@@ -2,11 +2,11 @@
 public class Cannon extends Gun {
 
 	public Cannon() {
-		super(1, 1, 80, 300);
+		super(1, 1, 120, 600);
 		setQuickRelease(30);
 		setLength(30);
 		setAccuracy(3);
-		setReduction(0.005f);
+		setReduction(0.002f);
 		setAuto(false);
 		// TODO Auto-generated constructor stub
 	}

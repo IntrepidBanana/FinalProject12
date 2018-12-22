@@ -14,6 +14,7 @@ public class WorldMap {
 	static boolean sleep = false;
 	static int sleepTime = 0;
 	final static int sleepReset = 50;
+	static long timeSinceLastCall = System.currentTimeMillis();
 
 	public WorldMap() {
 		for (int i = 0; i < tiles.length; i++) {
@@ -42,6 +43,12 @@ public class WorldMap {
 			}
 		}
 		globalTime++;
+		
+		if(globalTime%3000 == 0) {
+			System.out.println("Entities on screen : " + entities.size());
+			System.out.println("Time since last ingame 3 seconds: " + (System.currentTimeMillis() - timeSinceLastCall)/1000 + "s ");
+			timeSinceLastCall = System.currentTimeMillis();
+		}
 		for (int i = 0; i < entities.size(); i++) {
 			Entity e = entities.get(i);
 			if (e != null) {
@@ -82,7 +89,7 @@ public class WorldMap {
 					i.remove();
 				}
 			}
-			System.out.println("removing: " + e);
+//			System.out.println("removing: " + e);
 			entities.remove(e);
 		}
 	}
@@ -112,9 +119,22 @@ public class WorldMap {
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
-//		addEntity(new Enemy(300, 300, 100, 0, .2f));
-
-//		addEntity(new Enemy(400, 300, 100, 0, .2f));
+		addEntity(new Enemy(300, 300, 100, 0, .2f));
+		System.out.println("Dear Aiden,");
+		System.out.println("i added guns, which can be switched using the spacebar");
+		System.out.println("WorldMap can now be accessed in any class with out iniitalizing it");
+		System.out.println("ex\nWorldMap.addEntity(...)");
+		System.out.println("Each entity has a kill() to remove it");
+		System.out.println("kill is customizable, however call removeSelf() inside kill()");
+		System.out.println("You may notice some lag on hit. this is on purpose. its me trying out different configurations to make it feel heavier");
+		System.out.println("to change it, goto WorldMap.sleep() and change the sleepTime value to 0");
+		System.out.println("Yo also each time an enemy dies, it spawns 2  enemies. to change this goto enemy.kill and remove one line");
+		System.out.println("(this message is inside WorldMap.Init()");
+		
+		System.out.println("also 6478688591 is my number this is the only way i can contact you");
+		System.out.println("\nyour fisherman friend, Lauris petlah");
+		
+		//		addEntity(new Enemy(400, 300, 100, 0, .2f));
 
 //		addEntity(new Enemy(200, 300, 100, 0, .2f));
 
