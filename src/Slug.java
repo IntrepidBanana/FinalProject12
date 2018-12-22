@@ -11,8 +11,8 @@ public class Slug extends Enemy {
 	
 	
 	public void attack() {
-		ForceAnchor f = new ForceAnchor(-2f, wm.getPlayer(), this, -1);
-		ForceAnchor f2 = new ForceAnchor(-1f, this, wm.getPlayer(), -1);
+		ForceAnchor f = new ForceAnchor(-2f, WorldMap.getPlayer(), this, -1);
+		ForceAnchor f2 = new ForceAnchor(-1f, this, WorldMap.getPlayer(), -1);
 			f.setReduction(0f);
 			f2.setReduction(0f);
 			f.setId("Knockback");
@@ -21,10 +21,10 @@ public class Slug extends Enemy {
 			//System.out.println(f.getMagnitude());
 			f.setLifeSpan(1000);
 			f2.setLifeSpan(500);
-			wm.getPlayer().forces.removeForce("Knockback");
+			WorldMap.getPlayer().forces.removeForce("Knockback");
 			forces.removeForce("Knock");
 			forces.addForce(f2);
-			wm.getPlayer().forces.addForce(f);
+			WorldMap.getPlayer().forces.addForce(f);
 		
 	}
 	

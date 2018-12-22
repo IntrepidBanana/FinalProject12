@@ -112,11 +112,11 @@ public class WorldMap {
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
-		addEntity(new Enemy(300, 300, 100, 0, .2f));
+//		addEntity(new Enemy(300, 300, 100, 0, .2f));
 
-		addEntity(new Enemy(400, 300, 100, 0, .2f));
+//		addEntity(new Enemy(400, 300, 100, 0, .2f));
 
-		addEntity(new Enemy(200, 300, 100, 0, .2f));
+//		addEntity(new Enemy(200, 300, 100, 0, .2f));
 
 	}
 
