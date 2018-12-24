@@ -8,44 +8,59 @@ public abstract class Gun extends Weapon {
 	private int accuracy = 30;
 	private long lastFire = 0;
 	private long lastRelease = 0;
-	private float reduction = 0.03f;
-	
+	private float reduction = 0f;
+	private float bulletCount = 1;
+	private float spread = 0;
+
+	public Gun() {
+		super(1, 1, 0, 1);
+	}
+
 	public Gun(double weight, int stackSize, int damage, int atkSpeed) {
 		super(weight, stackSize, damage, atkSpeed);
 	}
 
-	public abstract void fireGun(float theta);
+	public abstract Projectile bulletType();
 
-	protected void fire(float theta, Projectile p) {
-
-		fire(theta, new Projectile[] { p });
+	public float accuracyRoll() {
+		return (float) (Math.toRadians(Math.random()*(2*accuracy)-accuracy));
+	}
+	
+	public boolean canFire() {
+		boolean canFire = false;
+		if (isAuto()) {
+			if (getLengthSinceFire() > getAtkSpeed() || getLengthSinceRelease() > getQuickRelease()) {
+				canFire = true;
+			}
+		} else {
+			if (getLengthSinceFire() > getAtkSpeed() && getLengthSinceRelease() > 1) {
+				canFire = true;
+			}
+		}
+		return canFire;
 	}
 
-	protected void fire(float theta, Projectile[] set) {
-		if (!isAuto()) {
-			boolean fired = true;
-			if (getLengthSinceFire() > getAtkSpeed() && getLengthSinceRelease() > 3) {
-				for (Projectile p : set) {
-					float speed = p.moveSpeed;
-					WorldMap.addEntity(p);
+	public void fire(float theta) {
+		if (canFire()) {
+			float totalSpreadAngle = (float) ((bulletCount - 1) * Math.toRadians(spread));
+			float startTheta = theta - (totalSpreadAngle / 2);
+
+			for (int i = 0; i < bulletCount+1; i++) {
+				if(i >= bulletCount) {
+					continue;
 				}
-				WorldMap.getCamera().cameraShake(theta, accuracy, set[0].moveSpeed * (set.length/3));
-				WorldMap.getPlayer().knockBack(set[0].moveSpeed * ((set.length + 1)) /20, theta);
-				updateFireTime();
+				float angle = (float) (startTheta + (Math.toRadians(spread * i)) );
+				Projectile p = bulletType();
+				p.setGunOffset(length);
+				p.x = WorldMap.getPlayer().x;
+				p.y = WorldMap.getPlayer().y;
+				p.setTheta(angle);
+				p.init();
 			}
-			updateReleaseTime();
-			return;
-		}
-		if (getLengthSinceFire() > getAtkSpeed() || getLengthSinceRelease() > getQuickRelease()) {
-			for (Projectile p : set) {
-				float speed = p.moveSpeed;
-				WorldMap.addEntity(p);
-			}
-			WorldMap.getCamera().cameraShake(theta, accuracy, set[0].moveSpeed * 1f);
-			WorldMap.getPlayer().knockBack(set[0].moveSpeed /10, theta);
 			updateFireTime();
 		}
 		updateReleaseTime();
+
 	}
 
 	public float getLength() {
@@ -102,6 +117,22 @@ public abstract class Gun extends Weapon {
 
 	public void setReduction(float reduction) {
 		this.reduction = reduction;
+	}
+
+	public float getBulletCount() {
+		return bulletCount;
+	}
+
+	public void setBulletCount(float bulletCount) {
+		this.bulletCount = bulletCount;
+	}
+
+	public float getSpread() {
+		return spread;
+	}
+
+	public void setSpread(float spread) {
+		this.spread = spread;
 	}
 
 }

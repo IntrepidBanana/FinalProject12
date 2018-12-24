@@ -3,10 +3,10 @@ public class Force {
 	protected float dx = 0;
 	protected float dy = 0;
 	protected float theta = 0;
-	private float reduction = 0.02f;
+	private float reduction = 0f;
 	private float magnitude = 0;
 	private boolean terminated = false;
-	private int lifeSpan = Integer.MAX_VALUE;
+	private int lifeSpan = 10*WorldMap.FRAMERATE;
 	private String id = this.toString();
 
 	public Force(float magnitude, float theta) {

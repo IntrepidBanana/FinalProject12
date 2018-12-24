@@ -44,14 +44,14 @@ public class Mouse {
 
 	public float planeX() {
 		if (getCamera() != null) {
-			return getMouseX() - getCamera().getRadius();
+			return getMouseX() - getCamera().getRadiusX();
 		}
 		return 0;
 	}
 
 	public float planeY() {
 		if (getCamera() != null) {
-			return getMouseY() - getCamera().getRadius();
+			return getMouseY() - getCamera().getRadiusY();
 		}
 		return 0;
 	}

@@ -8,7 +8,7 @@ public class Enemy extends Entity {
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, false));
 
 		this.health = health;
-		moveSpeed = speed;
+		setMoveSpeed(speed);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class Enemy extends Entity {
 				System.out.println("Running Attack");
 			}
 		} else {
-			Force f = new Force(moveSpeed, (float) Math.toRadians(Math.random() * 360));
+			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 			f.setId("Random");
 			f.setLifeSpan(1000);
 			f.setReduction(0f);

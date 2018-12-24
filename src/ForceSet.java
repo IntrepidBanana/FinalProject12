@@ -67,13 +67,19 @@ public class ForceSet {
 		for (Force f : forces) {
 			f.setDx(0);
 		}
-		forces.add(new Force(magnitude,x,0));
+		Force f = new Force(magnitude,x,0);
+		f.setLifeSpan(1);
+		f.setReduction(0.05f);
+		forces.add(f);
 	}
 	public void setNetY(float magnitude, float y) {
 		for (Force f : forces) {
 			f.setDy(0);
 		}
-		forces.add(new Force(magnitude,0,y));
+		Force f = new Force(magnitude,0,y);
+		f.setLifeSpan(1);
+		f.setReduction(0.05f);
+		forces.add(f);
 	}
 	
 	public void addForce(Force f, int milliseconds) {

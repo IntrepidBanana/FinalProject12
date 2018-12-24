@@ -5,7 +5,7 @@ public class Slug extends Enemy {
 		super(x, y, health, strength, speed);
 		health = 50;
 		strength = 5;
-		moveSpeed = 0.15f;
+		setMoveSpeed(0.15f);
 		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 15, 15, true));
 	}
 	

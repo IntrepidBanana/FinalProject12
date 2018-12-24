@@ -14,7 +14,7 @@ public class Screen extends JFrame{
 	
 	public Screen() {
 		setTitle("ScreenOverlay");
-		setSize(720, 720);
+		setSize(WorldMap.camx, WorldMap.camy);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.BLUE);
 		add(painter);
@@ -26,6 +26,6 @@ public class Screen extends JFrame{
 	}
 	
 	public static void main(String[] args) {
-		Screen s = new Screen();
+//		Screen s = new Screen();
 	}
 }

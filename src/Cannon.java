@@ -2,22 +2,21 @@
 public class Cannon extends Gun {
 
 	public Cannon() {
-		super(1, 1, 120, 600);
-		setQuickRelease(30);
+		setAtkSpeed(60);
 		setLength(30);
-		setAccuracy(3);
-		setReduction(0.002f);
+		setAccuracy(0);
 		setAuto(false);
 		// TODO Auto-generated constructor stub
 	}
 
+	
 	@Override
-	public void fireGun(float theta) {
-		theta = (float) (theta + Math.toRadians(Math.random() * getAccuracy() * 2 - getAccuracy()));
-		CannonShell b = new CannonShell(WorldMap.getPlayer().x, WorldMap.getPlayer().y, getDamage(), theta, getLength(),
-				getReduction());
-		fire(theta, b);
-
+	public Projectile bulletType() {
+		CannonShell p = new CannonShell(getDamage());
+		p.setMoveSpeed(12f);
+		p.setReduction(0.03f);
+		return p;
 	}
 
+	
 }

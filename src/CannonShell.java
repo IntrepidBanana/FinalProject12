@@ -7,4 +7,10 @@ public class CannonShell extends Projectile{
 		setCollisionBox(new HurtBox(this, -15f, -15f, 30, 30, damage));
 	}
 
+	
+	public CannonShell(int damage) {
+		weight = 10;
+		setCollisionBox(new HurtBox(this, -15f, -15f, 30, 30, damage));
+	}
+
 }

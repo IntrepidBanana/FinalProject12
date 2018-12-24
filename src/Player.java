@@ -50,18 +50,19 @@ public class Player extends Entity {
 		}
 
 		if (dx != 0 || dy != 0) {
-			Force f = new Force(moveSpeed, dx, dy);
+			setMoveSpeed(3);
+			Force f = new Force(getMoveSpeed(), dx, dy);
 			if (dx != 0 && dy != 0) {
-				f.setMagnitude(moveSpeed * 1.3f);
+				f.setMagnitude(getMoveSpeed() * 1.4f);
 			}
+			f.setReduction(0f);
+			f.setLifeSpan(1);
 			forces.addForce(f);
-
-			// forces.addForce(moveSpeed, 0, dy);
 		}
 
 		if (mouse.isPressed()) {
 			float theta = (float) Math.atan2(mouse.realY() - y, mouse.realX() - x);
-			gun.fireGun(theta);
+			gun.fire(theta);
 		}
 
 		if (idle) {

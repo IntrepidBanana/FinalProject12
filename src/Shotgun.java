@@ -2,25 +2,33 @@
 public class Shotgun extends Gun {
 
 	public Shotgun() {
-		super(1,1,30,150);
+//		super(1,1,30,25);
 		setLength(20);
-		setAccuracy(10);
 		setAuto(false);
-		setReduction(0.005f);
+
+		setAccuracy(6);
+		setAtkSpeed(30);
+		
+		setDamage(30);
+		
+		setSpread(3);
+		setBulletCount(8);
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void fireGun(float theta) {
-		ShotgunShell[] shells = new ShotgunShell[6];
-		for(int i = 0; i < 6; i++) {
-			float angle = (float) ((theta) + Math.toRadians( getAccuracy()*(i-3) + Math.random()*getAccuracy()-getAccuracy()/2));
-//			System.out.println(getDamage());
-			ShotgunShell b = new ShotgunShell(WorldMap.getPlayer().x, WorldMap.getPlayer().y, angle, getDamage(), getLength(),getReduction());
-			shells[i]=b;
-		}
-		fire(theta, shells);
-
+	public Projectile bulletType() {
+		
+		ShotgunShell b = new ShotgunShell(getDamage());
+		b.setMoveSpeed(20f);
+		b.setReduction(0.05f);
+		
+		return b;
+		
+		
 	}
+
+	
 
 }

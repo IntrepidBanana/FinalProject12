@@ -1,66 +1,109 @@
 
 public abstract class Projectile extends Entity {
 
-	private float theta;
-	private float lifeSpan = 5000;
+	private float theta = 0;
+	private float gunOffset = 0;
+	private float lifeSpan = 15 * WorldMap.FRAMERATE;
 	private float damage = 1;
-	private float reduction = 0.003f;
+	private float reduction = 0;
 
-	Projectile(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
+	public Projectile() {
+		super(0, 0);
+
+	}
+
+	public Projectile(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
 		super((float) (x + gunOffset * Math.cos(theta)), (float) (y + gunOffset * Math.sin(theta)), moveSpeed, 1);
-		this.damage = damage;
-		this.theta = theta;
+		this.setDamage(damage);
+		this.setTheta(theta);
 		setCollisionBox(new HurtBox(this, -2, -2, 4, 4, 0));
 		setReduction(reduction);
-		init();
+//		init();
 		// TODO Auto-generated constructor stub
-	}
-
-	private void init() {
-		Force f = new Force(moveSpeed, theta);
-		f.setReduction(getReduction());
-		forces.addForce(f);
-	}
-
-	private void lifeSpanTick() {
-		lifeSpan--;
-		if (lifeSpan <= 0) {
-			kill();
-		}
 	}
 
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
 		if (!(box.getOwner() instanceof Player) && !(box.getOwner() instanceof Projectile)) {
-//			System.out.println(this + " collided with: " + box.getOwner());
+			// System.out.println(this + " collided with: " + box.getOwner());
 			kill();
 		}
 
-	}
-
-	@Override
-	public void update() {
-		forceUpdate();
-		if (forces.getNetMagnitude() < 0.1) {
-			kill();
-		}
-		lifeSpanTick();
 	}
 
 	public float getDamage() {
 		return damage;
 	}
 
-	public void setDamage(float damage) {
-		this.damage = damage;
+	public float getLifeSpan() {
+		return lifeSpan;
 	}
 
 	public float getReduction() {
 		return reduction;
 	}
 
+	public float getTheta() {
+		return theta;
+	}
+
+	public void init() {
+		x = (float) (x + gunOffset * Math.cos(theta));
+		y = (float) (y + gunOffset * Math.sin(theta));
+		Force f = new Force(getMoveSpeed(), getTheta());
+		f.setReduction(getReduction());
+		forces.addForce(f);
+		WorldMap.addEntity(this);
+//		System.out.println(forces.getX() + " " + forces.getY());
+	}
+
+	private void lifeSpanTick() {
+		setLifeSpan(getLifeSpan() - 1);
+		if (getLifeSpan() <= 0) {
+			kill();
+		}
+	}
+
+	public void setDamage(float damage) {
+		this.damage = damage;
+	}
+
+	public void setLifeSpan(float lifeSpan) {
+		this.lifeSpan = lifeSpan;
+	}
+
 	public void setReduction(float reduction) {
 		this.reduction = reduction;
 	}
 
+	public void setTheta(float theta) {
+		this.theta = theta;
+	}
+
+	@Override
+	public void update() {
+		forceUpdate();
+		if (forces.getNetMagnitude() < 1) {
+			kill();
+		}
+		System.out.println(this + " magnitude: " + forces.getNetMagnitude());
+		lifeSpanTick();
+	}
+
+	public float getGunOffset() {
+		return gunOffset;
+	}
+
+	public void setGunOffset(float gunOffset) {
+		this.gunOffset = gunOffset;
+	}
+
+	
+	@Override
+	public String toString() {
+		String s = "\n" + this.getClass() + "\nSpeed: " + getMoveSpeed() + "\n(x, y): (" + (int)this.x + ", " + (int) this.y +")";
+		s += "\nMagnitude:" + this.forces.getNetMagnitude();
+		return s;
+	}
+	
 }

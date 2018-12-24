@@ -5,16 +5,20 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class WorldMap {
+	static final int FRAMERATE = 60;
+	static long globalTime = 0;
+	static int camx = 1280;
+	static int camy = 920;
 	static Tile[] tiles = new Tile[36 * 36];
 	static private Camera camera;
 	static ArrayList<Entity> entities = new ArrayList<>();
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
-	static long globalTime = 0;
 	static ArrayList<Entity> toRemove = new ArrayList<>();
 	static boolean sleep = false;
 	static int sleepTime = 0;
-	final static int sleepReset = 50;
+	final static int sleepReset = 3;
 	static long timeSinceLastCall = System.currentTimeMillis();
+	static Player player;
 
 	public WorldMap() {
 		for (int i = 0; i < tiles.length; i++) {
@@ -26,6 +30,7 @@ public class WorldMap {
 	}
 
 	public synchronized static void update() {
+		long start = System.currentTimeMillis();
 		if (sleep == true) {
 			if (sleepTime > 0) {
 				try {
@@ -36,17 +41,18 @@ public class WorldMap {
 				}
 			}
 			if (sleepTime > -sleepReset) {
-				sleepTime--;
+				sleepTime -= FRAMERATE;
 			} else {
 				sleepTime = 0;
 				sleep = false;
 			}
 		}
 		globalTime++;
-		
-		if(globalTime%3000 == 0) {
-			System.out.println("Entities on screen : " + entities.size());
-			System.out.println("Time since last ingame 3 seconds: " + (System.currentTimeMillis() - timeSinceLastCall)/1000 + "s ");
+
+		if (globalTime % 60 == 0) {
+//			System.out.println("@@@@@@@@@@@@@\nEntities on screen : " + entities.size());
+//			System.out.println("Time since last in 60 ticks: "
+//					+ (System.currentTimeMillis() - timeSinceLastCall) / 1000.0 + "s \n@@@@@@@@@@@@@");
 			timeSinceLastCall = System.currentTimeMillis();
 		}
 		for (int i = 0; i < entities.size(); i++) {
@@ -71,13 +77,15 @@ public class WorldMap {
 		} catch (IndexOutOfBoundsException e) {
 			e.printStackTrace();
 		}
+		long end = System.currentTimeMillis();
+		// System.out.println("TIME FOR FRAME: " + (end - start));
 	}
 
 	public synchronized static void addEntity(Entity e) {
 
 		entities.add(e);
-
 		collisionBoxes.add(e.getCollisionBox());
+		System.out.println("Added an Entity! Number Of Entities: " + entities.size());
 	}
 
 	public synchronized static void removeEntity(Entity e) {
@@ -89,15 +97,18 @@ public class WorldMap {
 					i.remove();
 				}
 			}
-//			System.out.println("removing: " + e);
+			// System.out.println("removing: " + e);
 			entities.remove(e);
 		}
 	}
 
 	public static Player getPlayer() {
-
+		if (player != null) {
+			return player;
+		}
 		for (Entity e : entities) {
 			if (e instanceof Player) {
+				player = (Player) e;
 				return (Player) e;
 			}
 		}
@@ -126,17 +137,19 @@ public class WorldMap {
 		System.out.println("ex\nWorldMap.addEntity(...)");
 		System.out.println("Each entity has a kill() to remove it");
 		System.out.println("kill is customizable, however call removeSelf() inside kill()");
-		System.out.println("You may notice some lag on hit. this is on purpose. its me trying out different configurations to make it feel heavier");
+		System.out.println(
+				"You may notice some lag on hit. this is on purpose. its me trying out different configurations to make it feel heavier");
 		System.out.println("to change it, goto WorldMap.sleep() and change the sleepTime value to 0");
-		System.out.println("Yo also each time an enemy dies, it spawns 2  enemies. to change this goto enemy.kill and remove one line");
+		System.out.println(
+				"Yo also each time an enemy dies, it spawns 2  enemies. to change this goto enemy.kill and remove one line");
 		System.out.println("(this message is inside WorldMap.Init()");
-		
+
 		System.out.println("also 6478688591 is my number this is the only way i can contact you");
 		System.out.println("\nyour fisherman friend, Lauris petlah");
-		
-		//		addEntity(new Enemy(400, 300, 100, 0, .2f));
 
-//		addEntity(new Enemy(200, 300, 100, 0, .2f));
+		// addEntity(new Enemy(400, 300, 100, 0, .2f));
+
+		// addEntity(new Enemy(200, 300, 100, 0, .2f));
 
 	}
 
@@ -149,7 +162,7 @@ public class WorldMap {
 			return;
 			// sleepTime += 1/(2*sleepTime);
 		} else {
-			sleepTime = 30;
+			sleepTime = 10;
 		}
 		sleep = true;
 

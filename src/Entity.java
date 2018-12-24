@@ -6,11 +6,11 @@ import java.util.Map;
 public abstract class Entity {
 
 	float weight = 1;
-	float x;
-	float y;
-	float moveSpeed;
-	int health;
-	int strength;
+	float x = 0;
+	float y = 0;
+	private float moveSpeed = 1;
+	int health = 1;
+	int strength = 0;
 	CollisionBox hitbox;
 	ForceSet forces = new ForceSet();
 	float resistance = 0f;
@@ -18,11 +18,16 @@ public abstract class Entity {
 	int invincibilityFrames = 100;
 	int invincibility = 0;
 	Map<Entity, Integer> invincibleAgainst = new HashMap<>();
-	
+
+	Entity(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+
 	Entity(float x, float y, float moveSpeed, int health) {
 		this.x = x;
 		this.y = y;
-		this.moveSpeed = moveSpeed / 10;
+		setMoveSpeed(moveSpeed);
 		this.health = health;
 	}
 
@@ -56,14 +61,15 @@ public abstract class Entity {
 			smallestDifference = myBox.getRight() - box.getLeft();
 			direction = 3;
 		}
-//
-//		System.out.println();
-//		System.out.println("0 " + (myBox.getBottom() - box.getTop()));
-//		System.out.println("1 " + (box.getRight() - myBox.getLeft()));
-//		System.out.println("2 " + (box.getBottom() - myBox.getTop()));
-//		System.out.println("3 " + (myBox.getRight() - box.getLeft()));
-//		System.out.println(direction);
-		float mag = 0.1f;
+		//
+		// System.out.println();
+		// System.out.println("0 " + (myBox.getBottom() - box.getTop()));
+		// System.out.println("1 " + (box.getRight() - myBox.getLeft()));
+		// System.out.println("2 " + (box.getBottom() - myBox.getTop()));
+		// System.out.println("3 " + (myBox.getRight() - box.getLeft()));
+		// System.out.println(direction);
+		float mag = 3.5f;
+
 		switch (direction) {
 		case 0:
 			forces.setNetY(mag, -1);
@@ -83,31 +89,31 @@ public abstract class Entity {
 	}
 
 	public void knockBack(float magnitude, float x, float y) {
-		float theta = (float) ((float) Math.atan2(y,x )+Math.PI);
+		float theta = (float) ((float) Math.atan2(y, x) + Math.PI);
 		knockBack(magnitude, theta);
 	}
-	
+
 	public void knockBack(float magnitude, float theta) {
 		Force f = new Force(magnitude, (float) (theta + Math.PI));
+		f.setReduction(0.2f);
 		forces.addForce(f);
 	}
 
 	public synchronized void forceUpdate() {
-		if(health <= 0) {
-			System.out.println(this + " " + health);
+		if (health <= 0) {
 			kill();
 		}
 		x += forces.getX();
 		y += forces.getY();
 		forces.update();
 		Iterator<Entity> i = invincibleAgainst.keySet().iterator();
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			Entity e = i.next();
-			invincibleAgainst.put(e, invincibleAgainst.get(e)-1);
-				if(invincibleAgainst.get(e) < 0) {
-					i.remove();
-				}
-			
+			invincibleAgainst.put(e, invincibleAgainst.get(e) - 1);
+			if (invincibleAgainst.get(e) < 0) {
+				i.remove();
+			}
+
 		}
 	}
 
@@ -118,13 +124,13 @@ public abstract class Entity {
 	public void removeSelf() {
 		WorldMap.removeEntity(this);
 	}
-	
+
 	public void damage(HurtBox box) {
 		if (!invincibleAgainst.containsKey(box.getOwner())) {
 			health -= (box.damage);
 			invincibility += invincibilityFrames;
-			invincibleAgainst.put(box.getOwner(),  invincibilityFrames);
-			System.out.println(health);
+			invincibleAgainst.put(box.getOwner(), invincibilityFrames);
+			// System.out.println(health);
 		}
 	}
 
@@ -134,6 +140,14 @@ public abstract class Entity {
 
 	public ForceSet getForces() {
 		return forces;
+	}
+
+	public float getMoveSpeed() {
+		return moveSpeed;
+	}
+
+	public void setMoveSpeed(float moveSpeed) {
+		this.moveSpeed = moveSpeed;
 	}
 
 }

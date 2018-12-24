@@ -6,40 +6,55 @@ public class Camera extends Entity {
 	IOHandler io;
 	float mouseOffsetX = 0;
 	float mouseOffsetY = 0;
-	int size = 720;
-	
+	float destX = 0;
+	float destY = 0;
+	int sizeX = 720;
+	int sizeY = 720;
+
 	public Camera(int size, Entity player, IOHandler io) {
 		super(0, 0, 1f, 1);
 		this.io = io;
-		this.size = size;
+		this.sizeX = WorldMap.camx;
+		this.sizeY = WorldMap.camy;
 		this.player = player;
 		ForceAnchor f = new ForceAnchor(0.9f, this, player, -1f);
 		f.setInversion(true);
-		forces.addForce(f);
-		System.out.println(this.size);
+		// forces.addForce(f);
+		System.out.println(this.sizeX);
 	}
 
 	public int getSize() {
-		return size;
+		return sizeX;
 	}
 
-	public int getRadius() {
-		return size / 2;
+	public int getRadiusX() {
+		return sizeX / 2;
+	}
+
+	public int getRadiusY() {
+		return sizeY / 2;
 	}
 
 	@Override
 	public void update() {
 		mouseOffsetX = io.mouse.planeX();
 		mouseOffsetY = io.mouse.planeY();
-		forceUpdate();
+		destX = (io.mouse.realX() + player.x) / 2;
+		destY = (io.mouse.realY() + player.y) / 2;
+		moveTo(player.x + mouseOffsetX/5, player.y + mouseOffsetY/5);
+		 forceUpdate();
 	}
 
 	public float camX() {
-		return x - getRadius() + (mouseOffsetX / 20);
+		return x - getRadiusX();
+		// return player.x-getRadiusX() + mouseOffsetX/5;
+		// return x - getRadius() + (mouseOffsetX / 20);
 	}
 
 	public float camY() {
-		return y - getRadius() + (mouseOffsetY / 20);
+		return y - getRadiusY();
+		// return player.y-getRadiusY() + mouseOffsetY/5;
+		// return y - getRadius() + (mouseOffsetY / 20);
 	}
 
 	public float relX(float x) {
@@ -50,34 +65,18 @@ public class Camera extends Entity {
 		return y - camY();
 	}
 
-	private void cameraSmooth(float dx, float dy) {
-		float deltaX = dx - x;
-		float deltaY = dy - y;
-
-		float moveX = (float) (deltaX / 100);
-		float moveY = (float) (deltaY / 100);
-
-		float threshold = 0.001f;
-
-		if (Math.abs(moveX) < threshold) {
-			x = dx;
-		} else {
-			x += moveX;
-
-		}
-		if (Math.abs(moveY) < threshold) {
-			y = dy;
-		} else {
-			y += moveY;
-
-		}
+	private void moveTo(float dx, float dy) {
+		float distToX = dx - this.x;
+		float distToY = dy - this.y;
+		this.x += distToX*0.2 ;
+		this.y += distToY*0.2;
 
 	}
 
 	public void cameraShake(double theta, float angle, float power) {
 
 		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
-		Force f = new Force(power, (float) (theta + Math.PI + angle));
+		Force f = new Force(power*1f, (float) (theta + Math.PI + angle));
 		f.setReduction(0.1f);
 		forces.addForce(f);
 
@@ -92,8 +91,8 @@ public class Camera extends Entity {
 			a = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
 			b = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
 
-			a.setLifeSpan(10);
-			b.setLifeSpan(10);
+			a.setLifeSpan(30);
+			b.setLifeSpan(30);
 
 			forces.addForce(a, 10 * i);
 			forces.addForce(b, 10 * i);
@@ -108,7 +107,5 @@ public class Camera extends Entity {
 		// TODO Auto-generated method stub
 
 	}
-
-
 
 }
