@@ -42,7 +42,7 @@ public class Camera extends Entity {
 		destX = (io.mouse.realX() + player.x) / 2;
 		destY = (io.mouse.realY() + player.y) / 2;
 		moveTo(player.x + mouseOffsetX/5, player.y + mouseOffsetY/5);
-		 forceUpdate();
+		 tickUpdate();
 	}
 
 	public float camX() {

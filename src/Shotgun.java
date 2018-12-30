@@ -3,16 +3,20 @@ public class Shotgun extends Gun {
 
 	public Shotgun() {
 //		super(1,1,30,25);
-		setLength(20);
+		setLength(25);
 		setAuto(false);
 
-		setAccuracy(6);
+		setAccuracy(8);
 		setAtkSpeed(30);
 		
-		setDamage(30);
+		setDamage(90);
 		
-		setSpread(3);
-		setBulletCount(8);
+		setSpread(1);
+		setBulletCount(24);
+		setAmmoPerUse(1);
+		
+		setAmmoType(new ShotgunAmmo().item());
+		
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -29,6 +33,8 @@ public class Shotgun extends Gun {
 		
 	}
 
-	
-
+	@Override
+	public String item() {
+		return this.toString();
+	}
 }

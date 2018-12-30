@@ -1,4 +1,6 @@
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
@@ -11,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,22 +31,24 @@ public class PainterLoop extends JPanel {
 	boolean keys[] = new boolean[4];
 	int timePressed[] = new int[4];
 	double camSpeed = 1;
-	Player player = new Player(50, 50, 2f);
+	Player player = new Player(500, 500, 2f);
 	long startTime;
+	private BufferedImage lightMap;
 
 	public PainterLoop(IOHandler io) {
 		WorldMap.init();
-		WorldMap.addEntity(player);
+		WorldMap.addGameObject(player);
 		// wm.addEntity(new Slug(wm, 90, 90, 1, 1, 1));
 		// wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.5f));
-		WorldMap.addEntity(new Wall(0, 0, 40, 1000));
-		WorldMap.addEntity(new Wall(0, 0, 1000, 40));
-		WorldMap.addEntity(new Wall(800, 0, 1000, 40));
-		WorldMap.addEntity(new Wall(0, 800, 40, 1000));
+		WorldMap.addGameObject(new Wall(0, 0, 100, 1000));
+		// WorldMap.addGameObject(new Wall(0, 0, 1000, 100));
+		// WorldMap.addGameObject(new Wall(800, 0, 1000, 100));
+		// WorldMap.addGameObject(new Wall(0, 800, 100, 1000));
 		// wm.addEntity(player);
 		// wm.addEntity(new Slug(wm, 90, 90, 1, 1, 0.2f));
 		// wm.addEntity(new Enemy(wm, 100, 100, 50, 10, 0.2f));
 
+		WorldMap.addGameObject(new ItemDropEntity(150, 150));
 		this.io = io;
 		this.camera = new Camera(camSize, player, io);
 		WorldMap.setCamera(camera);
@@ -52,44 +57,11 @@ public class PainterLoop extends JPanel {
 		addMouseListener(io);
 		addMouseMotionListener(io);
 		startTime = System.currentTimeMillis();
+		PaintHelper.initFont();
+		lightMap = new BufferedImage(WorldMap.camx, WorldMap.camy, BufferedImage.TYPE_INT_ARGB);
 		repaint();
-//		gameLoop();
-	}
 
-	private long getTickCount() {
-		return (System.currentTimeMillis() - startTime);
-	}
-	
-	private void gameLoop() {
-
-		final int TICKS_PER_SECOND = 60;
-		final int SKIP_TICKS = 1000 / TICKS_PER_SECOND;
-		long nextGameTick = getTickCount();
-		repaint();
-		while (true) {
-			gameUpdate();
-			repaint();
-			revalidate();
-			nextGameTick+=SKIP_TICKS;
-			long sleepTime = nextGameTick - getTickCount();
-			System.out.println(sleepTime);
-			if(sleepTime>=0) {
-//				try {
-////					Thread.sleep(sleepTime);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-			}
-			
-		}
-
-	}
-
-	public void gameUpdate() {
-		player.parseInput(io.getKeys(), io.getMouse());
-		camera.update();
-		WorldMap.update();
+		// gameLoop();
 	}
 
 	@Override
@@ -97,57 +69,39 @@ public class PainterLoop extends JPanel {
 		super.paintComponent(g);
 		long start = System.currentTimeMillis();
 		Graphics2D g2d = (Graphics2D) g;
+		ArrayList<GameObject> objects = (ArrayList<GameObject>) WorldMap.gameObjects.clone();
+		objects.sort(new DrawCompare());
+		int sizeMishap = 0;
 
-//		gameUpdate();
-
-		// for (Tile t : WorldMap.tiles) {
-		// g2d.setColor(t.color);
-		// Shape l = new Rectangle2D.Double(camera.relX(t.x), camera.relY(t.y),
-		// Tile.size, Tile.size);
-		// g2d.draw(l);
-		// }
-		for (int i = 0; i < WorldMap.getCollisionBoxes().size(); i++) {
-			CollisionBox cb = WorldMap.getCollisionBoxes().get(i);
-			g2d.setColor(Color.red);
-			float x1 = camera.relX(cb.getLeft());
-			float y1 = camera.relY(cb.getTop());
-
-			g2d.setColor(Color.red);
-			Entity e = cb.getOwner();
-			if (e instanceof Projectile) {
-				g2d.setColor(Color.MAGENTA);
+		Composite oldComp = g2d.getComposite();
+//		Graphics2D gl = lightMap.createGraphics();
+//		gl.setColor(new Color(0, 0, 0, 255));
+//		gl.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
+//		gl.setComposite(AlphaComposite.DstOut);
+		for (int i = 0; i < objects.size() - sizeMishap; i++) {
+			if (i >= objects.size()) {
+				return;
 			}
-			if (e instanceof Player) {
-				g2d.setColor(Color.GREEN);
-			}
-			Shape hit = new Rectangle2D.Float(x1, y1, cb.wid, cb.len);
-			g2d.draw(hit);
+			GameObject e = objects.get(i);
+			if (e == null) {
+				sizeMishap++;
+				i--;
+				continue;
 
+			}
+			if (Math.hypot(PaintHelper.x(e.x-WorldMap.camx/2), PaintHelper.y(e.y-WorldMap.camy/2)) > 1260) {
+				continue;
+			}
+			g2d = e.draw(g2d);
+//			if (e instanceof LightSource) {
+//				LightSource light = (LightSource) e;
+////				gl = light.renderLight(gl);
+//			}
 		}
+		// g2d.drawImage(lightMap, null, 0, 0);
+		Cursor c = WorldMap.getCursor();
+		g2d = c.draw(g2d);
 
-		int forceCount = 0;
-		// for(int i = 0; i < WorldMap.entities.size();i++) {
-		// Entity e = WorldMap.entities.get(i);
-		// Iterator<Force> iforce = e.forces.getForces().iterator();
-		// for (int j = 0; j < e.forces.getForces().size(); j++) {
-		// Force f = e.forces.getForces().get(j);
-		// forceCount++;
-
-		// g2d.setColor(Color.green);
-		// g2d.draw(new Line2D.Float(camera.relX(e.x), camera.relY(e.y),
-		// camera.relX(f.getDx() * 50 + e.x),
-		// camera.relY(f.getDy() * 50 + e.y)));
-
-		// }
-		// g2d.setColor(Color.black);
-		//
-		// g2d.draw(new Line2D.Float(camera.relX(e.x), camera.relY(e.y),
-		// camera.relX(e.forces.getX() * 50 + e.x),
-		// camera.relY(e.forces.getY() * 50 + e.y)));
-
-		// }
-
-		// System.out.println("Forces dealt with: " + forceCount);
 		long end = System.currentTimeMillis();
 		int updateTime = (int) (end - start);
 

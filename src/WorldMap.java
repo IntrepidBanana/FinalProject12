@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Random;
@@ -11,12 +12,12 @@ public class WorldMap {
 	static int camy = 920;
 	static Tile[] tiles = new Tile[36 * 36];
 	static private Camera camera;
-	static ArrayList<Entity> entities = new ArrayList<>();
+	static ArrayList<GameObject> gameObjects = new ArrayList<>();
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
 	static ArrayList<Entity> toRemove = new ArrayList<>();
 	static boolean sleep = false;
 	static int sleepTime = 0;
-	final static int sleepReset = 3;
+	final static int sleepReset = 1;
 	static long timeSinceLastCall = System.currentTimeMillis();
 	static Player player;
 
@@ -26,79 +27,93 @@ public class WorldMap {
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
 
-		System.out.println(entities.size());
+		System.out.println(gameObjects.size());
 	}
 
+	
+	
 	public synchronized static void update() {
 		long start = System.currentTimeMillis();
+		Cursor c = getCursor();
+		if (c != null) {
+			c.update();
+		}
 		if (sleep == true) {
-			if (sleepTime > 0) {
-				try {
-					Thread.sleep(sleepTime);
-					sleepTime = 0;
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			if (sleepTime > -sleepReset) {
-				sleepTime -= FRAMERATE;
-			} else {
-				sleepTime = 0;
+			if(sleepTime<= 0) {
 				sleep = false;
 			}
+			sleepTime--;
+			return;
+		} else {
+			if (sleepTime > -sleepReset) {
+				sleepTime--;
+			}
+
 		}
+		
+
+		camera.update();
+		player.parseInput();
+		timeSinceLastCall = System.currentTimeMillis();
 		globalTime++;
 
-		if (globalTime % 60 == 0) {
-//			System.out.println("@@@@@@@@@@@@@\nEntities on screen : " + entities.size());
-//			System.out.println("Time since last in 60 ticks: "
-//					+ (System.currentTimeMillis() - timeSinceLastCall) / 1000.0 + "s \n@@@@@@@@@@@@@");
-			timeSinceLastCall = System.currentTimeMillis();
-		}
-		for (int i = 0; i < entities.size(); i++) {
-			Entity e = entities.get(i);
+		int numOfForces = 0;
+		for (int i = 0; i < gameObjects.size(); i++) {
+			GameObject e = gameObjects.get(i);
 			if (e != null) {
 				e.update();
+				numOfForces += e.forces.getForces().size();
 
 			}
 		}
-		try {
-			ArrayList<CollisionBox> boxes = getCollisionBoxes();
-			for (int i = 0; i < boxes.size(); i++) {
-				for (int j = 0; j < boxes.size(); j++) {
-					CollisionBox cb = boxes.get(i);
-					CollisionBox hb = boxes.get(j);
-					if (cb == hb)
-						continue;
-					CollisionHelper.sendReply(cb, hb);
+		// System.out.println("Number of Forces at Gametick: " + getGlobalTime() + ": "
+		// + numOfForces);
+		ArrayList<CollisionBox> boxes = getCollisionBoxes();
+		ArrayList<CollisionBox[]> checkedBoxes = new ArrayList<>();
+		for (int i = 0; i < boxes.size(); i++) {
+			CollisionBox cb = boxes.get(i);
 
+			for (int j = 0; j < boxes.size(); j++) {
+				CollisionBox hb = boxes.get(j);
+				boolean hasBeenChecked = false;
+				for (CollisionBox[] a : checkedBoxes) {
+					if (Arrays.equals(a, new CollisionBox[] { cb, hb })) {
+						hasBeenChecked = true;
+					}
 				}
+				if (hasBeenChecked) {
+					continue;
+				}
+				if (cb == hb)
+					continue;
+				if (CollisionHelper.sendReply(cb, hb)) {
+					checkedBoxes.add(new CollisionBox[] { hb, cb });
+					checkedBoxes.add(new CollisionBox[] { cb, hb });
+				}
+
 			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
 		}
+
 		long end = System.currentTimeMillis();
 		// System.out.println("TIME FOR FRAME: " + (end - start));
 	}
 
-	public synchronized static void addEntity(Entity e) {
-
-		entities.add(e);
-		collisionBoxes.add(e.getCollisionBox());
-		System.out.println("Added an Entity! Number Of Entities: " + entities.size());
+	public synchronized static void addGameObject(GameObject e) {
+		gameObjects.add(e);
+		collisionBoxes.addAll(e.getCollisionBoxes());
 	}
 
-	public synchronized static void removeEntity(Entity e) {
-		if (entities.contains(e)) {
+	public synchronized static void removeGameObject(GameObject gameObject) {
+		if (gameObjects.contains(gameObject)) {
 			Iterator<CollisionBox> i = collisionBoxes.iterator();
 			while (i.hasNext()) {
 				CollisionBox cb = i.next();
-				if (cb.getOwner() == e) {
+				if (cb.getOwner() == gameObject) {
 					i.remove();
 				}
 			}
 			// System.out.println("removing: " + e);
-			entities.remove(e);
+			gameObjects.remove(gameObject);
 		}
 	}
 
@@ -106,10 +121,22 @@ public class WorldMap {
 		if (player != null) {
 			return player;
 		}
-		for (Entity e : entities) {
+		for (GameObject e : gameObjects) {
 			if (e instanceof Player) {
 				player = (Player) e;
 				return (Player) e;
+			}
+		}
+		return null;
+	}
+
+	public static Cursor getCursor() {
+
+		for (int i = 0; i < gameObjects.size(); i++) {
+			GameObject e = gameObjects.get(i);
+			if (e instanceof Cursor) {
+				Cursor c = (Cursor) e;
+				return c;
 			}
 		}
 		return null;
@@ -129,8 +156,6 @@ public class WorldMap {
 			tiles[i] = new Tile(i % 36 * Tile.size, Tile.size * (int) (i / 36),
 					new Color(150 + 25 * (i % 5), 150 - 25 * (i % 5), 150));
 		}
-
-		addEntity(new Enemy(300, 300, 100, 0, .2f));
 		System.out.println("Dear Aiden,");
 		System.out.println("i added guns, which can be switched using the spacebar");
 		System.out.println("WorldMap can now be accessed in any class with out iniitalizing it");
@@ -145,8 +170,10 @@ public class WorldMap {
 		System.out.println("(this message is inside WorldMap.Init()");
 
 		System.out.println("also 6478688591 is my number this is the only way i can contact you");
-		System.out.println("\nyour fisherman friend, Lauris petlah");
+		System.out.println("\nyour fisherman friend, Lauris petlah\n");
 
+		addGameObject(new Cursor());
+		addGameObject(new InteractableBox(700, 700));
 		// addEntity(new Enemy(400, 300, 100, 0, .2f));
 
 		// addEntity(new Enemy(200, 300, 100, 0, .2f));
@@ -158,13 +185,29 @@ public class WorldMap {
 	}
 
 	public static void sleep() {
-		if (sleepTime > 0) {
+		if (sleep || sleepTime > -sleepReset) {
 			return;
-			// sleepTime += 1/(2*sleepTime);
 		} else {
-			sleepTime = 10;
+			sleepTime = 0;
 		}
-		sleep = true;
+//		sleep = true;
 
+	}
+
+	public static String getGlobalTime() {
+		long time = globalTime;
+		String s = (time / FRAMERATE) + " " + (time % FRAMERATE);
+		return s;
+	}
+
+	public static ArrayList<Wall> getAllWalls() {
+		ArrayList<Wall> walls = new ArrayList<>();
+		for (int i = 0; i < gameObjects.size(); i++) {
+			GameObject e = ((ArrayList<GameObject>) gameObjects.clone()).get(i);
+			if (e instanceof Wall) {
+				walls.add((Wall) e);
+			}
+		}
+		return walls;
 	}
 }

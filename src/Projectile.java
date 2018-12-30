@@ -6,17 +6,19 @@ public abstract class Projectile extends Entity {
 	private float lifeSpan = 15 * WorldMap.FRAMERATE;
 	private float damage = 1;
 	private float reduction = 0;
+	private float knockback = 1;
 
 	public Projectile() {
 		super(0, 0);
-
+		team = Team.PLAYER;
+		forceAccurate = true;
 	}
 
 	public Projectile(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
 		super((float) (x + gunOffset * Math.cos(theta)), (float) (y + gunOffset * Math.sin(theta)), moveSpeed, 1);
 		this.setDamage(damage);
 		this.setTheta(theta);
-		setCollisionBox(new HurtBox(this, -2, -2, 4, 4, 0));
+		addCollisionBox(new HurtBox(this, -2, -2, 4, 4, 0));
 		setReduction(reduction);
 //		init();
 		// TODO Auto-generated constructor stub
@@ -24,9 +26,16 @@ public abstract class Projectile extends Entity {
 
 	@Override
 	public void contactReply(CollisionBox box, CollisionBox myBox) {
-		if (!(box.getOwner() instanceof Player) && !(box.getOwner() instanceof Projectile)) {
-			// System.out.println(this + " collided with: " + box.getOwner());
-			kill();
+		
+		if(box.getOwner() instanceof Entity) {
+			Entity owner = (Entity) box.getOwner();
+			if(owner.team != Team.PLAYER) {
+				owner.damage((HurtBox) myBox);
+				owner.knockBack(getKnockback(), forces.getX(), forces.getY());
+				owner.stun(30);
+				
+				health--;
+			}
 		}
 
 	}
@@ -53,8 +62,7 @@ public abstract class Projectile extends Entity {
 		Force f = new Force(getMoveSpeed(), getTheta());
 		f.setReduction(getReduction());
 		forces.addForce(f);
-		WorldMap.addEntity(this);
-//		System.out.println(forces.getX() + " " + forces.getY());
+		WorldMap.addGameObject(this);
 	}
 
 	private void lifeSpanTick() {
@@ -82,11 +90,10 @@ public abstract class Projectile extends Entity {
 
 	@Override
 	public void update() {
-		forceUpdate();
+		tickUpdate();
 		if (forces.getNetMagnitude() < 1) {
 			kill();
 		}
-		System.out.println(this + " magnitude: " + forces.getNetMagnitude());
 		lifeSpanTick();
 	}
 
@@ -104,6 +111,14 @@ public abstract class Projectile extends Entity {
 		String s = "\n" + this.getClass() + "\nSpeed: " + getMoveSpeed() + "\n(x, y): (" + (int)this.x + ", " + (int) this.y +")";
 		s += "\nMagnitude:" + this.forces.getNetMagnitude();
 		return s;
+	}
+
+	public float getKnockback() {
+		return knockback;
+	}
+
+	public void setKnockback(float knockback) {
+		this.knockback = knockback;
 	}
 	
 }

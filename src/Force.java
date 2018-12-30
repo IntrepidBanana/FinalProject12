@@ -2,7 +2,7 @@
 public class Force {
 	protected float dx = 0;
 	protected float dy = 0;
-	protected float theta = 0;
+	private float theta = 0;
 	private float reduction = 0f;
 	private float magnitude = 0;
 	private boolean terminated = false;
@@ -11,7 +11,7 @@ public class Force {
 
 	public Force(float magnitude, float theta) {
 		this.setMagnitude(magnitude);
-		this.theta = theta;
+		this.setTheta(theta);
 		dx = (float) (magnitude * Math.cos(theta));
 		dy = (float) (magnitude * Math.sin(theta));
 	}
@@ -21,7 +21,7 @@ public class Force {
 	}
 
 	public void update() {
-		if (getLifeSpan() <= 0) {
+		if (getLifeSpan() <= 0 && getLifeSpan() != Integer.MAX_VALUE) {
 			setTerminated(true);
 			dx = 0;
 			dy = 0;
@@ -38,8 +38,8 @@ public class Force {
 		}
 
 		setMagnitude(getMagnitude() * (1 - reduction));
-		dx = (float) (getMagnitude() * Math.cos(theta));
-		dy = (float) (getMagnitude() * Math.sin(theta));
+		dx = (float) (getMagnitude() * Math.cos(getTheta()));
+		dy = (float) (getMagnitude() * Math.sin(getTheta()));
 
 	}
 
@@ -102,5 +102,9 @@ public class Force {
 
 	public void setMagnitude(float magnitude) {
 		this.magnitude = magnitude;
+	}
+
+	public void setTheta(float theta) {
+		this.theta = theta;
 	}
 }

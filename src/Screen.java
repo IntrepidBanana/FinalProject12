@@ -1,7 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -22,10 +24,11 @@ public class Screen extends JFrame{
 		addMouseListener(io);
 		addMouseMotionListener(io);
 		setResizable(false);
+		setCursor( getToolkit().createCustomCursor(
+                new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB ),
+                new Point(),
+                null ) );
 		setVisible(true);	
-	}
-	
-	public static void main(String[] args) {
-//		Screen s = new Screen();
+		
 	}
 }

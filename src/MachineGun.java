@@ -2,19 +2,24 @@
 public class MachineGun extends Gun {
 
 	public MachineGun() {
-		setAtkSpeed(4);
+		setAtkSpeed(3);
 		setQuickRelease(3);
 		setLength(20);
 		setAccuracy(3);
-		setDamage(15);
-		
+		setDamage(70);
+		setAmmoType(new BulletAmmo().item());
 	}
 
 	@Override
 	public Projectile bulletType() {
 		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(15f);
-		b.setReduction(0.01f);
+		b.setMoveSpeed(90f);
 		return b;
+	}
+
+
+	@Override
+	public String item() {
+		return this.toString();
 	}
 }

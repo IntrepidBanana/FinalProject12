@@ -2,21 +2,25 @@
 public class Cannon extends Gun {
 
 	public Cannon() {
-		setAtkSpeed(60);
+		setAtkSpeed(40);
+		setQuickRelease(40);
 		setLength(30);
 		setAccuracy(0);
-		setAuto(false);
-		// TODO Auto-generated constructor stub
+		setAuto(true);
+		setDamage(120);
+		setAmmoType(new ExplosiveAmmo().item());
 	}
 
-	
 	@Override
 	public Projectile bulletType() {
 		CannonShell p = new CannonShell(getDamage());
-		p.setMoveSpeed(12f);
-		p.setReduction(0.03f);
+		p.setMoveSpeed(30f);
+		p.setReduction(0.08f);
 		return p;
 	}
 
-	
+	@Override
+	public String item() {
+		return this.toString();
+	}
 }

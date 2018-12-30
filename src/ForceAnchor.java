@@ -3,7 +3,7 @@ public class ForceAnchor extends Force {
 
 	private Entity owner;
 	private Entity anchor;
-	private float pull;
+	private float modifier = 0;
 	private float offset = 0;
 	private float threshold = 1f;
 	private boolean inversion = false;
@@ -11,12 +11,12 @@ public class ForceAnchor extends Force {
 
 	public ForceAnchor(float magnitude, Entity owner, Entity anchor, float threshold) {
 		super(-magnitude, (float) Math.atan2(anchor.y - owner.y, anchor.x - owner.x));
-		this.setPull(pull);
+		this.setModifier(modifier);
 		this.setOwner(owner);
 		this.setAnchor(anchor);
 		this.setThreshold(threshold);
 	}
-	
+
 	Entity getAnchor() {
 		return anchor;
 	}
@@ -29,8 +29,8 @@ public class ForceAnchor extends Force {
 		return owner;
 	}
 
-	float getPull() {
-		return pull;
+	float getModifier() {
+		return modifier;
 	}
 
 	float getThreshold() {
@@ -57,8 +57,8 @@ public class ForceAnchor extends Force {
 		this.owner = owner;
 	}
 
-	void setPull(float pull) {
-		this.pull = pull;
+	void setModifier(float pull) {
+		this.modifier = pull;
 	}
 
 	void setThreshold(float threshold) {
@@ -73,8 +73,9 @@ public class ForceAnchor extends Force {
 			dy = 0;
 			return;
 		}
-setLifeSpan(getLifeSpan()-1);
-		float dist = (float) Math.sqrt(Math.pow(getOwner().x - getAnchor().x, 2) + Math.pow(getOwner().y - getAnchor().y, 2));
+		setLifeSpan(getLifeSpan() - 1);
+		float dist = (float) Math
+				.sqrt(Math.pow(getOwner().x - getAnchor().x, 2) + Math.pow(getOwner().y - getAnchor().y, 2));
 
 		if (dist <= getThreshold()) {
 			dx = 0;
@@ -83,19 +84,24 @@ setLifeSpan(getLifeSpan()-1);
 			return;
 		}
 
-		theta = (float) ((float) Math.atan2(getOwner().y - getAnchor().y, getOwner().x - getAnchor().x) + Math.toRadians(getOffset()));
+		setTheta((float) ((float) Math.atan2(getOwner().y - getAnchor().y, getOwner().x - getAnchor().x)
+				+ Math.toRadians(getOffset())));
 		// magnitude = 1/dist;
 		float multiplier = 1;
 		if (isVariable) {
-			multiplier = (Math.min(100 / dist, 1));
+			multiplier = (float) (Math.pow(0.997, dist) + 0);
 			if (inversion) {
 				multiplier = (dist / 100);
 			}
 		}
-
-		dx = (float) (getMagnitude() * multiplier * Math.cos(theta));
-		dy = (float) (getMagnitude() * multiplier * Math.sin(theta));
-
+		
+		setMagnitude(getMagnitude() * (1 - getReduction()));
+		dx = (float) Math.min((getMagnitude() * multiplier * Math.cos(getTheta())), 20f);
+		dy = (float) Math.min((getMagnitude() * multiplier * Math.sin(getTheta())), 20f);
+//		if (Math.hypot(dx, dy) < 0.2 && isVariable) {
+//			dx = 0;
+//			dy = 0;
+//		}
 
 	}
 

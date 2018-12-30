@@ -6,7 +6,7 @@ public class Slug extends Enemy {
 		health = 50;
 		strength = 5;
 		setMoveSpeed(0.15f);
-		setCollisionBox(new HitBox(this, -12.5f, -12.5f, 15, 15, true));
+		addCollisionBox(new HitBox(this, -12.5f, -12.5f, 15, 15, true));
 	}
 	
 	
