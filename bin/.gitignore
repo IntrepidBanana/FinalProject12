@@ -37,14 +37,6 @@
 /PainterLoop.class
 /Player.class
 /Wall.class
-/Alignment.class
-/Ammo.class
-/BulletAmmo.class
-/Cannon.class
-/CannonShell.class
-/Consumable.class
-/Corpse.class
-/Cursor.class
-/DrawCompare.class
-/Explosion.class
-/ExplosiveAmmo.class
+/aidenlauris/
+/com/
+/game/
