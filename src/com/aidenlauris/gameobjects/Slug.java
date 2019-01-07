@@ -11,25 +11,12 @@ public class Slug extends Enemy {
 		health = 50;
 		strength = 5;
 		setMoveSpeed(0.15f);
-		addCollisionBox(new HitBox(this, -12.5f, -12.5f, 15, 15, true));
+		getCollisionBoxes().clear();
+		addCollisionBox(new HitBox(this, 15, 15, true));
 	}
 	
 	
 	public void attack() {
-		ForceAnchor f = new ForceAnchor(-2f, WorldMap.getPlayer(), this, -1);
-		ForceAnchor f2 = new ForceAnchor(-1f, this, WorldMap.getPlayer(), -1);
-			f.setReduction(0f);
-			f2.setReduction(0f);
-			f.setId("Knockback");
-			f2.setId("Knock");
-			//f.setMagnitude(wm.getPlayer().moveSpeed);
-			//System.out.println(f.getMagnitude());
-			f.setLifeSpan(1000);
-			f2.setLifeSpan(500);
-			WorldMap.getPlayer().getForceSet().removeForce("Knockback");
-			getForceSet().removeForce("Knock");
-			getForceSet().addForce(f2);
-			WorldMap.getPlayer().getForceSet().addForce(f);
 		
 	}
 	

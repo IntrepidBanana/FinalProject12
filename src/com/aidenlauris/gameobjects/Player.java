@@ -97,14 +97,14 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_R)) {
 			effectType++;
 		}
-		if (Keys.isKeyPressed(KeyEvent.VK_E)) {
+		if (Keys.isKeyPressed(KeyEvent.VK_O)) {
 			Time.setDelta(Time.delta() + 0.1f);
 		}
-		if (Keys.isKeyPressed(KeyEvent.VK_Q)) {
+		if (Keys.isKeyPressed(KeyEvent.VK_P)) {
 			Time.setDelta(Time.delta() - 0.1f);
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_Z)) {
-			WorldMap.addGameObject(new Enemy(500, 500, 250, 0, 0.2f));
+			WorldMap.addGameObject(new Gunman(500, 500));
 		}
 		int mouseRotation = Mouse.getWheelRotation();
 		if (mouseRotation > 0) {
@@ -461,7 +461,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Paint oldpaint = g2d.getPaint();
 
 		g2d.setPaint(radial);
-		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
+//		 g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
 		g2d.setPaint(oldpaint);
 
 		g2d = menu.draw(g2d);

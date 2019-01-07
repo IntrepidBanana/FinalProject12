@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
@@ -19,8 +20,9 @@ import com.aidenlauris.render.PaintHelper;
 public class Enemy extends Entity {
 
 	private boolean isHovering;
+	private long lastMoveCall = Time.alert(60);
 
-	public Enemy(int x, int y, int health, int strength, float speed) {
+	public Enemy(int x, int y, int health, int strength, int speed) {
 		super(x, y, 1, 1);
 
 		addCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));
@@ -43,6 +45,7 @@ public class Enemy extends Entity {
 
 	public void update() {
 		tickUpdate();
+
 		float dist = (float) Math
 				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		time++;
@@ -51,6 +54,8 @@ public class Enemy extends Entity {
 		}
 		move();
 
+		
+		
 		if (dist < 80) {
 			attack();
 		}
@@ -83,7 +88,6 @@ public class Enemy extends Entity {
 	}
 
 	public void attack() {
-
 	}
 
 	@Override
@@ -108,7 +112,7 @@ System.out.println(getForceSet().getNetMagnitude());
 		drawY = PaintHelper.y(y);
 
 		g2d = super.draw(g2d);
-
+		g2d.drawString(this.getClass().getSimpleName(), drawX, drawY);
 		return g2d;
 	}
 }
