@@ -10,13 +10,13 @@ import java.util.Random;
 import com.Tile;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
-import com.aidenlauris.gameobjects.Entity;
-import com.aidenlauris.gameobjects.GameObject;
 import com.aidenlauris.gameobjects.InteractableBox;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
+import com.aidenlauris.gameobjects.util.Entity;
+import com.aidenlauris.gameobjects.util.GameObject;
 
 public class WorldMap {
 	public static final int FRAMERATE = 60;
@@ -35,12 +35,13 @@ public class WorldMap {
 	static long timeSinceLastCall = System.currentTimeMillis();
 	public static Player player;
 	private static GameMap map = new GameMap(500);
-
 	static int collisionsChecked = 0;
 
 
 	public synchronized static void update() {
 
+		Time.nextTick();
+		
 		Cursor c = getCursor();
 		if (c != null) {
 			c.update();
@@ -74,7 +75,7 @@ public class WorldMap {
 		objectsToDraw = (ArrayList<GameObject>) getMap().getUniqueObjects().clone();
 		getMap().clearUnique();
 		getMap().clear();
-		if ((globalTime % (1 * FRAMERATE)) == -1) {
+		if ((Time.global() % (1 * FRAMERATE)) == -1) {
 			System.out.println("# of game Objects       : " + gameObjects.size());
 			System.out.println("# of box cooliders      : " + collisionBoxes.size());
 			System.out.println("# of forces             : " + numOfForces);

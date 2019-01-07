@@ -1,34 +1,30 @@
-package com.aidenlauris.gameobjects;
+package com.aidenlauris.gameobjects.util;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.aidenlauris.gameobjects.util.CollisionBox;
-import com.aidenlauris.gameobjects.util.Force;
-import com.aidenlauris.gameobjects.util.ForceSet;
-import com.aidenlauris.gameobjects.util.HurtBox;
-import com.aidenlauris.gameobjects.util.Team;
+import com.aidenlauris.game.Time;
 
 public abstract class Entity extends GameObject {
-	Team team = Team.NONE;
-	float weight = 1;
+	public Team team = Team.NONE;
+	public float weight = 1;
 	private float moveSpeed = 1;
-	int maxHealth = 1;
-	int health = 1;
-	int time = 0;
-	final int invincibilityFrames = 10;
-	int invincibility = 0;
-	Map<GameObject, Integer> invincibleAgainst = new HashMap<>();
-	int stunTimer = 0;
-	
+	public int maxHealth = 1;
+	public int health = 1;
+	protected long time = 0;
+	protected final int invincibilityFrames = 10;
+	protected int invincibility = 0;
+	protected Map<GameObject, Integer> invincibleAgainst = new HashMap<>();
+	protected int stunTimer = 0;
 
-	Entity(float x, float y) {
+	public Entity(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	Entity(float x, float y, float moveSpeed, int health) {
+	public Entity(float x, float y, float moveSpeed, int health) {
 		this.x = x;
 		this.y = y;
 		setMoveSpeed(moveSpeed);
@@ -102,7 +98,7 @@ public abstract class Entity extends GameObject {
 	public void knockBack(float magnitude, float theta) {
 
 		Force f = new Force(magnitude, (float) (theta + Math.PI));
-		f.setReduction(0.09f);
+		f.setReduction(0.3f);
 		getForceSet().addForce(f);
 	}
 
@@ -116,13 +112,13 @@ public abstract class Entity extends GameObject {
 
 	public void printAllForces() {
 		System.out.println("\n Total Forces: " + getForceSet().getForces().size());
-		for(Force f : getForceSet().getForces()) {
+		for (Force f : getForceSet().getForces()) {
 			System.out.println(f.getId() + ": " + f.getMagnitude() + "/tick,  " + (-f.getReduction()) + "/tick/tick");
 		}
 	}
 
-	public synchronized void tickUpdate() {
-		time++;
+	public void tickUpdate() {
+		time = Time.global() - initTime;
 		if (health <= 0) {
 			kill();
 		}
@@ -133,7 +129,7 @@ public abstract class Entity extends GameObject {
 		if (stunTimer > 0) {
 			stunTimer--;
 		}
-		
+
 	}
 
 	public void damage(HurtBox box) {
@@ -155,7 +151,7 @@ public abstract class Entity extends GameObject {
 	public abstract void update();
 
 	public ForceSet getForceSet() {
-		if(moveSpeed == 0) {
+		if (moveSpeed == 0) {
 			getForceSet().getForces().clear();
 		}
 		return super.getForceSet();

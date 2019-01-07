@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.aidenlauris.game.util.XY;
-import com.aidenlauris.gameobjects.GameObject;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Direction;
+import com.aidenlauris.gameobjects.util.GameObject;
 
 public class GameMap {
 	

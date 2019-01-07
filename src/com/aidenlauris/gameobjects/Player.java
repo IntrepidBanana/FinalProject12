@@ -10,16 +10,17 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Map;
 
 import com.aidenlauris.game.IOHandler;
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.KeyType;
 import com.aidenlauris.game.util.Keys;
 import com.aidenlauris.game.util.Mouse;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -27,12 +28,14 @@ import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
 import com.aidenlauris.gameobjects.util.ItemContainer;
 import com.aidenlauris.gameobjects.util.Team;
+import com.aidenlauris.items.BulletAmmo;
 import com.aidenlauris.items.Cannon;
 import com.aidenlauris.items.Gun;
 import com.aidenlauris.items.Knife;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
+import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.items.Sword;
 import com.aidenlauris.render.PaintHelper;
 import com.aidenlauris.render.menu.Menu;
@@ -49,7 +52,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	MenuItemLabel[] itemLabels = new MenuItemLabel[20];
 	int selectedItem = 0;
 	ArrayList<Interactable> interactables = new ArrayList<>();
-	private int effectType = 0;
+	private int effectType = 8;
 
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 10);
@@ -62,6 +65,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		inventory.addItem(new Shotgun());
 		inventory.addItem(new Pistol());
 		inventory.addItem(new Knife());
+		inventory.addItem(new ShotgunAmmo(500));
+		inventory.addItem(new BulletAmmo(500));
 
 	}
 
@@ -92,6 +97,12 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_R)) {
 			effectType++;
 		}
+		if (Keys.isKeyPressed(KeyEvent.VK_E)) {
+			Time.setDelta(Time.delta() + 0.1f);
+		}
+		if (Keys.isKeyPressed(KeyEvent.VK_Q)) {
+			Time.setDelta(Time.delta() - 0.1f);
+		}
 		if (Keys.isKeyHeld(KeyEvent.VK_Z)) {
 			WorldMap.addGameObject(new Enemy(500, 500, 250, 0, 0.2f));
 		}
@@ -115,13 +126,12 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		}
 
 		if (dx != 0 || dy != 0) {
-			setMoveSpeed(3);
-			Force f = new Force(getMoveSpeed(), dx, dy);
+			setMoveSpeed(5);
+			Force f = new Force((float) (getMoveSpeed() * Time.delta()), dx, dy);
 			if (dx != 0 && dy != 0) {
-				f.setMagnitude(getMoveSpeed() * 1.4f);
+				f.setMagnitude((float) (getMoveSpeed() * 1.4f * Time.delta()));
 			}
-			f.setReduction(0f);
-			f.setLifeSpan(1);
+			f.setLifeSpan(-1);
 			getForceSet().addForce(f);
 		}
 
@@ -451,7 +461,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Paint oldpaint = g2d.getPaint();
 
 		g2d.setPaint(radial);
-		g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
+		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
 		g2d.setPaint(oldpaint);
 
 		g2d = menu.draw(g2d);

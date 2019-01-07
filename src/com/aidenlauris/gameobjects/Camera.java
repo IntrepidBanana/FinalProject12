@@ -4,6 +4,7 @@ import com.aidenlauris.game.IOHandler;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.Mouse;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 

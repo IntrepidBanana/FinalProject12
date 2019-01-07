@@ -1,7 +1,6 @@
 package com.aidenlauris.gameobjects.util;
 import java.util.ArrayList;
 
-import com.aidenlauris.gameobjects.GameObject;
 import com.aidenlauris.gameobjects.Particle;
 
 public abstract class CollisionBox {

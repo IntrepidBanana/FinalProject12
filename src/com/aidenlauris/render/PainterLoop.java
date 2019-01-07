@@ -31,10 +31,10 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.XY;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
-import com.aidenlauris.gameobjects.GameObject;
 import com.aidenlauris.gameobjects.ItemDropEntity;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
+import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.util.DrawCompare;
 
 public class PainterLoop extends JPanel {

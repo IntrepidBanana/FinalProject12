@@ -1,18 +1,21 @@
 package com.aidenlauris.items;
+
 import java.awt.Color;
 
 import com.aidenlauris.game.IOHandler;
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.Mouse;
-import com.aidenlauris.gameobjects.Entity;
 import com.aidenlauris.gameobjects.Particle;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Projectile;
+import com.aidenlauris.gameobjects.util.Entity;
+import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.Inventory;
 
 public abstract class Gun extends Weapon {
 
-	private Entity owner = WorldMap.getPlayer();
 	private boolean auto = true;
 	private float length = 15;
 	private int quickRelease = getAtkSpeed();
@@ -45,10 +48,10 @@ public abstract class Gun extends Weapon {
 
 	public boolean canFire() {
 		boolean canFire = false;
-		if(Mouse.getFocus() != null) {
+		if (Mouse.getFocus() != null) {
 			return false;
 		}
-		
+
 		if (isAuto()) {
 			if (getLengthSinceFire() > getAtkSpeed() || getLengthSinceRelease() > getQuickRelease()) {
 				canFire = true;
@@ -94,9 +97,30 @@ public abstract class Gun extends Weapon {
 				p.setTheta(angle);
 				p.init();
 				if (!ammoType.equals("")) {
-					Particle.create(p.x, p.y, (float) (10f+Math.random()*30), (float) (theta + Math.PI), 10, 3, false, Color.GRAY, (int) (40+Math.random()*30), 8);
-					Particle.create(p.x, p.y, (float) (3f+Math.random()*5), (float) (theta + Math.PI+Math.PI/2), i*2, 1, false, Color.yellow, 10, 6);
-					Particle.create(p.x, p.y, (float) (3f+Math.random()*5), (float) (theta + Math.PI-Math.PI/2), i*2, 1, false, Color.yellow, 10, 6);
+
+					for (int i1 = 0; i1 < 3; i1++) {
+						Particle part = new Particle(p.x, p.y);
+						part.setLifeSpan((int) (40 + Math.random() * 30));
+						part.setRotationSpeed(30);
+						part.setFadeMinimum(0);
+						part.setSizeDecay(30);
+						part.setSize(10);
+						Force f = new Force((float) (3 + Math.random() * 8),
+								(float) (theta + Math.toRadians(Math.random() * 30 - 15)));
+						f.setReduction(0.098f);
+						ForceAnchor fa = new ForceAnchor(1f, player, part, -1);
+						part.addForce(f);
+						part.getForceSet().addForce(fa, 3);
+						part.init();
+					}
+
+					// Particle.create(p.x, p.y, (float) (10f + Math.random() * 30), (float) (theta
+					// + Math.PI), 10, 3,
+					// false, Color.GRAY, (int) (40 + Math.random() * 30), 8);
+					Particle.create(p.x, p.y, (float) (3f + Math.random() * 5), (float) (theta + Math.PI + Math.PI / 2),
+							i * 2, 1, false, Color.yellow, 10, 6);
+					Particle.create(p.x, p.y, (float) (3f + Math.random() * 5), (float) (theta + Math.PI - Math.PI / 2),
+							i * 2, 1, false, Color.yellow, 10, 6);
 				}
 			}
 			switch (ammoType) {
@@ -135,19 +159,19 @@ public abstract class Gun extends Weapon {
 	}
 
 	public void updateFireTime() {
-		lastFire = WorldMap.globalTime;
+		lastFire = Time.global();
 	}
 
 	public void updateReleaseTime() {
-		lastRelease = WorldMap.globalTime;
+		lastRelease = Time.global();
 	}
 
 	public long getLengthSinceFire() {
-		return WorldMap.globalTime - lastFire;
+		return Time.global() - lastFire;
 	}
 
 	public long getLengthSinceRelease() {
-		return WorldMap.globalTime - lastRelease;
+		return Time.global() - lastRelease;
 	}
 
 	public int getQuickRelease() {

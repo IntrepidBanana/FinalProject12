@@ -1,13 +1,16 @@
 package com.aidenlauris.gameobjects.util;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.aidenlauris.game.Time;
+
 public class ForceSet {
 
 	private ArrayList<Force> forces = new ArrayList<>();
-	private Map<Force, Integer> forceQueue = new HashMap<>();
+	private Map<Force, Long> forceQueue = new HashMap<>();
 	private boolean movable = true;
 
 	public ArrayList<Force> getForces() {
@@ -17,16 +20,17 @@ public class ForceSet {
 	public void update() {
 
 		// QUEUEING OF FORCES OCCURS HERE
-		for (Force f : forceQueue.keySet()) {
-			int timeLeft = forceQueue.get(f);
-			timeLeft--;
+		
+		Iterator<Force> fq = forceQueue.keySet().iterator();
+		while(fq.hasNext()) {
+			Force f = fq.next();
+			long timeLeft = forceQueue.get(f);
 
-			if (timeLeft <= 0) {
+			if (Time.alertPassed(timeLeft)) {
 				forces.add(f);
+				fq.remove();
 			}
-			forceQueue.put(f, timeLeft);
 		}
-
 
 		// UPDATING FORCES HAPPENS HERE
 		Iterator<Force> i = forces.iterator();
@@ -95,10 +99,6 @@ public class ForceSet {
 		return (float) Math.atan2(getY(), getX());
 	}
 
-	public void addForce(Force f, int milliseconds) {
-		forceQueue.put(f, milliseconds);
-	}
-
 	public Force getForce(String id) {
 		for (Force f : forces) {
 
@@ -131,39 +131,9 @@ public class ForceSet {
 		if (movable) {
 			forces.add(f);
 		}
-		// for(int i = 0; i<forces.size(); i++) {
-		// Force force = forces.get(i);
-		// if(force instanceof ForceAnchor || f instanceof ForceAnchor) {
-		// forces.add(f);
-		// continue;
-		// }
-		//
-		// if(!force.getId().equals(force.toString()) || f.getId().equals(f.toString()))
-		// {
-		// forces.add(f);
-		// continue;
-		// }
-		//
-		// if(force.getReduction() != f.getReduction()) {
-		// continue;
-		// }
-		//
-		//
-		// double fDx = f.getMagnitude() * Math.cos(f.getTheta());
-		// double fDy = f.getMagnitude() * Math.sin(f.getTheta());
-		//
-		// double netDx = force.dx + fDx;
-		// double netDy = force.dy + fDy;
-		//
-		// double finalMagnitude = Math.hypot(netDx, netDy);
-		// double finalTheta = Math.atan2(netDy, netDx);
-		//
-		// force.setMagnitude((float) finalMagnitude);
-		// force.setTheta((float) finalTheta);
-		// return;
-		//
-		//
-		//
-		// }
+	}
+
+	public void addForce(Force f, int milliseconds) {
+		forceQueue.put(f, Time.alert(milliseconds));
 	}
 }

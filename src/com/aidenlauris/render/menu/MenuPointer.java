@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
-import com.aidenlauris.gameobjects.GameObject;
+import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.PaintHelper;
 
 public class MenuPointer extends MenuObject {

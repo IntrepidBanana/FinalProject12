@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import com.aidenlauris.game.WorldMap;
-import com.aidenlauris.gameobjects.GameObject;
 import com.aidenlauris.items.Item;
 import com.aidenlauris.render.menu.Menu;
 import com.aidenlauris.render.menu.MenuItemLabel;

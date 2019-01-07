@@ -2,6 +2,7 @@ package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
@@ -34,24 +35,23 @@ public abstract class Projectile extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		
-		if(getForceSet().getNetMagnitude() >= 40 && !highSpeedAccess) {
+
+		if (getForceSet().getNetMagnitude() >= 40 && !highSpeedAccess) {
 			return;
 		}
-		
-		
+
 		if (box.getOwner() instanceof Entity) {
 			Entity owner = (Entity) box.getOwner();
 			if (owner.team != Team.PLAYER) {
 				owner.damage((HurtBox) myBox);
 				owner.knockBack(getKnockback(), getForceSet().getX(), getForceSet().getY());
 				owner.stun(30);
-				if(health == 1) {
+				if (health == 1) {
 					kill();
 				}
 				health--;
 			}
-			if(box.getOwner() instanceof Wall){
+			if (box.getOwner() instanceof Wall) {
 				kill();
 			}
 		}
@@ -81,7 +81,6 @@ public abstract class Projectile extends Entity {
 		Force f = new Force(getMoveSpeed(), getTheta());
 		f.setReduction(getReduction());
 		getForceSet().addForce(f);
-
 		WorldMap.addGameObject(this);
 	}
 
@@ -114,7 +113,7 @@ public abstract class Projectile extends Entity {
 		if (getForceSet().getNetMagnitude() < 1) {
 			kill();
 		}
-		if(distToPlayer() > 3000) {
+		if (distToPlayer() > 3000) {
 			kill();
 		}
 		lifeSpanTick();
@@ -127,7 +126,6 @@ public abstract class Projectile extends Entity {
 	public void setGunOffset(float gunOffset) {
 		this.gunOffset = gunOffset;
 	}
-
 
 	public float getKnockback() {
 		return knockback;

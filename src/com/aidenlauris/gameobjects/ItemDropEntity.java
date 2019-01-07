@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.Team;
@@ -22,9 +23,9 @@ public class ItemDropEntity extends Entity {
 		box.addHint(Particle.class);
 		box.addHint(this.getClass());
 //		addCollisionBox(box);
-		ForceAnchor f = new ForceAnchor(1f, this, WorldMap.getPlayer(), -1f);
+		ForceAnchor f = new ForceAnchor(50f, this, WorldMap.getPlayer(), -1f);
 		f.setLifeSpan(Integer.MAX_VALUE);
-		getForceSet().addForce(f, 20);
+		getForceSet().addForce(f, 60);
 		invincibility = 3;
 	}
 

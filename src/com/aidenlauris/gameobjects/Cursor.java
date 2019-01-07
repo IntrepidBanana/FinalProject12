@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.util.Mouse;
+import com.aidenlauris.gameobjects.util.GameObject;
 
 public class Cursor extends GameObject {
 

@@ -1,14 +1,15 @@
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
 
 public class MeleeSwing extends Projectile {
 	
 	public MeleeSwing(float damage) {
-		setKnockback(2f);
-		HurtBox box = new HurtBox(this, -2f, -2f, 4, 4, damage);
+		setKnockback(1f);
+		HurtBox box = new HurtBox(this, 6,6, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 	}

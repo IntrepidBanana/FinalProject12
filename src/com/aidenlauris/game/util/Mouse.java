@@ -2,7 +2,7 @@ package com.aidenlauris.game.util;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.Camera;
-import com.aidenlauris.gameobjects.GameObject;
+import com.aidenlauris.gameobjects.util.GameObject;
 
 public class Mouse {
 	private static float mouseX = 0;

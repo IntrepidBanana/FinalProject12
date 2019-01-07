@@ -3,6 +3,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.render.PaintHelper;

@@ -16,17 +16,17 @@ public class Bullet extends Projectile {
 	}
 
 	public Bullet(float damage) {
-		setKnockback(6f);
-		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, 0);
+		setKnockback(9f);
+		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
-		health = 1;
+		health = 3;
 	}
 
 	@Override
 	public void kill() {
 		Particle.create(x, y, 15f, getTheta(), 40, 1);
-		// WorldMap.addGameObject(new Explosion(x, y, 120, 6, 10));
+		System.out.println(this + " " + time + " " + getLifeSpan());
 		super.kill();
 	}
 
@@ -36,7 +36,7 @@ public class Bullet extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-		int trail = 24 * time + 48;
+		int trail = (int) (24 * time + 48);
 
 		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 3f);
 
@@ -49,7 +49,7 @@ public class Bullet extends Projectile {
 			g2d.fill(s);
 		}
 		g2d.setTransform(old);
-		g2d = PaintHelper.drawCollisionBox(g2d, collisionBoxes);
+		g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
 		return g2d;
 	}
 }

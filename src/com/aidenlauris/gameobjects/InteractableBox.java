@@ -7,6 +7,7 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.Keys;
 import com.aidenlauris.game.util.Mouse;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
@@ -82,7 +83,7 @@ public class InteractableBox extends Entity implements Interactable, ItemContain
 		if (menu != null) {
 			g2d = menu.draw(g2d);
 		}
-		g2d = PaintHelper.drawCollisionBox(g2d, collisionBoxes.get(0));
+		g2d = PaintHelper.drawCollisionBox(g2d, this);
 		return g2d;
 	}
 

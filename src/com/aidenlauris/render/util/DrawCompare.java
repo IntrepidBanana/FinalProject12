@@ -1,7 +1,7 @@
 package com.aidenlauris.render.util;
 import java.util.Comparator;
 
-import com.aidenlauris.gameobjects.GameObject;
+import com.aidenlauris.gameobjects.util.GameObject;
 
 public class DrawCompare implements Comparator<GameObject> {
 

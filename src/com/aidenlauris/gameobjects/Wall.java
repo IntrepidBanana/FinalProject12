@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.render.PaintHelper;
 
@@ -116,21 +117,7 @@ public class Wall extends Entity {
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
-		g2d = PaintHelper.drawCollisionBox(g2d, collisionBoxes.get(0));
-
-		
-		
-		
-		
-		
-
-		
-		
-		
-		
-		
-		
-		g2d.draw( new Rectangle2D.Float(PaintHelper.x(collisionBoxes.get(0).getX()),PaintHelper.y(collisionBoxes.get(0).getY()),2,2));
+		g2d = PaintHelper.drawCollisionBox(g2d, this);
 		return g2d;
 	}
 

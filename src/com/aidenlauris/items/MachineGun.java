@@ -11,8 +11,7 @@ public class MachineGun extends Gun {
 		setLength(20);
 		setAccuracy(3);
 		setDamage(70);
-//		setAmmoType(new BulletAmmo().item());
-		setAmmoType("");
+		setAmmoType(new BulletAmmo().item());
 	}
 
 	@Override

@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 
+import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.PaintHelper;
 
 public class PopIcon extends GameObject {

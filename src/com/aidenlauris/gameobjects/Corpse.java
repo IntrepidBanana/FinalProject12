@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.Team;
@@ -20,8 +21,9 @@ public class Corpse extends Entity {
 		}
 //		forces = e.forces;
 		Force f = new Force(e.getForceSet().getNetMagnitude(), e.getForceSet().getNetTheta());
-		f.setReduction(0.08f);
+		f.setReduction(0.1f);
 		getForceSet().addForce(f);
+		
 		team = Team.ENEMY;
 		health = 10;
 		invincibility = 10;

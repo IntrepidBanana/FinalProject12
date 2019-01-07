@@ -1,7 +1,5 @@
 package com.aidenlauris.gameobjects.util;
 
-import com.aidenlauris.gameobjects.GameObject;
-
 public class HitBox extends CollisionBox {
 
 	public HitBox(GameObject owner, float x, float y, float len, float wid, boolean isSolid) {

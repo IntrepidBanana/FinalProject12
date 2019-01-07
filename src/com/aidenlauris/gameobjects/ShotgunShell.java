@@ -21,8 +21,15 @@ public class ShotgunShell extends Projectile {
 		HurtBox box = new HurtBox(this, -7.5f, -7.5f, 15, 15, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
-		setKnockback(3f);
-		health = 3;
+		setKnockback(5f);
+		health = 10;
+	}
+	
+	@Override
+	public void update() {
+		setDamage(getDamage()*0.9f);
+		health *= 0.95f;
+		super.update();
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package com.aidenlauris.gameobjects.util;
 
-import com.aidenlauris.gameobjects.GameObject;
+import java.security.GeneralSecurityException;
+
+import com.aidenlauris.game.Time;
 
 public class ForceAnchor extends Force {
 
@@ -13,7 +15,7 @@ public class ForceAnchor extends Force {
 	private boolean isVariable = true;
 
 	public ForceAnchor(float magnitude, GameObject owner, GameObject anchor, float threshold) {
-		super(-magnitude, (float) Math.atan2(anchor.y - owner.y, anchor.x - owner.x));
+		super(magnitude, (float) ((float) Math.atan2(owner.y - anchor.y, owner.x - anchor.x)));
 		this.setModifier(modifier);
 		this.setOwner(owner);
 		this.setAnchor(anchor);
@@ -70,7 +72,7 @@ public class ForceAnchor extends Force {
 
 	@Override
 	public void update() {
-		if (getLifeSpan() != Integer.MAX_VALUE && getLifeSpan() <= 0) {
+		if (Time.alertPassed(lifeSpan) && hasTimeLimit) {
 			setTerminated(true);
 			dx = 0;
 			dy = 0;
@@ -87,21 +89,22 @@ public class ForceAnchor extends Force {
 			return;
 		}
 
-		setTheta((float) ((float) Math.atan2(getOwner().y - getAnchor().y, getOwner().x - getAnchor().x)
+		setTheta((float) ((float) Math.atan2( getAnchor().y - getOwner().y, getAnchor().x - getOwner().x)
 				+ Math.toRadians(getOffset())));
 		// magnitude = 1/dist;
 		float multiplier = 1;
 		if (isVariable) {
-			multiplier = (float) (Math.pow(0.997, dist) + 0);
+			multiplier = (float) (Math.pow(0.99, dist) + 0);
 			if (inversion) {
 				multiplier = (dist / 100);
 			}
 		}
 		
-		setMagnitude(getMagnitude() * (1 - getReduction()));
-		dx = (float) Math.min((getMagnitude() * multiplier * Math.cos(getTheta())), 20f);
-		dy = (float) Math.min((getMagnitude() * multiplier * Math.sin(getTheta())), 20f);
-//		if (Math.hypot(dx, dy) < 0.2 && isVariable) {
+		setMagnitude((float) (getMagnitude() * Math.min((1-getReduction()*Time.delta()),1)));
+		dx = (float) ((getMagnitude() * multiplier * Math.cos(getTheta()))*Time.delta());
+		dy = (float) ((getMagnitude() * multiplier * Math.sin(getTheta()))*Time.delta());
+		
+		//		if (Math.hypot(dx, dy) < 0.2 && isVariable) {
 //			dx = 0;
 //			dy = 0;
 //		}

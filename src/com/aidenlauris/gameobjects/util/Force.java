@@ -1,5 +1,6 @@
 package com.aidenlauris.gameobjects.util;
 
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 
 public class Force {
@@ -9,10 +10,15 @@ public class Force {
 	private float reduction = 0f;
 	private float magnitude = 0;
 	private boolean terminated = false;
-	private int lifeSpan = 10*WorldMap.FRAMERATE;
+	protected long lifeSpan = Time.alert(15 * 60);
+	protected boolean hasTimeLimit = true;
 	private String id = this.toString();
 
 	public Force(float magnitude, float theta) {
+		if (magnitude < 0) {
+			theta += Math.PI;
+			magnitude *= -1;
+		}
 		this.setMagnitude(magnitude);
 		this.setTheta(theta);
 		dx = (float) (magnitude * Math.cos(theta));
@@ -24,25 +30,23 @@ public class Force {
 	}
 
 	public void update() {
-		if (getLifeSpan() <= 0 && getLifeSpan() != Integer.MAX_VALUE) {
+		if (Time.alertPassed(lifeSpan) && hasTimeLimit) {
 			setTerminated(true);
 			dx = 0;
 			dy = 0;
 			return;
 		}
 
-		setLifeSpan(getLifeSpan()-1);
+		setMagnitude((float) (getMagnitude() * Math.min((1 - getReduction() * Time.delta()), 1)));
+		dx = (float) ((float) (getMagnitude() * Math.cos(getTheta())) * Time.delta());
+		dy = (float) ((float) (getMagnitude() * Math.sin(getTheta())) * Time.delta());
 
-		if (Math.abs(dx) < 0.02f && Math.abs(dy) < 0.02f) {
+		if (magnitude < 0.02f * Time.delta() && Time.delta() > 0) {
 			terminated = true;
 			dx = 0;
 			dy = 0;
 			return;
 		}
-
-		setMagnitude(getMagnitude() * (1 - reduction));
-		dx = (float) (getMagnitude() * Math.cos(getTheta()));
-		dy = (float) (getMagnitude() * Math.sin(getTheta()));
 
 	}
 
@@ -91,14 +95,13 @@ public class Force {
 	}
 
 	public int getLifeSpan() {
-		return lifeSpan;
+		return (int) lifeSpan;
 	}
 
 	public void setLifeSpan(int lifeSpan) {
 		this.lifeSpan = lifeSpan;
 	}
 
-	
 	public float getMagnitude() {
 		return magnitude;
 	}
@@ -109,5 +112,13 @@ public class Force {
 
 	public void setTheta(float theta) {
 		this.theta = theta;
+	}
+
+	public boolean hasTimeLimit() {
+		return hasTimeLimit;
+	}
+
+	public void hasTimeLimit(boolean hasTimeLimit) {
+		this.hasTimeLimit = hasTimeLimit;
 	}
 }

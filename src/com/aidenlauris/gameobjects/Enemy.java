@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -60,7 +61,7 @@ public class Enemy extends Entity {
 		float dist = (float) Math
 				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		if (dist < 300) {
-			ForceAnchor f = new ForceAnchor(3f, this, WorldMap.getPlayer(), -1);
+			ForceAnchor f = new ForceAnchor(3f, this, Player.getPlayer(), -1);
 
 			f.setId("PlayerFollow");
 			f.hasVariableSpeed(false);
@@ -93,7 +94,7 @@ public class Enemy extends Entity {
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
 		
 		WorldMap.addGameObject(new Corpse(x, y, this));
-
+System.out.println(getForceSet().getNetMagnitude());
 		removeSelf();
 	}
 

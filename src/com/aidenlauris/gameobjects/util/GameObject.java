@@ -1,4 +1,4 @@
-package com.aidenlauris.gameobjects;
+package com.aidenlauris.gameobjects.util;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -6,10 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
-import com.aidenlauris.gameobjects.util.CollisionBox;
-import com.aidenlauris.gameobjects.util.CollisionHelper;
-import com.aidenlauris.gameobjects.util.ForceSet;
 import com.aidenlauris.render.PaintHelper;
 
 public abstract class GameObject {
@@ -19,6 +17,7 @@ public abstract class GameObject {
 	private ForceSet forces = new ForceSet();
 	public boolean forceAccurate = false;
 	public boolean highSpeedAccess = false;
+	protected long initTime = Time.global();
 
 	ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
 
@@ -48,19 +47,15 @@ public abstract class GameObject {
 	public void init() {
 		WorldMap.addGameObject(this);
 	}
-	
+
 	public float distToPlayer() {
 		return (float) Math.hypot(x - WorldMap.player.x, y - WorldMap.player.y);
 	}
 
 	public void forceUpdate() {
 
-		if (getForceSet().getNetMagnitude() > 40 && forceAccurate) {
-
-			double narrowestSide = Math.min(CollisionHelper.width(this), CollisionHelper.length(this));
-			if (narrowestSide <= 0) {
-				return;
-			}
+		double narrowestSide = Math.min(CollisionHelper.width(this), CollisionHelper.length(this));
+		if (getForceSet().getNetMagnitude() > narrowestSide && forceAccurate && narrowestSide > 0) {
 
 			double divisions = (getForceSet().getNetMagnitude() / (narrowestSide / 2));
 
@@ -94,6 +89,10 @@ public abstract class GameObject {
 
 	public ForceSet getForceSet() {
 		return forces;
+	}
+
+	public void addForce(Force f) {
+		getForceSet().addForce(f);
 	}
 
 }

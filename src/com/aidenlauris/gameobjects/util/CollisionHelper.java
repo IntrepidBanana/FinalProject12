@@ -3,7 +3,6 @@ import java.util.ArrayList;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.XY;
-import com.aidenlauris.gameobjects.GameObject;
 
 public class CollisionHelper {
 

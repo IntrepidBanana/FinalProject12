@@ -2,6 +2,7 @@ package com.aidenlauris.gameobjects;
 import java.awt.Graphics2D;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.render.PaintHelper;
 
@@ -45,7 +46,7 @@ public class Explosion extends Entity {
 	public Graphics2D draw(Graphics2D g2d) {
 		
 		
-		g2d = PaintHelper.drawCollisionBox(g2d, collisionBoxes);
+		g2d = PaintHelper.drawCollisionBox(g2d, this);
 		return g2d;
 	}
 }

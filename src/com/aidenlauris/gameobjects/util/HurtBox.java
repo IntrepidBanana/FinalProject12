@@ -1,7 +1,5 @@
 package com.aidenlauris.gameobjects.util;
 
-import com.aidenlauris.gameobjects.GameObject;
-
 public class HurtBox extends CollisionBox {
 
 	public float damage;

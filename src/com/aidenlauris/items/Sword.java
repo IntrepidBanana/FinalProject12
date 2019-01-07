@@ -14,9 +14,9 @@ public class Sword extends Gun {
 		setAtkSpeed(20);
 		setQuickRelease(3);
 		
-		setSpread(3);
+		setSpread(2);
 		setBulletCount(30);
-		setDamage(40);
+		setDamage(10);
 		
 		setAmmoPerUse(0);
 	}
@@ -24,8 +24,8 @@ public class Sword extends Gun {
 	@Override
 	public Projectile bulletType() {
 		MeleeSwing b = new MeleeSwing(getDamage());
-		b.setMoveSpeed(30f);
-		b.setReduction(0.3f);
+		b.setMoveSpeed(10f);
+		b.setReduction(0.1f);
 		return b;
 	}
 

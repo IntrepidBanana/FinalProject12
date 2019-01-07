@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.Team;
@@ -81,7 +82,7 @@ public class Particle extends Entity {
 	}
 
 	public void removeCollider() {
-		collisionBoxes.clear();
+		getCollisionBoxes().clear();
 	}
 
 	@Override

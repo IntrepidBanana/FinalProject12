@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 
@@ -49,6 +50,10 @@ public class PaintHelper {
 			g2d = drawCollisionBox(g2d, box);
 		}
 		return g2d;
+	}
+	
+	public static Graphics2D drawCollisionBox(Graphics2D g2d, GameObject obj) {
+		return drawCollisionBox(g2d, obj.getCollisionBoxes());
 	}
 	
 	public static void initFont() {
