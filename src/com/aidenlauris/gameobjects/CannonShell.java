@@ -5,6 +5,7 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class CannonShell extends Projectile{
 
+	//dead
 	CannonShell(float x, float y,float damage, float theta, float gunOffset, float reduction) {
 		super(x, y, 9f,damage, theta, gunOffset, reduction);
 		weight = 10;
@@ -14,7 +15,7 @@ public class CannonShell extends Projectile{
 	
 	public CannonShell(int damage) {
 //		weight = 10;
-		HurtBox box = new HurtBox(this, -4f, -4f, 8, 8, damage);
+		HurtBox box = new HurtBox(this, 8, 8, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		setKnockback(10f);

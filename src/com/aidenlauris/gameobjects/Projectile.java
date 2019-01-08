@@ -1,9 +1,12 @@
 package com.aidenlauris.gameobjects;
 
+import java.util.FormatterClosedException;
+
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
 
@@ -81,6 +84,7 @@ public abstract class Projectile extends Entity {
 		Force f = new Force(getMoveSpeed(), getTheta());
 		f.setReduction(getReduction());
 		getForceSet().addForce(f);
+		
 		WorldMap.addGameObject(this);
 	}
 

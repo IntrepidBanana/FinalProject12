@@ -6,13 +6,13 @@ import com.aidenlauris.gameobjects.Projectile;
 public class Cannon extends Gun {
 
 	public Cannon() {
-		setAtkSpeed(40);
+		setAtkSpeed(1);
 		setQuickRelease(40);
 		setLength(30);
 		setAccuracy(0);
 		setAuto(true);
 		setDamage(120);
-		setAmmoType(new ExplosiveAmmo().item());
+//		setAmmoType(new ExplosiveAmmo().item());
 	}
 
 	@Override

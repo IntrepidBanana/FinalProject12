@@ -37,7 +37,7 @@ public class MenuPointer extends MenuObject {
 		Line2D horizontal = new Line2D.Float(x, y, (drawX + x) / 2, y);
 		Line2D vertical = new Line2D.Float((drawX + x) / 2, y, drawX, drawY);
 		Stroke old = g2d.getStroke();
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.gray);
 		g2d.setStroke(new BasicStroke(3));
 		g2d.draw(horizontal);
 		g2d.draw(vertical);
