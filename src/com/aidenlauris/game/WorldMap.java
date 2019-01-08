@@ -21,8 +21,8 @@ import com.aidenlauris.gameobjects.util.GameObject;
 public class WorldMap {
 	public static final int FRAMERATE = 60;
 	public static long globalTime = 0;
-	public static int camx = 1280;
-	public static int camy = 920;
+	public static int camx = 1260;
+	public static int camy = 960;
 	public static Camera camera;
 
 	static ArrayList<GameObject> gameObjects = new ArrayList<>();

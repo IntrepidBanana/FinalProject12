@@ -10,7 +10,7 @@ import com.aidenlauris.render.PaintHelper;
 public class MenuLabel extends MenuObject {
 
 	private String label = "";
-	Color color = Color.white;
+	Color color = Color.darkGray;
 	public boolean selected = false;
 
 	@Override
@@ -20,7 +20,7 @@ public class MenuLabel extends MenuObject {
 		g2d.setFont(PaintHelper.font);
 		g2d.drawString(getLabel(), x, y);
 		if (selected) {
-			g2d.setColor(Color.WHITE);
+			g2d.setColor(Color.gray);
 			Stroke old = g2d.getStroke();
 			g2d.setStroke(new BasicStroke(4));
 			g2d.draw(new Rectangle2D.Float(x-12, y-length+6, getLabel().length()*14, length));

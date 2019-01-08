@@ -45,7 +45,7 @@ public class Bullet extends Projectile {
 		AffineTransform old = g2d.getTransform();
 		transform.rotate(theta, drawX, drawY);
 		g2d.transform(transform);
-		g2d.setColor(Color.white);
+		g2d.setColor(Color.gray);
 		if (getForceSet().getNetMagnitude() > 1) {
 			g2d.fill(s);
 		}
