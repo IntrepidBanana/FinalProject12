@@ -66,7 +66,7 @@ public class Enemy extends Entity {
 		float dist = (float) Math
 				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		if (dist < 300) {
-			ForceAnchor f = new ForceAnchor(3f, this, Player.getPlayer(), -1);
+			ForceAnchor f = new ForceAnchor(1.5f, this, Player.getPlayer(), -1);
 
 			f.setId("PlayerFollow");
 			f.hasVariableSpeed(false);
