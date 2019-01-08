@@ -94,12 +94,12 @@ public class Force {
 		this.id = id;
 	}
 
-	public int getLifeSpan() {
-		return (int) lifeSpan;
+	public long getLifeSpan() {
+		return lifeSpan;
 	}
 
-	public void setLifeSpan(int lifeSpan) {
-		this.lifeSpan = lifeSpan;
+	public void setLifeSpan(long l) {
+		this.lifeSpan = Time.alert(l);
 	}
 
 	public float getMagnitude() {

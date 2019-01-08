@@ -25,13 +25,13 @@ public class Wall extends Entity {
 	float wid = 0;
 	Player p = null;
 
-	Wall(float x, float y, int len, int wid) {
+	public Wall(float x, float y, int len, int wid) {
 		super(x, y);
 		// TODO Auto-generated constructor stub
 		getForceSet().setImmovable();
 		this.len = len;
 		this.wid = wid;
-		addCollisionBox(new HitBox(this, 0, 0, len, wid, true));
+		addCollisionBox(new HitBox(this, 0, 0, wid, len, true));
 	}
 
 	/**

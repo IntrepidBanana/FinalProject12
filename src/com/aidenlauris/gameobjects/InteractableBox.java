@@ -12,8 +12,11 @@ import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
 import com.aidenlauris.gameobjects.util.ItemContainer;
+import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
+import com.aidenlauris.items.Sword;
 import com.aidenlauris.render.PaintHelper;
 import com.aidenlauris.render.menu.Menu;
 
@@ -30,8 +33,9 @@ public class InteractableBox extends Entity implements Interactable, ItemContain
 	public InteractableBox(float x, float y) {
 		super(x, y);
 		addCollisionBox(new HitBox(this, 32, 32, true));
-		contents.addItem(new Shotgun());
-		contents.addItem(new ShotgunAmmo(24));
+		contents.addItem(new Sword());
+		contents.addItem(new Pistol());
+		contents.addItem(new BulletAmmo(50));
 	}
 
 	public void interactByProximity() {

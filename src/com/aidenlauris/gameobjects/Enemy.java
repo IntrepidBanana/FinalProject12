@@ -18,11 +18,11 @@ import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
 
 public class Enemy extends Entity {
-
+	protected long alert = Time.alert(60);
 	private boolean isHovering;
 	private long lastMoveCall = Time.alert(60);
 
-	public Enemy(int x, int y, int health, int strength, float speed) {
+	public Enemy(float x, float y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
 
 		addCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));

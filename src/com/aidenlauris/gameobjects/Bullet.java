@@ -36,7 +36,8 @@ public class Bullet extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-		int trail = (int) (24 * time + 48);
+//		int trail = (int) (24 * time + 48);
+		int trail = 24;
 
 		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 3f);
 

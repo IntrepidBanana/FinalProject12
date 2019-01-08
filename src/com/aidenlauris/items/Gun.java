@@ -98,7 +98,7 @@ public abstract class Gun extends Weapon {
 				p.init();
 				if (!ammoType.equals("")) {
 
-					for (int i1 = 0; i1 < 3; i1++) {
+					for (int i1 = 0; i1 < 1; i1++) {
 						Particle part = new Particle(p.x, p.y);
 						part.setLifeSpan((int) (40 + Math.random() * 30));
 						part.setRotationSpeed(30);

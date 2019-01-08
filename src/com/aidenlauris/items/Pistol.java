@@ -18,7 +18,7 @@ public class Pistol extends MachineGun{
 	@Override
 	public Projectile bulletType() {
 		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(60f);
+		b.setMoveSpeed(30);
 		return b;
 	}
 }

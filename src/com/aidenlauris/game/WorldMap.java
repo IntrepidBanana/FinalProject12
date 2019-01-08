@@ -141,24 +141,15 @@ public class WorldMap {
 	}
 
 	public static void init() {
-		System.out.println("Dear Aiden,");
-		System.out.println("i added guns, which can be switched using the spacebar");
-		System.out.println("WorldMap can now be accessed in any class with out iniitalizing it");
-		System.out.println("ex\nWorldMap.addEntity(...)");
-		System.out.println("Each entity has a kill() to remove it");
-		System.out.println("kill is customizable, however call removeSelf() inside kill()");
-		System.out.println(
-				"You may notice some lag on hit. this is on purpose. its me trying out different configurations to make it feel heavier");
-		System.out.println("to change it, goto WorldMap.sleep() and change the sleepTime value to 0");
-		System.out.println(
-				"Yo also each time an enemy dies, it spawns 2  enemies. to change this goto enemy.kill and remove one line");
-		System.out.println("(this message is inside WorldMap.Init()");
 
-		System.out.println("also 6478688591 is my number this is the only way i can contact you");
-		System.out.println("\nyour fisherman friend, Lauris petlah\n");
 		addGameObject(new Player(500, 500, 2f));
 		addGameObject(new Cursor());
 		addGameObject(new InteractableBox(700, 700));
+
+		addGameObject(new Wall(0, 0, 1000 , 50));
+		addGameObject(new Wall(0, 1000, 1000 , 50));
+		addGameObject(new Wall(0, 0, 50 , 1000));
+		addGameObject(new Wall(1000, 0, 50 , 1000));
 		// addEntity(new Enemy(400, 300, 100, 0, .2f));
 
 		// addEntity(new Enemy(200, 300, 100, 0, .2f));

@@ -21,8 +21,8 @@ public class Time {
 		return globalTick;
 	}
 
-	public static long alert(int milliseconds) {
-		return globalTick + milliseconds;
+	public static long alert(long l) {
+		return globalTick + l;
 	}
 
 	public static void setDelta(double t) {

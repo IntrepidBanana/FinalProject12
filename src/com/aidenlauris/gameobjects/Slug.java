@@ -6,11 +6,8 @@ import com.aidenlauris.gameobjects.util.HitBox;
 
 public class Slug extends Enemy {
 
-	public Slug(int x, int y, int health, int strength, float speed) {
-		super(x, y, health, strength, speed);
-		health = 50;
-		strength = 5;
-		setMoveSpeed(0.15f);
+	public Slug(int x, int y) {
+		super(x, y, 50, 5, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 15, 15, true));
 	}
