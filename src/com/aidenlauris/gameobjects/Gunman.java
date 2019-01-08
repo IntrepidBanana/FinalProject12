@@ -7,7 +7,7 @@ import com.aidenlauris.gameobjects.util.ForceAnchor;
 public class Gunman extends Enemy {
 
 	public Gunman(int x, int y) {
-		super(x, y, 50, 10, 3);
+		super(x, y, 50, 10, 0.2f);
 	}
 	
 	
@@ -18,7 +18,7 @@ public class Gunman extends Enemy {
 		  
 			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 			f.setId("Random");
-			f.setLifeSpan(300);
+			f.setLifeSpan(100);
 			f.setReduction(0f);
 			addForce(f);
 	}
@@ -33,12 +33,12 @@ public class Gunman extends Enemy {
 			return;
 		}
 		
-		if (time % 100 == 0){
+		//if (time % 100 == 0){
 		move();
-		}
+		//}
 		
 		
-		if (dist < 100) {
+		if (dist < 250) {
 			attack();
 		}
 
@@ -50,7 +50,7 @@ public class Gunman extends Enemy {
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(12);
+		b.setMoveSpeed(6);
 		b.setLifeSpan(180f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
