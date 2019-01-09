@@ -3,11 +3,12 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceAnchor;
 
-public class BeamShooter extends Enemy {
+public class GlaiveThrower extends Enemy {
 
-	public BeamShooter(float x, float y) {
-		super(x, y, 50, 10, 3);
+	public GlaiveThrower(float x, float y) {
+		super(x, y, 50, 20, 3);
 	}
 	
 	@Override
@@ -17,10 +18,10 @@ public class BeamShooter extends Enemy {
 
 		  
 			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random()*360));
-			f.setId("BeamMove");
+			f.setId("GunMove");
 			f.setLifeSpan(60);
 			f.setReduction(0f);
-			if (getForceSet().getForce("BeamMove") == null){
+			if (getForceSet().getForce("GunMove") == null){
 			addForce(f);
 			}
 			
@@ -41,23 +42,33 @@ public class BeamShooter extends Enemy {
 		
 		if (dist < 500 && Time.alertPassed(alert)) {
 			attack();
-			alert = Time.alert((long) (180));
+			alert = Time.alert((long) (120));
 		}
 
 	}
 	
 	public void attack(){
-		Beam b = new Beam(3);
+		Bullet b = new Bullet(1f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(100);
-		b.setLifeSpan(60);
+		b.setMoveSpeed(6);
+		b.setLifeSpan(180f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
+		Bullet b2 = new Bullet(1);
+		b2.setMoveSpeed(1);
+		ForceAnchor f = new ForceAnchor(100f, b2, b, -1f);
+		f.setOffset(50);
+		b2.getForceSet().addForce(f);
+		b2.setGunOffset(50);
+		b2.team = team.ENEMY;
+		float theta2 = (float)Math.toRadians(Math.random()*360);
+		b2.setTheta(theta2);
 		b.init();
+		b2.init();
 		
 	}
 

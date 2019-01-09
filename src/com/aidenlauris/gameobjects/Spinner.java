@@ -36,11 +36,7 @@ public void update() {
 		return;
 	}
 	
-	//move();
-//	if (Time.alertPassed(alert)) {
-//		attack();
-//		alert = Time.alert((long) (30));
-//	}
+
 }
 
 public void attack(){
@@ -52,7 +48,7 @@ public void attack(){
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(1);
+		b.setMoveSpeed(0.2f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
 		float theta = (float)Math.toRadians(i);

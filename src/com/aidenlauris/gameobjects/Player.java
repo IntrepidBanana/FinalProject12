@@ -55,7 +55,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	private int effectType = 8;
 
 	public Player(float x, float y, float moveSpeed) {
-		super(x, y, moveSpeed, 10);
+		super(x, y, moveSpeed, 100);
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
@@ -106,7 +106,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
 			for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new Gunman((float)Math.random()*900, (float)Math.random()*900));
+				WorldMap.addGameObject(new Spinner((float)Math.random()*900, (float)Math.random()*900));
 			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();

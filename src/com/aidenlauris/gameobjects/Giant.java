@@ -1,5 +1,8 @@
 package com.aidenlauris.gameobjects;
 
+import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 
 public class Giant extends Enemy {
@@ -9,6 +12,32 @@ public class Giant extends Enemy {
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 100, 100, true));
 		
+	}
+	
+	@Override
+	public void move() {
+		float dist = (float) Math
+				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+		if (dist < 300) {
+			ForceAnchor f = new ForceAnchor(1.5f, this, Player.getPlayer(), -1);
+
+			f.setId("PlayerFollow");
+			f.hasVariableSpeed(false);
+			if (getForceSet().getForce("PlayerFollow") == null) {
+				getForceSet().removeForce("Random");
+				getForceSet().addForce(f);
+				// System.out.println("Running Attack");
+			}
+		} else {
+			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
+			f.setId("Random");
+			f.setLifeSpan(60);
+			f.setReduction(0f);
+			if (getForceSet().getForce("Random") == null) {
+				getForceSet().removeForce("PlayerFollow");
+				getForceSet().addForce(f);
+			}
+		}
 	}
 
 }
