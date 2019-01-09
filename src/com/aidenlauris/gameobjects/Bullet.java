@@ -20,13 +20,12 @@ public class Bullet extends Projectile {
 		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
-		health = 3;
+		health = 1;
 	}
 
 	@Override
 	public void kill() {
 		Particle.create(x, y, 15f, getTheta(), 40, 1);
-		System.out.println(this + " " + time + " " + getLifeSpan());
 		super.kill();
 	}
 

@@ -4,6 +4,7 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
+import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Giant extends Enemy {
 
@@ -11,6 +12,7 @@ public class Giant extends Enemy {
 		super(x, y, 100, 10, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 100, 100, true));
+		addCollisionBox(new HurtBox(this, 105, 105, 10));
 		
 	}
 	

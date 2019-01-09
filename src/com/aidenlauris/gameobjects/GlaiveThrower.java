@@ -4,6 +4,7 @@ import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
+import com.aidenlauris.gameobjects.util.Team;
 
 public class GlaiveThrower extends Enemy {
 
@@ -48,27 +49,45 @@ public class GlaiveThrower extends Enemy {
 	}
 	
 	public void attack(){
+		
+		Player p = Player.getPlayer();
+		
 		Bullet b = new Bullet(1f);
 		b.x = this.x;
 		b.y = this.y;
-		Player p = Player.getPlayer();
+		
 		b.setMoveSpeed(6);
 		b.setLifeSpan(180f);
 		b.setGunOffset(50);
-		b.team = team.ENEMY;
+		b.team = Team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
+		
+		
 		Bullet b2 = new Bullet(1);
+		b2.x = this.x;
+		b2.y = this.y;
 		b2.setMoveSpeed(1);
-		ForceAnchor f = new ForceAnchor(100f, b2, b, -1f);
-		f.setOffset(50);
+		ForceAnchor f = new ForceAnchor(10f, b2, b, -1f);
+		f.setOffset(45);
+		f.hasVariableSpeed(false);
 		b2.getForceSet().addForce(f);
 		b2.setGunOffset(50);
-		b2.team = team.ENEMY;
-		float theta2 = (float)Math.toRadians(Math.random()*360);
-		b2.setTheta(theta2);
+		b2.team = Team.ENEMY;
+//		float theta2 = (float)Math.toRadians(Math.random()*360);
+//		b2.setTheta(theta2);
 		b.init();
-		b2.init();
+//		b2.init();
+
+		
+		
+		
+		
+		Glaive glaive = new Glaive(1, 25, b);
+		glaive.setMoveSpeed(5f);
+		glaive.init();
+		
+		
 		
 	}
 

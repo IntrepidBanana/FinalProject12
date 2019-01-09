@@ -25,7 +25,8 @@ public class Enemy extends Entity {
 	public Enemy(float x, float y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
 
-		addCollisionBox(new HitBox(this, -12.5f, -12.5f, 25, 25, true));
+		addCollisionBox(new HitBox(this, 25, 25, true));
+		addCollisionBox(new HurtBox(this, 30, 30, 10));
 
 		this.health = health;
 		this.maxHealth = health;
@@ -34,6 +35,11 @@ public class Enemy extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
+		if(myBox instanceof HurtBox){
+			((Entity)box.getOwner()).damage((HurtBox) myBox);
+			//Player.getPlayer().knockBack(3, Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			return;
+		}
 		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
 			Entity owner = (Entity) box.getOwner();
 		}
