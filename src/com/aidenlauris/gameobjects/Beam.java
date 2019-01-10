@@ -13,7 +13,7 @@ public class Beam extends Projectile {
 
 	public Beam(float damage) {
 		setKnockback(0);
-		HurtBox box = new HurtBox(this, -6f, -6f, 50, 15, damage);
+		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = 100;
@@ -36,7 +36,7 @@ public class Beam extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-		int trail = 10000;
+		int trail = 1000;
 
 		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 3f);
 

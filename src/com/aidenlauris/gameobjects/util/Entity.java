@@ -146,7 +146,7 @@ public abstract class Entity extends GameObject {
 
 	}
 
-	public abstract void collisionOccured(CollisionBox box, CollisionBox myBox);
+	public abstract void collisionOccured(CollisionBox theirBox, CollisionBox myBox);
 
 	public abstract void update();
 

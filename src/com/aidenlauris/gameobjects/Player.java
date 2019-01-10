@@ -106,7 +106,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
 			for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new Spinner((float)Math.random()*900, (float)Math.random()*900));
+				WorldMap.addGameObject(new Giant((float)Math.random()*900, (float)Math.random()*900));
 			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();
@@ -428,8 +428,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
 		if (box.isSolid) {
 			collide(box, myBox);
-		} // TODO Auto-generated method stub
-			// System.out.println("yo");
+		}
 	}
 
 	@Override
