@@ -3,14 +3,13 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
-import com.aidenlauris.gameobjects.util.ForceAnchor;
-import com.aidenlauris.items.Pistol;
 
-public class Gunman extends Enemy {
+public class PoisonWalker extends Enemy {
 
-	public Gunman(float x, float y) {
-		super(x, y, 50, 10, 3);
+	public PoisonWalker(float x, float y) {
+		super(x, y, 50, 10, 2);
 	}
+
 	
 	@Override
 	public void move() {
@@ -19,14 +18,15 @@ public class Gunman extends Enemy {
 
 		  
 			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random()*360));
-			f.setId("GunMove");
+			f.setId("PoisonMove");
 			f.setLifeSpan(60);
 			f.setReduction(0f);
-			if (getForceSet().getForce("GunMove") == null){
+			if (getForceSet().getForce("PoisonMove") == null){
 			addForce(f);
 			}
 			
 	}
+	
 	
 	public void update() {
 		tickUpdate();
@@ -43,20 +43,19 @@ public class Gunman extends Enemy {
 		
 		if (dist < 500 && Time.alertPassed(alert)) {
 			attack();
-			alert = Time.alert((long) (30 + Math.random()*30));
+			alert = Time.alert((long)(5));
 		}
 
 	}
 	
-	
 	public void attack(){
-		Bullet b = new Bullet(1f);
+		PoisonCreep b = new PoisonCreep(1f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(6);
+		b.setMoveSpeed(0.0000001f);
 		b.setLifeSpan(180f);
-		b.setGunOffset(50);
+		b.setGunOffset(0);
 		b.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
@@ -64,14 +63,4 @@ public class Gunman extends Enemy {
 		
 	}
 	
-	@Override
-	public void kill() {
-		
-		double chance = Math.random()*100;
-		if (chance < 15) {
-			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new Pistol()));
-		}
-		super.kill();
-	}
-
 }

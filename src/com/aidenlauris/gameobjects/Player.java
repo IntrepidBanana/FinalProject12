@@ -106,7 +106,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
 			for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new Giant((float)Math.random()*900, (float)Math.random()*900));
+				WorldMap.addGameObject(new Gunman((float)Math.random()*900, (float)Math.random()*900));
 			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();
@@ -462,10 +462,14 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
 		
+		Shape barOutline = new Rectangle2D.Float(100, 100, 205, 30);
+		g2d.setColor(Color.BLACK);
+		g2d.fill(barOutline);
 		
 		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
 		g2d.setColor(Color.RED);
 		g2d.fill(healthBar);
+		
 
 		g2d.setPaint(radial);
 //		 g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
