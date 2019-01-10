@@ -148,7 +148,7 @@ public class WorldMap {
 	public static void init() {
 
 		gameObjects = MapGen.genMap();
-		
+		System.out.println(gameObjects);
 //		addGameObject(new Player(500, 500, 2f));
 		addGameObject(new Cursor());
 //		addGameObject(new InteractableBox(700, 700));

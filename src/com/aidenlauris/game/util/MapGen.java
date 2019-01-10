@@ -12,13 +12,22 @@ import com.aidenlauris.gameobjects.util.GameObject;
 
 public class MapGen {
 
-	final static int wallSize = 100;
+	final static int wallSize = 125;
 
 	static void printMap(int[][] m) {
 
-		for (int i = m.length-1; i > 0; i--) {
-			for (int j = 0; j < m[0].length; j++) {
-				if (m[i][j] != 0) {
+		for (int i = m.length; i >= 0; i--) {
+			if (i == m.length || i == 0) {
+				for (int j = 0; j < m[0].length; j++) {
+					System.out.print("W ");
+				}
+				System.out.println();
+				continue;
+			}
+			for (int j = -1; j <= m[0].length; j++) {
+				if (j == m[0].length || j == -1) {
+					System.out.print("E ");
+				} else if (m[i][j] != 0) {
 					System.out.print(m[i][j] + " ");
 				} else {
 					System.out.print("  ");
@@ -47,8 +56,8 @@ public class MapGen {
 
 		for (int i = 0; i < rooms + additionalRooms; i++) {
 
-			int r = (int) (ran.nextGaussian() * geo.length / 6 + geo.length / 2);
-			int c = (int) (ran.nextGaussian() * geo[0].length / 6 + geo[0].length / 2);
+			int r = (int) (ran.nextGaussian() * geo.length / 7 + geo.length / 2);
+			int c = (int) (ran.nextGaussian() * geo[0].length / 7 + geo[0].length / 2);
 
 			int wid = roomSize + ran.nextInt(roomVariance);
 			int len = roomSize + ran.nextInt(roomVariance);
@@ -125,11 +134,14 @@ public class MapGen {
 	public static int[][] pruneDeadArea(int[][] geo) {
 
 		for (int r = 0; r < geo.length; r++) {
+
 			for (int c = 0; c < geo[0].length; c++) {
+
 				if (geo[r][c] == 1) {
 					geo = addWall(geo, r, c);
 				}
 			}
+
 		}
 
 		return geo;
@@ -166,6 +178,17 @@ public class MapGen {
 					objects.add(w);
 				}
 			}
+		}
+		for (int r = -1; r <= geo.length; r++) {
+			Wall w1 = new Wall(r * wallSize, -1 * wallSize, wallSize, wallSize);
+			Wall w2 = new Wall(r * wallSize, geo.length * wallSize, wallSize, wallSize);
+			objects.add(w1);
+			objects.add(w2);
+		}for (int c = -1; c <= geo[0].length; c++) {
+			Wall w1 = new Wall(-1 * wallSize, c * wallSize, wallSize, wallSize);
+			Wall w2 = new Wall(geo.length * wallSize, c * wallSize, wallSize, wallSize);
+			objects.add(w1);
+			objects.add(w2);
 		}
 
 		Player p = new Player(player.x * wallSize, player.y * wallSize, 1);

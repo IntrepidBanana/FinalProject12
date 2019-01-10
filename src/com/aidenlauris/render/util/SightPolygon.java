@@ -28,6 +28,10 @@ public class SightPolygon {
 		
 	}
 	
+	public void addPath(Wall wall){
+		paths.addAll(wall.getShadow());
+	}
+	
 	public Graphics2D draw(Graphics2D g2d) {
 		g2d.setColor(Color.black);
 		for(Path2D p : paths) {
@@ -35,5 +39,9 @@ public class SightPolygon {
 			g2d.fill(p);
 		}
 		return g2d;
+	}
+
+	public void clear() {
+		paths.clear();
 	}
 }

@@ -82,6 +82,7 @@ public class PainterLoop extends JPanel {
 		try {
 			objects.sort(new DrawCompare());
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 			System.out.println("Comparison Error");
 		}
 		int sizeMishap = 0;
@@ -91,6 +92,7 @@ public class PainterLoop extends JPanel {
 		// gl.setColor(new Color(0, 0, 0, 50));
 		// gl.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
 		// gl.setComposite(AlphaComposite.DstOut);
+		WorldMap.sightPolygon.clear();
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
 			if (i >= objects.size()) {
 				return;
@@ -106,14 +108,17 @@ public class PainterLoop extends JPanel {
 				continue;
 			}
 			g2d = e.draw(g2d);
+			if(e instanceof Wall){
+				WorldMap.sightPolygon.addPath((Wall) e);
+			}
 			// if (e instanceof LightSource) {
 			// LightSource light = (LightSource) e;
 			// gl = light.renderLight(gl);
 			// }
 		}
-		if (Time.global() % 2 == 0) {
-			WorldMap.sightPolygon.findAllPaths();
-		}
+//		if (Time.global() % 2 == 0) {
+//			WorldMap.sightPolygon.findAllPaths();
+//		}
 		g2d = WorldMap.sightPolygon.draw(g2d);
 		// g2d.drawImage(lightMap, null, 0, 0);
 		Cursor c = WorldMap.getCursor();

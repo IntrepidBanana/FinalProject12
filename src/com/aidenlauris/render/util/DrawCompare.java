@@ -7,6 +7,11 @@ public class DrawCompare implements Comparator<GameObject> {
 
 	@Override
 	public int compare(GameObject a, GameObject b) {
+//		System.out.println(a +" " + b);
+		
+		System.out.println(a.z + "  " + a.y);
+		System.out.println(b.z + "  " + b.y);
+		System.out.println();
 		if(a.z == b.z) {
 			if( a.y > b.y) {
 				return 1;
@@ -16,7 +21,12 @@ public class DrawCompare implements Comparator<GameObject> {
 			}
 		}
 		else {
-			return a.z - b.z;
+			if( a.z > b.z) {
+				return 1;
+			}
+			else {
+				return -1;
+			}
 		}
 	}
 
