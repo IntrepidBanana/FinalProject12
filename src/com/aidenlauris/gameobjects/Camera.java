@@ -59,12 +59,12 @@ public class Camera extends Entity {
 		// return y - getRadius() + (mouseOffsetY / 20);
 	}
 
-	public float relX(float x) {
-		return x - camX();
+	public float relX(double d) {
+		return (float) (d - camX());
 	}
 
-	public float relY(float y) {
-		return y - camY();
+	public float relY(double y) {
+		return (float) (y - camY());
 	}
 
 	private void moveTo(float dx, float dy) {

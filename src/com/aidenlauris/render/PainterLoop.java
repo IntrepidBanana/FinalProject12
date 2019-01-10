@@ -1,4 +1,5 @@
 package com.aidenlauris.render;
+
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Composite;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.FontUIResource;
 
 import com.aidenlauris.game.IOHandler;
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.XY;
 import com.aidenlauris.gameobjects.Camera;
@@ -51,7 +53,7 @@ public class PainterLoop extends JPanel {
 
 	public PainterLoop(IOHandler io) {
 		WorldMap.init();
-		
+
 		this.io = io;
 		this.camera = new Camera();
 		WorldMap.setCamera(camera);
@@ -84,26 +86,11 @@ public class PainterLoop extends JPanel {
 		}
 		int sizeMishap = 0;
 
-		try {
-		for(XY xy : WorldMap.getMap().getChunkCoords()) {
-			
-			float  size = WorldMap.getMap().chunkSize();
-			float dx =PaintHelper.x(xy.x*size);
-			float dy =PaintHelper.y(xy.y*size);
-			
-			g2d.setColor(Color.green);
-			g2d.draw(new Rectangle2D.Float(dx, dy, size, size));
-			
-		}}
-		catch(ConcurrentModificationException e) {
-			System.out.println("YOURE TOO SPEEDY FOR THE FUCKING MACHINE TO RUN HOLY SHIT SLOW DOWN MAN");
-		}
-		
 		Composite oldComp = g2d.getComposite();
-//		Graphics2D gl = lightMap.createGraphics();
-//		gl.setColor(new Color(0, 0, 0, 50));
-//		gl.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
-//		gl.setComposite(AlphaComposite.DstOut);
+		// Graphics2D gl = lightMap.createGraphics();
+		// gl.setColor(new Color(0, 0, 0, 50));
+		// gl.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
+		// gl.setComposite(AlphaComposite.DstOut);
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
 			if (i >= objects.size()) {
 				return;
@@ -119,12 +106,16 @@ public class PainterLoop extends JPanel {
 				continue;
 			}
 			g2d = e.draw(g2d);
-//			if (e instanceof LightSource) {
-//				LightSource light = (LightSource) e;
-//				 gl = light.renderLight(gl);
-//			}
+			// if (e instanceof LightSource) {
+			// LightSource light = (LightSource) e;
+			// gl = light.renderLight(gl);
+			// }
 		}
-//		g2d.drawImage(lightMap, null, 0, 0);
+		if (Time.global() % 2 == 0) {
+			WorldMap.sightPolygon.findAllPaths();
+		}
+		g2d = WorldMap.sightPolygon.draw(g2d);
+		// g2d.drawImage(lightMap, null, 0, 0);
 		Cursor c = WorldMap.getCursor();
 		g2d = c.draw(g2d);
 

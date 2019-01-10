@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import com.Tile;
+import com.aidenlauris.game.util.MapGen;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
 import com.aidenlauris.gameobjects.InteractableBox;
@@ -17,6 +18,7 @@ import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.GameObject;
+import com.aidenlauris.render.util.SightPolygon;
 
 public class WorldMap {
 	public static final int FRAMERATE = 60;
@@ -37,6 +39,9 @@ public class WorldMap {
 	private static GameMap map = new GameMap(500);
 	static int collisionsChecked = 0;
 
+	public static SightPolygon sightPolygon = new SightPolygon();
+	
+	
 
 	public synchronized static void update() {
 
@@ -142,14 +147,20 @@ public class WorldMap {
 
 	public static void init() {
 
-		addGameObject(new Player(500, 500, 2f));
+		gameObjects = MapGen.genMap();
+		
+//		addGameObject(new Player(500, 500, 2f));
 		addGameObject(new Cursor());
-		addGameObject(new InteractableBox(700, 700));
+//		addGameObject(new InteractableBox(700, 700));
 
-		addGameObject(new Wall(0, 0, 1000 , 50));
-		addGameObject(new Wall(0, 1000, 1000 , 50));
-		addGameObject(new Wall(0, 0, 50 , 1000));
-		addGameObject(new Wall(1000, 0, 50 , 1000));
+//		addGameObject(new Wall(0, 0, 300 , 300));
+//		addGameObject(new Wall(300, 0, 300 , 300));
+//		addGameObject(new Wall(800, 0, 300 , 300));
+//		addGameObject(new Wall(1000, 1200, 300 , 300));
+//		addGameObject(new Wall(0, 800, 50 , 50));
+//		addGameObject(new Wall(0, 1000, 1000 , 50));
+//		addGameObject(new Wall(0, 0, 50 , 1000));
+//		addGameObject(new Wall(1000, 0, 50 , 1000));
 		// addEntity(new Enemy(400, 300, 100, 0, .2f));
 
 		// addEntity(new Enemy(200, 300, 100, 0, .2f));

@@ -142,8 +142,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			inventory.getItem().useItem();
 		}
 
-		if (idle) {
-
+		if (!idle) {
 		}
 
 	}

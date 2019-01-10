@@ -20,12 +20,12 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 public class PaintHelper {
 	public static Font font;
 
-	public static float x(float x) {
-		return WorldMap.getCamera().relX(x);
+	public static float x(double d) {
+		return WorldMap.getCamera().relX(d);
 	}
 
-	public static float y(float y) {
-		return WorldMap.getCamera().relY(y);
+	public static float y(double d) {
+		return WorldMap.getCamera().relY(d);
 	}
 
 	public static Graphics2D drawCollisionBox(Graphics2D g2d, CollisionBox box) {
