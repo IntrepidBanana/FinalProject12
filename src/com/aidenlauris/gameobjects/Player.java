@@ -83,7 +83,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_S)) {
-			dy += 1;
+			dy += 1;	
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_A)) {
