@@ -11,12 +11,14 @@ import com.Tile;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
 import com.aidenlauris.gameobjects.InteractableBox;
+import com.aidenlauris.gameobjects.ItemDrop;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.GameObject;
+import com.aidenlauris.items.Shotgun;
 
 public class WorldMap {
 	public static final int FRAMERATE = 60;
@@ -40,6 +42,7 @@ public class WorldMap {
 
 	public synchronized static void update() {
 
+		
 		Time.nextTick();
 		
 		Cursor c = getCursor();
@@ -143,6 +146,7 @@ public class WorldMap {
 	public static void init() {
 
 		addGameObject(new Player(500, 500, 2f));
+		addGameObject(new ItemDrop(550,550,new Shotgun()));
 		addGameObject(new Cursor());
 		addGameObject(new InteractableBox(700, 700));
 

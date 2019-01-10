@@ -35,9 +35,10 @@ public class Enemy extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if(myBox instanceof HurtBox){
+		if(myBox instanceof HurtBox && box.getOwner() instanceof Player){
 			((Entity)box.getOwner()).damage((HurtBox) myBox);
-			//Player.getPlayer().knockBack(3, Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			Player.getPlayer().knockBack(25, (float) (theta+Math.PI));
 			return;
 		}
 		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {

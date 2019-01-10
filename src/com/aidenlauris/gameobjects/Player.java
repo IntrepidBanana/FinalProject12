@@ -461,6 +461,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Color[] colors = { new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), Color.darkGray };
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
+		
+		
+		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
+		g2d.setColor(Color.RED);
+		g2d.fill(healthBar);
 
 		g2d.setPaint(radial);
 //		 g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);

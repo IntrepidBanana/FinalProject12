@@ -1,6 +1,8 @@
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -12,7 +14,7 @@ public class Giant extends Enemy {
 		super(x, y, 100, 10, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 100, 100, true));
-		addCollisionBox(new HurtBox(this, 105, 105, 10));
+		addCollisionBox(new HurtBox(this, 105, 105, 15));
 		
 	}
 	
@@ -40,6 +42,23 @@ public class Giant extends Enemy {
 				getForceSet().addForce(f);
 			}
 		}
+	}
+	
+	@Override
+	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
+		if(myBox instanceof HurtBox && box.getOwner() instanceof Player){
+			((Entity)box.getOwner()).damage((HurtBox) myBox);
+			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			Player.getPlayer().knockBack(50, (float) (theta+Math.PI));
+			return;
+		}
+		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
+			Entity owner = (Entity) box.getOwner();
+		}
+		if (box.isSolid) {
+			collide(box, myBox);
+		}
+
 	}
 
 }
