@@ -104,10 +104,10 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			Time.setDelta(Time.delta() - 0.1f);
 		}
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
-			for (int i = 0; i < Math.random()*10; i++) {
+			//for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new Gunman((float)Math.random()*900, (float)Math.random()*900));
-			}
+				WorldMap.addGameObject(new MachineGunner((float)Math.random()*900, (float)Math.random()*900));
+			//}
 		}
 		int mouseRotation = Mouse.getWheelRotation();
 		if (mouseRotation > 0) {
