@@ -1,4 +1,5 @@
 package com.aidenlauris.game;
+
 import java.awt.Color;
 import java.awt.SecondaryLoop;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import com.Tile;
 import com.aidenlauris.game.util.MapGen;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
+import com.aidenlauris.gameobjects.Enemy;
 import com.aidenlauris.gameobjects.InteractableBox;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
@@ -18,6 +20,8 @@ import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.GameObject;
+import com.aidenlauris.render.menu.MenuLayer;
+import com.aidenlauris.render.menu.MenuObject;
 import com.aidenlauris.render.util.SightPolygon;
 
 public class WorldMap {
@@ -28,6 +32,7 @@ public class WorldMap {
 	public static Camera camera;
 
 	static ArrayList<GameObject> gameObjects = new ArrayList<>();
+	static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
 	public static ArrayList<GameObject> objectsToDraw = new ArrayList<>();
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
 	static ArrayList<Entity> toRemove = new ArrayList<>();
@@ -38,15 +43,13 @@ public class WorldMap {
 	public static Player player;
 	private static GameMap map = new GameMap(500);
 	static int collisionsChecked = 0;
-
+	public static MenuLayer menuLayer = new MenuLayer();
 	public static SightPolygon sightPolygon = new SightPolygon();
-	
-	
 
 	public synchronized static void update() {
 
 		Time.nextTick();
-		
+
 		Cursor c = getCursor();
 		if (c != null) {
 			c.update();
@@ -93,6 +96,9 @@ public class WorldMap {
 	}
 
 	public synchronized static void addGameObject(GameObject e) {
+		if (!(e instanceof Wall)) {
+			nonStaticObjects.add(e);
+		}
 		gameObjects.add(e);
 		collisionBoxes.addAll(e.getCollisionBoxes());
 	}
@@ -108,6 +114,7 @@ public class WorldMap {
 			}
 			// System.out.println("removing: " + e);
 			gameObjects.remove(gameObject);
+			nonStaticObjects.remove(gameObject);
 		}
 	}
 
@@ -148,19 +155,23 @@ public class WorldMap {
 	public static void init() {
 
 		gameObjects = MapGen.genMap();
-		System.out.println(gameObjects);
-//		addGameObject(new Player(500, 500, 2f));
+		for(GameObject e : gameObjects) {
+			if(e instanceof Enemy) {
+				System.out.println(e);
+			}
+		}
+		// addGameObject(new Player(500, 500, 2f));
 		addGameObject(new Cursor());
-//		addGameObject(new InteractableBox(700, 700));
+		// addGameObject(new InteractableBox(700, 700));
 
-//		addGameObject(new Wall(0, 0, 300 , 300));
-//		addGameObject(new Wall(300, 0, 300 , 300));
-//		addGameObject(new Wall(800, 0, 300 , 300));
-//		addGameObject(new Wall(1000, 1200, 300 , 300));
-//		addGameObject(new Wall(0, 800, 50 , 50));
-//		addGameObject(new Wall(0, 1000, 1000 , 50));
-//		addGameObject(new Wall(0, 0, 50 , 1000));
-//		addGameObject(new Wall(1000, 0, 50 , 1000));
+		// addGameObject(new Wall(0, 0, 300 , 300));
+		// addGameObject(new Wall(300, 0, 300 , 300));
+		// addGameObject(new Wall(800, 0, 300 , 300));
+		// addGameObject(new Wall(1000, 1200, 300 , 300));
+		// addGameObject(new Wall(0, 800, 50 , 50));
+		// addGameObject(new Wall(0, 1000, 1000 , 50));
+		// addGameObject(new Wall(0, 0, 50 , 1000));
+		// addGameObject(new Wall(1000, 0, 50 , 1000));
 		// addEntity(new Enemy(400, 300, 100, 0, .2f));
 
 		// addEntity(new Enemy(200, 300, 100, 0, .2f));
@@ -211,5 +222,9 @@ public class WorldMap {
 
 	public static void setMap(GameMap map) {
 		WorldMap.map = map;
+	}
+
+	public static void addMenu(MenuObject m) {
+		menuLayer.add(m);
 	}
 }

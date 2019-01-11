@@ -6,6 +6,8 @@ import java.util.Random;
 
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
+import com.aidenlauris.gameobjects.FourShooter;
+import com.aidenlauris.gameobjects.Gunman;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
@@ -73,12 +75,13 @@ public class MapGen {
 		printMap(geo);
 
 		Iterator<XY> iter = roomLocations.iterator();
-
+		ArrayList<GameObject> objects = new ArrayList<>();
 		XY start = iter.next();
 		XY playerSpawn = start;
 		iter.remove();
 		while (iter.hasNext()) {
 			XY end = iter.next();
+			objects.addAll(genEnemy(geo, end, ran));
 			geo = pathToRoom(geo, start, end);
 			start = end;
 			iter.remove();
@@ -88,7 +91,7 @@ public class MapGen {
 		printMap(geo);
 		geo = pruneDeadArea(geo);
 		printMap(geo);
-		ArrayList<GameObject> objects = genObjects(geo, playerSpawn);
+		objects.addAll( genObjects(geo, playerSpawn));
 		return objects;
 
 	}
@@ -184,7 +187,8 @@ public class MapGen {
 			Wall w2 = new Wall(r * wallSize, geo.length * wallSize, wallSize, wallSize);
 			objects.add(w1);
 			objects.add(w2);
-		}for (int c = -1; c <= geo[0].length; c++) {
+		}
+		for (int c = -1; c <= geo[0].length; c++) {
 			Wall w1 = new Wall(-1 * wallSize, c * wallSize, wallSize, wallSize);
 			Wall w2 = new Wall(geo.length * wallSize, c * wallSize, wallSize, wallSize);
 			objects.add(w1);
@@ -198,4 +202,16 @@ public class MapGen {
 
 	}
 
+	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
+		ArrayList<GameObject> enemies = new ArrayList<>();
+		int numOfEnemies = ran.nextInt(3)+3;
+		for (int i = 0; i < numOfEnemies; i++) {
+			Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
+			FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
+
+			enemies.add(g);
+			enemies.add(f);
+		}
+		return enemies;
+	}
 }

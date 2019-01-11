@@ -41,7 +41,8 @@ public class Force {
 		dx = (float) ((float) (getMagnitude() * Math.cos(getTheta())) * Time.delta());
 		dy = (float) ((float) (getMagnitude() * Math.sin(getTheta())) * Time.delta());
 
-		if (magnitude < 0.02f * Time.delta() && Time.delta() > 0) {
+		System.out.println(magnitude);
+		if (magnitude < 0.01f) {
 			terminated = true;
 			dx = 0;
 			dy = 0;

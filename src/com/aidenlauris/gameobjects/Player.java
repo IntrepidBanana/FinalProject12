@@ -59,15 +59,17 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
-//		inventory.addItem(new Sword());
-//		inventory.addItem(new MachineGun());
-//		inventory.addItem(new Cannon());
-//		inventory.addItem(new Shotgun());
-//		inventory.addItem(new Pistol());
-		inventory.addItem(new Knife());
-//		inventory.addItem(new ShotgunAmmo(500));
-//		inventory.addItem(new BulletAmmo(500));
+		// inventory.addItem(new Sword());
+		// inventory.addItem(new MachineGun());
+		// inventory.addItem(new Cannon());
+		// inventory.addItem(new Shotgun());
+		inventory.addItem(new Pistol());
+		// inventory.addItem(new Knife());
+		// inventory.addItem(new ShotgunAmmo(500));
+		inventory.addItem(new BulletAmmo(500));
 
+		menu = inventory.getMenu(32);
+		WorldMap.addMenu(menu);
 	}
 
 	public void parseInput() {
@@ -104,9 +106,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			Time.setDelta(Time.delta() - 0.1f);
 		}
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
-			for (int i = 0; i < Math.random()*10; i++) {
-				
-				WorldMap.addGameObject(new Giant((float)Math.random()*900, (float)Math.random()*900));
+			for (int i = 0; i < Math.random() * 10; i++) {
+
+				WorldMap.addGameObject(new Giant((float) Math.random() * 900, (float) Math.random() * 900));
 			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();
@@ -462,10 +464,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Paint oldpaint = g2d.getPaint();
 
 		g2d.setPaint(radial);
-//		 g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
+		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
 		g2d.setPaint(oldpaint);
-
-		g2d = menu.draw(g2d);
 
 		return g2d;
 	}
