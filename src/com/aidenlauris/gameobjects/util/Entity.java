@@ -30,6 +30,7 @@ public abstract class Entity extends GameObject {
 		setMoveSpeed(moveSpeed);
 		this.health = health;
 		this.maxHealth = health;
+		System.out.println(health + " " + maxHealth);
 	}
 
 	public void collide(CollisionBox box, CollisionBox myBox) {

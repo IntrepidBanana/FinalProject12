@@ -31,6 +31,7 @@ import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
 import com.aidenlauris.items.Cannon;
 import com.aidenlauris.items.Gun;
+import com.aidenlauris.items.HealthPickup;
 import com.aidenlauris.items.Knife;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Pistol;
@@ -55,7 +56,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	private int effectType = 8;
 
 	public Player(float x, float y, float moveSpeed) {
-		super(x, y, moveSpeed, 100);
+		super(x, y, moveSpeed, 50);
+		maxHealth = 100;
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
@@ -170,6 +172,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	public void update() {
+		
 		parseInput();
 		tickUpdate();
 		menu = inventory.getMenu(32);
@@ -462,7 +465,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
 		
-		Shape barOutline = new Rectangle2D.Float(100, 100, 205, 30);
+		Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
 		g2d.setColor(Color.BLACK);
 		g2d.fill(barOutline);
 		

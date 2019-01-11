@@ -12,6 +12,7 @@ import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
 import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.ShotgunAmmo;
@@ -31,6 +32,7 @@ public class Enemy extends Entity {
 		this.health = health;
 		this.maxHealth = health;
 		setMoveSpeed(speed);
+		team = Team.ENEMY;
 	}
 
 	@Override
@@ -102,6 +104,7 @@ public class Enemy extends Entity {
 		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
 		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
+		HealthDropEntity.drop(x, y, 0.15, 1, 5);
 		
 		WorldMap.addGameObject(new Corpse(x, y, this));
 System.out.println(getForceSet().getNetMagnitude());

@@ -10,8 +10,10 @@ import java.util.Random;
 import com.Tile;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
+import com.aidenlauris.gameobjects.HealthDropEntity;
 import com.aidenlauris.gameobjects.InteractableBox;
 import com.aidenlauris.gameobjects.ItemDrop;
+import com.aidenlauris.gameobjects.ItemDropEntity;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.CollisionBox;
@@ -148,7 +150,7 @@ public class WorldMap {
 
 		addGameObject(new Player(500, 500, 2f));
 		addGameObject(new ItemDrop(550,550,new Shotgun()));
-		addGameObject(new ItemDrop(600,600,new HealthPickup(1)));
+		addGameObject(new HealthDropEntity(600,600));
 		addGameObject(new Cursor());
 		addGameObject(new InteractableBox(700, 700));
 

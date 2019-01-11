@@ -46,10 +46,10 @@ public class MachineGunner extends Enemy {
 		if (dist < 500 && Time.alertPassed(shootTime) && bullets < 4) {
 			attack();
 			bullets++;
-			shootTime = Time.alertPassed(10);
+			shootTime = Time.alert((long)10);
 		}else if(bullets > 3 && dist < 500 && Time.alertPassed(alert)) {
 			bullets = 0;
-			
+			alert = Time.alert((long) (30 + Math.random()*30));
 		}
 
 
@@ -65,6 +65,7 @@ public class MachineGunner extends Enemy {
 		b.setLifeSpan(180f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
+		this.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
 		b.init();

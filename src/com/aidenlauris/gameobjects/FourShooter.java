@@ -55,6 +55,7 @@ public class FourShooter extends Enemy {
 			b.setLifeSpan(60);
 			b.setGunOffset(50);
 			b.team = team.ENEMY;
+			this.team = team.ENEMY;
 			float theta = (float)Math.toRadians(i);
 			b.setTheta(theta);
 			b.init();
