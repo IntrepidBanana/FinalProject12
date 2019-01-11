@@ -43,16 +43,15 @@ public class MachineGunner extends Enemy {
 		move();
 		
 		
-		if (dist < 500 && Time.alertPassed(alert)) {
-			while(bullets < 4) {
-				if(dist < 500 && Time.alertPassed(shootTime)) {
+		if (dist < 500 && Time.alertPassed(shootTime) && bullets < 4) {
 			attack();
-			shootTime = Time.alert(10);
 			bullets++;
-				}
-			}
-			alert = Time.alert((long) (30 + Math.random()*30));
+			shootTime = Time.alertPassed(10);
+		}else if(bullets > 3 && dist < 500 && Time.alertPassed(alert)) {
+			bullets = 0;
+			
 		}
+
 
 	}
 	
