@@ -104,7 +104,7 @@ public class Enemy extends Entity {
 		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
 		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
-		HealthDropEntity.drop(x, y, 0.15, 1, 5);
+		HealthDropEntity.drop(x, y, 0.15, 1, 3);
 		
 		WorldMap.addGameObject(new Corpse(x, y, this));
 System.out.println(getForceSet().getNetMagnitude());

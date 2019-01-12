@@ -47,9 +47,9 @@ public class MachineGunner extends Enemy {
 			attack();
 			bullets++;
 			shootTime = Time.alert((long)10);
-		}else if(bullets > 3 && dist < 500 && Time.alertPassed(alert)) {
+		}else if(bullets > 3 && dist < 500 && Time.alertPassed(shootTime)) {
 			bullets = 0;
-			alert = Time.alert((long) (30 + Math.random()*30));
+			shootTime = Time.alert((long) (30 + Math.random()*30));
 		}
 
 
@@ -57,13 +57,14 @@ public class MachineGunner extends Enemy {
 	
 	
 	public void attack(){
-		Bullet b = new Bullet(1f);
+		Bullet b = new Bullet(5);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(6);
 		b.setLifeSpan(180f);
 		b.setGunOffset(50);
+		b.setKnockback(0);
 		b.team = team.ENEMY;
 		this.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);

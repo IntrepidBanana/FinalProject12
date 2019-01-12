@@ -56,7 +56,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	private int effectType = 8;
 
 	public Player(float x, float y, float moveSpeed) {
-		super(x, y, moveSpeed, 50);
+		super(x, y, moveSpeed, 100);
 		maxHealth = 100;
 		z = 1;
 		team = Team.PLAYER;
@@ -106,10 +106,10 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			Time.setDelta(Time.delta() - 0.1f);
 		}
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
-			//for (int i = 0; i < Math.random()*10; i++) {
+			for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new MachineGunner((float)Math.random()*900, (float)Math.random()*900));
-			//}
+				WorldMap.addGameObject(new PoisonWalker((float)Math.random()*900, (float)Math.random()*900));
+			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();
 		if (mouseRotation > 0) {

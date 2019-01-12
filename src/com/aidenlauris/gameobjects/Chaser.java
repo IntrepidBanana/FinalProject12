@@ -2,6 +2,11 @@ package com.aidenlauris.gameobjects;
 
 import java.util.Random;
 
+import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.ExplosiveAmmo;
+import com.aidenlauris.items.ShotgunAmmo;
+
 public class Chaser extends Enemy {
 
 	public Chaser(float x, float y) {
@@ -26,6 +31,17 @@ public class Chaser extends Enemy {
 			float theta = (float)Math.toRadians(i);
 			b.setTheta(theta);
 			b.init();
+			
+			
+			ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
+			ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
+			ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
+			HealthDropEntity.drop(x, y, 0.15, 1, 3);
+			
+			WorldMap.addGameObject(new Corpse(x, y, this));
+	System.out.println(getForceSet().getNetMagnitude());
+			removeSelf();
+			
 		}
 	}else if (death == 2) {
 		for (int i = 45; i < 405; i += 90) {

@@ -46,7 +46,7 @@ public class FourShooter extends Enemy {
 	}
 	
 	public void attack(){
-		for (int i = 0; i < 450; i += 90) {
+		for (int i = 0; i < 360; i += 90) {
 			Bullet b = new Bullet(2);
 			b.x = this.x;
 			b.y = this.y;

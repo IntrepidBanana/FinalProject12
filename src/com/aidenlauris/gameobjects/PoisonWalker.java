@@ -24,7 +24,7 @@ public class PoisonWalker extends Enemy {
 			if (getForceSet().getForce("PoisonMove") == null){
 			addForce(f);
 			}
-			
+			WorldMap.addGameObject(new Poison(this.x, this.y));
 	}
 	
 	
@@ -42,25 +42,12 @@ public class PoisonWalker extends Enemy {
 		
 		
 		if (dist < 500 && Time.alertPassed(alert)) {
-			attack();
+			//WorldMap.addGameObject(new Poison(this.x, this.y));
 			alert = Time.alert((long)(5));
 		}
 
 	}
 	
-	public void attack(){
-		PoisonCreep b = new PoisonCreep(1f);
-		b.x = this.x;
-		b.y = this.y;
-		Player p = Player.getPlayer();
-		b.setMoveSpeed(0.0000001f);
-		b.setLifeSpan(180f);
-		b.setGunOffset(0);
-		b.team = team.ENEMY;
-		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
-		b.setTheta(theta);
-		b.init();
-		
-	}
+
 	
 }
