@@ -31,6 +31,7 @@ import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
 import com.aidenlauris.items.Cannon;
 import com.aidenlauris.items.Gun;
+import com.aidenlauris.items.HealthPickup;
 import com.aidenlauris.items.Knife;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Pistol;
@@ -56,6 +57,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 100);
+		maxHealth = 100;
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
@@ -67,6 +69,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		// inventory.addItem(new Knife());
 		// inventory.addItem(new ShotgunAmmo(500));
 		inventory.addItem(new BulletAmmo(500));
+		inventory.addItem(new Knife());
+		
 
 		menu = inventory.getMenu(32);
 		WorldMap.addMenu(menu);
@@ -85,7 +89,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_S)) {
-			dy += 1;
+			dy += 1;	
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_A)) {
@@ -171,6 +175,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	public void update() {
+		
 		parseInput();
 		tickUpdate();
 		menu = inventory.getMenu(32);
@@ -462,6 +467,15 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Color[] colors = { new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), Color.darkGray };
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
+		
+		Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
+		g2d.setColor(Color.BLACK);
+		g2d.fill(barOutline);
+		
+		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
+		g2d.setColor(Color.RED);
+		g2d.fill(healthBar);
+		
 
 		g2d.setPaint(radial);
 		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);

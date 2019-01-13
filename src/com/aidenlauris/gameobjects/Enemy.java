@@ -12,7 +12,9 @@ import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.EnergyCell;
 import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
@@ -31,13 +33,15 @@ public class Enemy extends Entity {
 		this.health = health;
 		this.maxHealth = health;
 		setMoveSpeed(speed);
+		team = Team.ENEMY;
 	}
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if(myBox instanceof HurtBox){
+		if(myBox instanceof HurtBox && box.getOwner() instanceof Player){
 			((Entity)box.getOwner()).damage((HurtBox) myBox);
-			//Player.getPlayer().knockBack(3, Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
+			Player.getPlayer().knockBack(25, (float) (theta+Math.PI));
 			return;
 		}
 		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
@@ -99,9 +103,10 @@ public class Enemy extends Entity {
 	public void kill() {
 
 		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
-		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
+		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.15, 2, 3);
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
-		
+		ItemDropEntity.drop(x, y, new EnergyCell(1), 0.05, 1, 2);
+		HealthDropEntity.drop(x, y, 0.15, 1, 3);
 		WorldMap.addGameObject(new Corpse(x, y, this));
 System.out.println(getForceSet().getNetMagnitude());
 		removeSelf();

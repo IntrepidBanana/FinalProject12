@@ -3,15 +3,18 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
-import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.items.Pistol;
+import com.aidenlauris.items.Shotgun;
+import com.aidenlauris.items.Weapon;
 
-public class Gunman extends Enemy {
+public class Shotgunner extends Enemy {
+	private Weapon weapon;
 
-	public Gunman(float x, float y) {
+	public Shotgunner(float x, float y) {
 		super(x, y, 50, 10, 3);
+		this.weapon = new Shotgun();
 	}
-	
+
 	@Override
 	public void move() {
 		float dist = (float) Math
@@ -19,10 +22,10 @@ public class Gunman extends Enemy {
 
 		  
 			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random()*360));
-			f.setId("GunMove");
+			f.setId("Shotgun");
 			f.setLifeSpan(60);
 			f.setReduction(0f);
-			if (getForceSet().getForce("GunMove") == null){
+			if (getForceSet().getForce("Shotgun") == null){
 			addForce(f);
 			}
 			
@@ -43,25 +46,30 @@ public class Gunman extends Enemy {
 		
 		if (dist < 500 && Time.alertPassed(alert)) {
 			attack();
-			alert = Time.alert((long) (30 + Math.random()*30));
+			alert = Time.alert((long) (60 + Math.random()*30));
 		}
 
 	}
 	
 	
 	public void attack(){
+		//weapon.useItem();
+		for (int i = 0; i < 9; i++) {
+			
+		
 		Bullet b = new Bullet(1f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(6);
-		b.setLifeSpan(180f);
+		b.setMoveSpeed(10);
+		b.setReduction(0.01f);
+		b.setLifeSpan(30f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
-		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
+		float theta = (float) Math.atan2(p.y - this.y - 45 + Math.random()*90, p.x - this.x - 45 + Math.random()*90);
 		b.setTheta(theta);
 		b.init();
-		
+		}
 	}
 	
 	@Override
@@ -73,5 +81,5 @@ public class Gunman extends Enemy {
 		}
 		super.kill();
 	}
-
+	
 }

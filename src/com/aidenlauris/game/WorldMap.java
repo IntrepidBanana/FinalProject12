@@ -13,7 +13,10 @@ import com.aidenlauris.game.util.MapGen;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
 import com.aidenlauris.gameobjects.Enemy;
+import com.aidenlauris.gameobjects.HealthDropEntity;
 import com.aidenlauris.gameobjects.InteractableBox;
+import com.aidenlauris.gameobjects.ItemDrop;
+import com.aidenlauris.gameobjects.ItemDropEntity;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.CollisionBox;
@@ -23,6 +26,9 @@ import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.menu.MenuLayer;
 import com.aidenlauris.render.menu.MenuObject;
 import com.aidenlauris.render.util.SightPolygon;
+import com.aidenlauris.items.HealthPickup;
+import com.aidenlauris.items.LaserGun;
+import com.aidenlauris.items.Shotgun;
 
 public class WorldMap {
 	public static final int FRAMERATE = 60;
@@ -48,6 +54,7 @@ public class WorldMap {
 
 	public synchronized static void update() {
 
+		
 		Time.nextTick();
 
 		Cursor c = getCursor();
@@ -160,21 +167,6 @@ public class WorldMap {
 				System.out.println(e);
 			}
 		}
-		// addGameObject(new Player(500, 500, 2f));
-		addGameObject(new Cursor());
-		// addGameObject(new InteractableBox(700, 700));
-
-		// addGameObject(new Wall(0, 0, 300 , 300));
-		// addGameObject(new Wall(300, 0, 300 , 300));
-		// addGameObject(new Wall(800, 0, 300 , 300));
-		// addGameObject(new Wall(1000, 1200, 300 , 300));
-		// addGameObject(new Wall(0, 800, 50 , 50));
-		// addGameObject(new Wall(0, 1000, 1000 , 50));
-		// addGameObject(new Wall(0, 0, 50 , 1000));
-		// addGameObject(new Wall(1000, 0, 50 , 1000));
-		// addEntity(new Enemy(400, 300, 100, 0, .2f));
-
-		// addEntity(new Enemy(200, 300, 100, 0, .2f));
 
 	}
 
