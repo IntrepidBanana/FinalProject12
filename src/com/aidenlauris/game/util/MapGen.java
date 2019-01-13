@@ -204,7 +204,7 @@ public class MapGen {
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(3)+3;
+		int numOfEnemies = ran.nextInt(1)+3;
 		for (int i = 0; i < numOfEnemies; i++) {
 			Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
 			FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
