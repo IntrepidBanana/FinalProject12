@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.EnergyCell;
 import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.ShotgunAmmo;
 
@@ -34,8 +35,9 @@ public class Chaser extends Enemy {
 			
 			
 			ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
-			ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
+			ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.15, 2, 3);
 			ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
+			ItemDropEntity.drop(x, y, new EnergyCell(1), 0.05, 1, 2);
 			HealthDropEntity.drop(x, y, 0.15, 1, 3);
 			
 			WorldMap.addGameObject(new Corpse(x, y, this));

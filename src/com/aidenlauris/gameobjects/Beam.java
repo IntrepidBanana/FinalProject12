@@ -16,7 +16,7 @@ public class Beam extends Projectile {
 		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
-		health = 100;
+		health = Integer.MAX_VALUE;
 	}
 
 	public Beam(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
@@ -36,9 +36,9 @@ public class Beam extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-		int trail = 1000;
+		int trail = 500;
 
-		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 3f);
+		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 6);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();

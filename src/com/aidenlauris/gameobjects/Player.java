@@ -61,14 +61,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
-//		inventory.addItem(new Sword());
-//		inventory.addItem(new MachineGun());
-//		inventory.addItem(new Cannon());
-//		inventory.addItem(new Shotgun());
-//		inventory.addItem(new Pistol());
+
 		inventory.addItem(new Knife());
-//		inventory.addItem(new ShotgunAmmo(500));
-//		inventory.addItem(new BulletAmmo(500));
+		
 
 	}
 
@@ -108,7 +103,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		if (Keys.isKeyPressed(KeyEvent.VK_Z)) {
 			for (int i = 0; i < Math.random()*10; i++) {
 				
-				WorldMap.addGameObject(new PoisonWalker((float)Math.random()*900, (float)Math.random()*900));
+				WorldMap.addGameObject(new Slug((float)Math.random()*900, (float)Math.random()*900));
 			}
 		}
 		int mouseRotation = Mouse.getWheelRotation();

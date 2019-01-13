@@ -14,6 +14,7 @@ import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.EnergyCell;
 import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
@@ -102,10 +103,10 @@ public class Enemy extends Entity {
 	public void kill() {
 
 		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
-		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.05, 2, 3);
+		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.15, 2, 3);
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
+		ItemDropEntity.drop(x, y, new EnergyCell(1), 0.05, 1, 2);
 		HealthDropEntity.drop(x, y, 0.15, 1, 3);
-		
 		WorldMap.addGameObject(new Corpse(x, y, this));
 System.out.println(getForceSet().getNetMagnitude());
 		removeSelf();

@@ -21,6 +21,7 @@ import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.items.HealthPickup;
+import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.Shotgun;
 
 public class WorldMap {
@@ -149,8 +150,7 @@ public class WorldMap {
 	public static void init() {
 
 		addGameObject(new Player(500, 500, 2f));
-		addGameObject(new ItemDrop(550,550,new Shotgun()));
-		addGameObject(new HealthDropEntity(600,600));
+		addGameObject(new ItemDrop(550,550,new LaserGun()));
 		addGameObject(new Cursor());
 		addGameObject(new InteractableBox(700, 700));
 
