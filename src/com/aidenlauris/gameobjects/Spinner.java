@@ -50,6 +50,7 @@ public void attack(){
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(0.2f);
 		b.setGunOffset(50);
+		b.health = Integer.MAX_VALUE;
 		b.team = team.ENEMY;
 		float theta = (float)Math.toRadians(i);
 		b.setTheta(theta);

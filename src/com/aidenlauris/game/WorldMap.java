@@ -167,7 +167,7 @@ public class WorldMap {
 				System.out.println(e);
 			}
 		}
-
+		addGameObject(new Cursor());
 	}
 
 	public static void sleep() {
