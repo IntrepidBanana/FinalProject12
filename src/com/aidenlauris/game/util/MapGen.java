@@ -6,9 +6,17 @@ import java.util.Random;
 
 import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
+import com.aidenlauris.gameobjects.BeamShooter;
+import com.aidenlauris.gameobjects.Chaser;
 import com.aidenlauris.gameobjects.FourShooter;
+import com.aidenlauris.gameobjects.Giant;
 import com.aidenlauris.gameobjects.Gunman;
+import com.aidenlauris.gameobjects.MachineGunner;
 import com.aidenlauris.gameobjects.Player;
+import com.aidenlauris.gameobjects.PoisonWalker;
+import com.aidenlauris.gameobjects.Shotgunner;
+import com.aidenlauris.gameobjects.Slug;
+import com.aidenlauris.gameobjects.Spinner;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
 
@@ -91,7 +99,7 @@ public class MapGen {
 		printMap(geo);
 		geo = pruneDeadArea(geo);
 		printMap(geo);
-		objects.addAll( genObjects(geo, playerSpawn));
+		objects.addAll(genObjects(geo, playerSpawn));
 		return objects;
 
 	}
@@ -204,13 +212,48 @@ public class MapGen {
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(1)+3;
+		int numOfEnemies = ran.nextInt(1) + 2;
 		for (int i = 0; i < numOfEnemies; i++) {
-			Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
-			FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(300) - 150, rc.y * wallSize + ran.nextInt(300) - 150);
+			int choice = ran.nextInt(10);
 
-			enemies.add(g);
-			enemies.add(f);
+			if (choice == 0) {
+				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(g);
+			} else if (choice == 1) {
+				FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(f);
+			} else if (choice == 2) {
+				Chaser c = new Chaser(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(c);
+			} else if (choice == 3) {
+				Giant g2 = new Giant(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(g2);
+			} else if (choice == 4) {
+				MachineGunner m = new MachineGunner(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(m);
+			} else if (choice == 5) {
+				Shotgunner s = new Shotgunner(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(s);
+			} else if (choice == 6) {
+				Spinner s2 = new Spinner(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(s2);
+			} else if (choice == 7) {
+				Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(s3);
+			} else if (choice == 8) {
+				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(p);
+			}
+
 		}
 		return enemies;
 	}

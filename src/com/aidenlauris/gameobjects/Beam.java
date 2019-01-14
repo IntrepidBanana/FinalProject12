@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.render.PaintHelper;
 
@@ -33,10 +34,12 @@ public class Beam extends Projectile {
 	
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
+		float dist = (float) Math
+				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-		int trail = 500;
+		float trail = dist;
 
 		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 6);
 

@@ -23,7 +23,6 @@ public class LaserGun extends Gun {
 
 	public LaserGun(double weight, int stackSize, int damage, int atkSpeed) {
 		super(weight, stackSize, damage, atkSpeed);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

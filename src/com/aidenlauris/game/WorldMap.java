@@ -168,7 +168,6 @@ public class WorldMap {
 			}
 		}
 		addGameObject(new Cursor());
-
 	}
 
 	public static void sleep() {

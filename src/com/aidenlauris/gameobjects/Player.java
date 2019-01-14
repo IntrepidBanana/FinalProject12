@@ -33,6 +33,7 @@ import com.aidenlauris.items.Cannon;
 import com.aidenlauris.items.Gun;
 import com.aidenlauris.items.HealthPickup;
 import com.aidenlauris.items.Knife;
+import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
@@ -44,6 +45,7 @@ import com.aidenlauris.render.menu.Menu;
 import com.aidenlauris.render.menu.MenuItemLabel;
 import com.aidenlauris.render.util.LightSource;
 import com.aidenlauris.render.util.SightPolygon;
+import com.aidenlauris.items.EnergyCell;
 
 public class Player extends Entity implements LightSource, ItemContainer {
 
@@ -69,9 +71,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		// inventory.addItem(new Cannon());
 		// inventory.addItem(new Shotgun());
 		inventory.addItem(new Pistol());
+		inventory.addItem(new LaserGun());
 		// inventory.addItem(new Knife());
 		// inventory.addItem(new ShotgunAmmo(500));
 		inventory.addItem(new BulletAmmo(500));
+		inventory.addItem(new EnergyCell(10));
 		inventory.addItem(new Knife());
 		
 		WorldMap.addMenu(healthBar);

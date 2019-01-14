@@ -1,9 +1,11 @@
 package com.aidenlauris.render.util;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,6 +39,7 @@ public class SightPolygon {
 		for(Path2D p : paths) {
 			
 			g2d.fill(p);
+			
 		}
 		return g2d;
 	}
