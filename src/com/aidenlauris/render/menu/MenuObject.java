@@ -7,11 +7,12 @@ public abstract class MenuObject {
 	public float length = 0;
 	public float width = 0;
 
-	public float xPadding = 0;
-	public float yPadding = 0;
+	public MenuLayer parent = null;
 	public String id = "";
 	
 	
 	public abstract Graphics2D draw(Graphics2D g2d);
+	
+	
 	
 }

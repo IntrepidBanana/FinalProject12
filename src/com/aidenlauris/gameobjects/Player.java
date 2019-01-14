@@ -39,6 +39,7 @@ import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.items.Sword;
 import com.aidenlauris.render.PaintHelper;
+import com.aidenlauris.render.menu.HealthBar;
 import com.aidenlauris.render.menu.Menu;
 import com.aidenlauris.render.menu.MenuItemLabel;
 import com.aidenlauris.render.util.LightSource;
@@ -54,7 +55,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	int selectedItem = 0;
 	ArrayList<Interactable> interactables = new ArrayList<>();
 	private int effectType = 8;
-
+	private HealthBar healthBar = new HealthBar();
+	
+	
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 100);
 		maxHealth = 100;
@@ -71,9 +74,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		inventory.addItem(new BulletAmmo(500));
 		inventory.addItem(new Knife());
 		
-
+		WorldMap.addMenu(healthBar);
 		menu = inventory.getMenu(32);
-		WorldMap.addMenu(menu);
+//		WorldMap.addMenu(menu);
 	}
 
 	public void parseInput() {
@@ -178,7 +181,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		
 		parseInput();
 		tickUpdate();
-		menu = inventory.getMenu(32);
+		healthBar.update(this);
+//		menu = inventory.getMenu(32);
 		if (time % 1 == 0) {
 
 			int options = 10;

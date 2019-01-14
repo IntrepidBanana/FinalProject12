@@ -9,6 +9,7 @@ public class MenuLayer {
 	public void add(MenuObject e) {
 		if (!components.contains(e)) {
 			components.add(e);
+			e.parent = this;
 		}
 		System.out.println(components.size());
 	}

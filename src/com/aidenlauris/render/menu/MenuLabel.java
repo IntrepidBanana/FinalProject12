@@ -16,6 +16,7 @@ public class MenuLabel extends MenuObject {
 	@Override
 	public
 	Graphics2D draw(Graphics2D g2d) {
+		System.out.println(g2d);
 		g2d.setColor(color);
 		g2d.setFont(PaintHelper.font);
 		g2d.drawString(getLabel(), x, y);
