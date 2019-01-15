@@ -3,6 +3,8 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.items.MachineGun;
+import com.aidenlauris.items.Shotgun;
 
 public class MachineGunner extends Enemy {
 	
@@ -72,6 +74,16 @@ public class MachineGunner extends Enemy {
 		b.init();
 			
 		
+	}
+	
+	@Override
+	public void kill() {
+		
+		double chance = Math.random()*100;
+		if (chance < 15) {
+			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new MachineGun()));
+		}
+		super.kill();
 	}
 
 }

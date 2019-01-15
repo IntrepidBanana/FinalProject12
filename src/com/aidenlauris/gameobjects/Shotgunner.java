@@ -8,11 +8,9 @@ import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.Weapon;
 
 public class Shotgunner extends Enemy {
-	private Weapon weapon;
 
 	public Shotgunner(float x, float y) {
 		super(x, y, 50, 10, 3);
-		this.weapon = new Shotgun();
 	}
 
 	@Override
@@ -77,7 +75,7 @@ public class Shotgunner extends Enemy {
 		
 		double chance = Math.random()*100;
 		if (chance < 15) {
-			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new Pistol()));
+			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new Shotgun()));
 		}
 		super.kill();
 	}

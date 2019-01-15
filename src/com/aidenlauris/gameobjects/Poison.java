@@ -20,7 +20,7 @@ public class Poison extends Entity {
 	public Poison(float x, float y) {
 		super(x, y);
 		getCollisionBoxes().clear();
-		addCollisionBox(new HitBox(this, 25, 25, false));
+//		addCollisionBox(new HitBox(this, 25, 25, false));
 		addCollisionBox(new HurtBox(this, 30, 30, 0.000004f));
 	}
 
@@ -29,7 +29,7 @@ public class Poison extends Entity {
 	public void collisionOccured(CollisionBox theirBox, CollisionBox myBox) {
 		
 		if(theirBox.getOwner() instanceof Player && Time.alertPassed(damageTimer)) {
-			((Entity)theirBox.getOwner()).damage((HurtBox) myBox);
+			((Entity)theirBox.getOwner()).damage((HurtBox)myBox);
 			damageTimer = Time.alert(20);
 			
 		}

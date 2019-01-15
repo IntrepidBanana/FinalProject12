@@ -25,6 +25,7 @@ public class PoisonWalker extends Enemy {
 			addForce(f);
 			}
 			WorldMap.addGameObject(new Poison(this.x, this.y));
+			
 	}
 	
 	

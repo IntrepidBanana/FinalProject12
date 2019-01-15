@@ -71,11 +71,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		// inventory.addItem(new Cannon());
 		// inventory.addItem(new Shotgun());
 		inventory.addItem(new Pistol());
-		inventory.addItem(new LaserGun());
+		//inventory.addItem(new LaserGun());
 		// inventory.addItem(new Knife());
 		// inventory.addItem(new ShotgunAmmo(500));
 		inventory.addItem(new BulletAmmo(500));
-		inventory.addItem(new EnergyCell(10));
+		//inventory.addItem(new EnergyCell(10));
 		inventory.addItem(new Knife());
 		
 		WorldMap.addMenu(healthBar);
@@ -476,13 +476,13 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
 		
-		Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
-		g2d.setColor(Color.BLACK);
-		g2d.fill(barOutline);
-		
-		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
-		g2d.setColor(Color.RED);
-		g2d.fill(healthBar);
+//		Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
+//		g2d.setColor(Color.BLACK);
+//		g2d.fill(barOutline);
+//		
+//		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
+//		g2d.setColor(Color.RED);
+//		g2d.fill(healthBar);
 		
 
 		g2d.setPaint(radial);

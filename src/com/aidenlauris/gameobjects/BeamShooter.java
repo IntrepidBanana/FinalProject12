@@ -3,6 +3,8 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.items.LaserGun;
+import com.aidenlauris.items.Shotgun;
 
 public class BeamShooter extends Enemy {
 
@@ -59,6 +61,16 @@ public class BeamShooter extends Enemy {
 		b.setTheta(theta);
 		b.init();
 		
+	}
+	
+	@Override
+	public void kill() {
+		
+		double chance = Math.random()*100;
+		if (chance < 15) {
+			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new LaserGun()));
+		}
+		super.kill();
 	}
 
 }

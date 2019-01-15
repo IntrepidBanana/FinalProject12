@@ -10,7 +10,7 @@ public class Pistol extends MachineGun{
 		setAuto(true);
 		setAtkSpeed(15);
 		setQuickRelease(3);
-		setDamage(80);
+		setDamage(20);
 		setLength(10);
 		setAccuracy(1);
 	}

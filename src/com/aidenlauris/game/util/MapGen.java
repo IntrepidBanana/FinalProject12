@@ -215,6 +215,7 @@ public class MapGen {
 		int numOfEnemies = ran.nextInt(1) + 2;
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(10);
+			//int choice = 5;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150,
@@ -252,6 +253,10 @@ public class MapGen {
 				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(300) - 150,
 						rc.y * wallSize + ran.nextInt(300) - 150);
 				enemies.add(p);
+			} else if (choice == 9) {
+				BeamShooter b = new BeamShooter(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(b);
 			}
 
 		}

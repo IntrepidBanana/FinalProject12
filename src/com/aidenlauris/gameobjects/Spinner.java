@@ -8,8 +8,8 @@ import com.aidenlauris.gameobjects.util.ForceAnchor;
 public class Spinner extends Enemy {
 
 	public Spinner(float x, float y) {
-		super(x, y, 25, 20, 2);	
-attack();
+		super(x, y, 50, 20, 2);	
+		//attack();
 }
 
 public void move() {
@@ -31,6 +31,12 @@ public void update() {
 
 	float dist = (float) Math
 			.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+	
+	if(Time.alertPassed(alert)) {
+	attack();
+	alert = Time.alert(3600);
+	}
+	
 	time++;
 	if (isStunned()) {
 		return;
@@ -51,6 +57,7 @@ public void attack(){
 		b.setMoveSpeed(0.2f);
 		b.setGunOffset(50);
 		b.health = Integer.MAX_VALUE;
+		b.setLifeSpan(Integer.MAX_VALUE);
 		b.team = team.ENEMY;
 		float theta = (float)Math.toRadians(i);
 		b.setTheta(theta);
