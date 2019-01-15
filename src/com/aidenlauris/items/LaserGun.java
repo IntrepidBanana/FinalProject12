@@ -1,6 +1,7 @@
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Beam;
+import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Projectile;
 
 public class LaserGun extends Gun {
@@ -28,7 +29,7 @@ public class LaserGun extends Gun {
 	@Override
 	public Projectile bulletType() {
 		
-		Beam b = new Beam(getDamage());
+		Beam b = new Beam(getDamage(), Player.getPlayer().x, Player.getPlayer().y);
 		b.setMoveSpeed(100);
 		b.setReduction(0);
 		return b;

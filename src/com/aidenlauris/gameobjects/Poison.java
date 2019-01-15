@@ -22,6 +22,7 @@ public class Poison extends Entity {
 		getCollisionBoxes().clear();
 //		addCollisionBox(new HitBox(this, 25, 25, false));
 		addCollisionBox(new HurtBox(this, 30, 30, 0.000004f));
+		this.z = -1;
 	}
 
 

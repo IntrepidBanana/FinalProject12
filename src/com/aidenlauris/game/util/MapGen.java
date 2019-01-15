@@ -17,6 +17,7 @@ import com.aidenlauris.gameobjects.PoisonWalker;
 import com.aidenlauris.gameobjects.Shotgunner;
 import com.aidenlauris.gameobjects.Slug;
 import com.aidenlauris.gameobjects.Spinner;
+import com.aidenlauris.gameobjects.SuperSlug;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
 
@@ -55,7 +56,7 @@ public class MapGen {
 
 		long seed = 1;
 
-		// Random ran = new Random(seed);
+//		 Random ran = new Random(seed);
 		Random ran = new Random();
 		// plotting the rooms
 		int rooms = 10;
@@ -212,10 +213,10 @@ public class MapGen {
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(1) + 2;
+		int numOfEnemies = ran.nextInt(1) + 1;
 		for (int i = 0; i < numOfEnemies; i++) {
-			int choice = ran.nextInt(10);
-			//int choice = 5;
+			int choice = ran.nextInt(11);
+//			int choice = 10;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150,
@@ -246,9 +247,11 @@ public class MapGen {
 						rc.y * wallSize + ran.nextInt(300) - 150);
 				enemies.add(s2);
 			} else if (choice == 7) {
+				for (int j = 0; j < Math.random()*3 + 3; j++){
 				Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(300) - 150,
 						rc.y * wallSize + ran.nextInt(300) - 150);
 				enemies.add(s3);
+		}
 			} else if (choice == 8) {
 				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(300) - 150,
 						rc.y * wallSize + ran.nextInt(300) - 150);
@@ -257,6 +260,10 @@ public class MapGen {
 				BeamShooter b = new BeamShooter(rc.x * wallSize + ran.nextInt(300) - 150,
 						rc.y * wallSize + ran.nextInt(300) - 150);
 				enemies.add(b);
+			} else if (choice == 10) {
+				SuperSlug s4 = new SuperSlug(rc.x * wallSize + ran.nextInt(300) - 150,
+						rc.y * wallSize + ran.nextInt(300) - 150);
+				enemies.add(s4);
 			}
 
 		}

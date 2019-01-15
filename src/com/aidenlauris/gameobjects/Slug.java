@@ -9,8 +9,8 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Slug extends Enemy {
 
-	public Slug(float f, float g) {
-		super(f, g, 50, 5, 0.5f);
+	public Slug(float x, float y) {
+		super(x, y, 20, 5, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 15, 15, true));
 		addCollisionBox(new HurtBox(this, 20, 20, 5));

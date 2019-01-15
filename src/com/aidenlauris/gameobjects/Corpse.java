@@ -16,7 +16,7 @@ public class Corpse extends Entity {
 	Corpse(float x, float y, Entity e) {
 		super(x, y);
 		for (CollisionBox c : e.getCollisionBoxes()) {
-			CollisionBox box = new HitBox(this, c.x, c.y, c.len, c.wid, true);
+			CollisionBox box = new HitBox(this, c.x, c.y, c.len, c.wid, false);
 			addCollisionBox(box);
 		}
 //		forces = e.forces;

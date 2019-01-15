@@ -49,7 +49,7 @@ public class BeamShooter extends Enemy {
 	}
 	
 	public void attack(){
-		Beam b = new Beam(3);
+		Beam b = new Beam(3, this.x, this.y);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();

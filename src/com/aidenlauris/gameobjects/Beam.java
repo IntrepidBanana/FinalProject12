@@ -12,12 +12,18 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Beam extends Projectile {
 
-	public Beam(float damage) {
+	private float startX;
+	private float startY;
+	
+	public Beam(float damage, float x, float y) {
 		setKnockback(0);
 		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = Integer.MAX_VALUE;
+		this.startX = x;
+		this.startY = y;
+		
 	}
 
 	public Beam(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
@@ -35,7 +41,7 @@ public class Beam extends Projectile {
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(startX - x, 2) + Math.pow(startY - y, 2));
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
