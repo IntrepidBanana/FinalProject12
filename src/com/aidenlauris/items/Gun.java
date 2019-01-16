@@ -1,6 +1,17 @@
 package com.aidenlauris.items;
 
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import com.aidenlauris.game.IOHandler;
 import com.aidenlauris.game.Time;
@@ -13,6 +24,7 @@ import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.Inventory;
+import com.aidenlauris.render.SoundHelper;
 
 public abstract class Gun extends Weapon {
 
@@ -233,6 +245,9 @@ public abstract class Gun extends Weapon {
 	@Override
 	public void useItem() {
 		fire();
+		
+		  
+		
 	}
 
 	public String getAmmoType() {

@@ -9,6 +9,7 @@ import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
+import com.aidenlauris.render.SoundHelper;
 
 public abstract class Projectile extends Entity {
 
@@ -18,6 +19,7 @@ public abstract class Projectile extends Entity {
 	private float damage = 1;
 	private float reduction = 0;
 	private float knockback = 1;
+	private String spawnSound = "beam.wav";
 
 	public Projectile() {
 		super(0, 0);
@@ -86,6 +88,7 @@ public abstract class Projectile extends Entity {
 		getForceSet().addForce(f);
 		
 		WorldMap.addGameObject(this);
+		SoundHelper.makeSound(getSpawnSound());
 	}
 
 	private void lifeSpanTick() {
@@ -137,6 +140,14 @@ public abstract class Projectile extends Entity {
 
 	public void setKnockback(float knockback) {
 		this.knockback = knockback;
+	}
+
+	public String getSpawnSound() {
+		return spawnSound;
+	}
+
+	public void setSpawnSound(String spawnSound) {
+		this.spawnSound = spawnSound;
 	}
 
 }
