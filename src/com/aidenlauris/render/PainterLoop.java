@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Composite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.LayoutManager;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.PointerInfo;
@@ -30,6 +31,7 @@ import javax.swing.plaf.FontUIResource;
 import com.aidenlauris.game.IOHandler;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.util.GameState;
 import com.aidenlauris.game.util.XY;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
@@ -50,7 +52,9 @@ public class PainterLoop extends JPanel {
 	long startTime;
 	private BufferedImage lightMap;
 	public long fpsTimer;
-
+	public GameState gameState = new GameState();
+	
+	
 	public PainterLoop(IOHandler io) {
 		WorldMap.init();
 
@@ -74,24 +78,22 @@ public class PainterLoop extends JPanel {
 	protected synchronized void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-		long start = System.currentTimeMillis();
 		Graphics2D g2d = (Graphics2D) g;
+		g2d = playState(g2d);
+	}
+	
+	
+	public Graphics2D playState(Graphics2D g2d) {
 		g2d.drawString("FPS: " + fpsTimer, 16, 16);
 
 		ArrayList<GameObject> objects = WorldMap.objectsToDraw;
-		// try {
-		// objects.sort(new DrawCompare());
-		// } catch (IllegalArgumentException e) {
-		// e.printStackTrace();
-		// System.out.println("Comparison Error");
-		// }
 
 		
 		WorldMap.sightPolygon.clear();
 		int sizeMishap = 0;
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
 			if (i >= objects.size()) {
-				return;
+				break;
 			}
 			GameObject e = objects.get(i);
 			if (e == null) {
@@ -110,13 +112,15 @@ public class PainterLoop extends JPanel {
 		}
 		g2d = WorldMap.sightPolygon.draw(g2d);
 		g2d = WorldMap.menuLayer.draw(g2d);
-		// g2d.drawImage(lightMap, null, 0, 0);
 		Cursor c = WorldMap.getCursor();
 		g2d = c.draw(g2d);
 
 		long end = System.currentTimeMillis();
-		int updateTime = (int) (end - start);
-
+		
+		return g2d;
 	}
+
+	
+	
 
 }

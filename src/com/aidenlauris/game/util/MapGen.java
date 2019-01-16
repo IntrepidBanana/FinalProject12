@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-import javax.swing.plaf.basic.BasicBorders.RadioButtonBorder;
 
 import com.aidenlauris.gameobjects.BeamShooter;
 import com.aidenlauris.gameobjects.Chaser;

@@ -18,6 +18,7 @@ import com.aidenlauris.gameobjects.InteractableBox;
 import com.aidenlauris.gameobjects.ItemDrop;
 import com.aidenlauris.gameobjects.ItemDropEntity;
 import com.aidenlauris.gameobjects.Player;
+import com.aidenlauris.gameobjects.Portal;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.CollisionHelper;
@@ -36,7 +37,9 @@ public class WorldMap {
 	public static int camx = 1260;
 	public static int camy = 960;
 	public static Camera camera;
-
+	
+	
+	public static int globalDifficulty = 1;
 	static ArrayList<GameObject> gameObjects = new ArrayList<>();
 	static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
 	public static ArrayList<GameObject> objectsToDraw = new ArrayList<>();
@@ -51,7 +54,10 @@ public class WorldMap {
 	static int collisionsChecked = 0;
 	public static MenuLayer menuLayer = new MenuLayer();
 	public static SightPolygon sightPolygon = new SightPolygon();
-
+	public static ArrayList<Enemy> enemies = new ArrayList<>();
+	private static Enemy lastEnemy;
+	private static boolean endOfLevel = false;
+	
 	public synchronized static void update() {
 
 		
@@ -87,9 +93,24 @@ public class WorldMap {
 			checkChunkCollisions(chunk);
 			chunkCount++;
 		}
+		
+		if(enemies.size() == 1){
+			lastEnemy = enemies.get(0);
+		}
+		
+		if(enemies.size() == 0 && !endOfLevel){
+			System.out.println(lastEnemy);
+			addGameObject(new Portal(lastEnemy));
+			endOfLevel = true;
+		}
+		
+		
 		objectsToDraw = (ArrayList<GameObject>) getMap().getUniqueObjects().clone();
 		getMap().clearUnique();
 		getMap().clear();
+		
+		
+		
 		if ((Time.global() % (1 * FRAMERATE)) == -1) {
 			System.out.println("# of game Objects       : " + gameObjects.size());
 			System.out.println("# of box cooliders      : " + collisionBoxes.size());
@@ -99,6 +120,8 @@ public class WorldMap {
 			System.out.println();
 			collisionsChecked = 0;
 		}
+		
+		
 
 	}
 
@@ -122,6 +145,7 @@ public class WorldMap {
 			// System.out.println("removing: " + e);
 			gameObjects.remove(gameObject);
 			nonStaticObjects.remove(gameObject);
+			enemies.remove(gameObject);
 		}
 	}
 
@@ -164,6 +188,7 @@ public class WorldMap {
 		gameObjects = MapGen.genMap();
 		for(GameObject e : gameObjects) {
 			if(e instanceof Enemy) {
+				enemies.add( (Enemy) e);
 				System.out.println(e);
 			}
 		}
