@@ -514,7 +514,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	public static Player getPlayer() {
-		return WorldMap.getPlayer();
+		if(WorldMap.getPlayer() != null){
+		return WorldMap.getPlayer();}
+		else{
+			return new Player(0,0,2f);
+		}
 	}
 
 	public void addInteractable(Interactable e) {
