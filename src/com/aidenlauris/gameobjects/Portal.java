@@ -19,8 +19,8 @@ public class Portal extends GameObject {
 
 		addCollisionBox(new HitBox(this, 30, 30, false));
 		ForceAnchor fa = new ForceAnchor(10f, Player.getPlayer(), this, -1);
+		fa.setId("portal");
 		Player.getPlayer().getForceSet().addForce(fa, 30);
-
 		x = lastEnemy.x;
 		y = lastEnemy.y;
 
@@ -29,10 +29,11 @@ public class Portal extends GameObject {
 	@Override
 	public void update() {
 		if (distToPlayer() < 30) {
-			if (Time.alertPassed(alert ) && timeHasStarted) {
+			if (Time.alertPassed(alert) && timeHasStarted) {
 				startGeneration();
+				Player.getPlayer().getForceSet().removeForce("portal");
 			}
-			if (!timeHasStarted ) {
+			if (!timeHasStarted) {
 				alert = Time.alert(90);
 				timeHasStarted = true;
 			}

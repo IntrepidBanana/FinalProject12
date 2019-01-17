@@ -185,7 +185,7 @@ public class WorldMap {
 
 	public static void init() {
 		lastEnemy = null;
-		endOfLevel = false;
+		endOfLevel = false; 
 		gameObjects.clear();
 		nonStaticObjects.clear();
 		objectsToDraw.clear();
