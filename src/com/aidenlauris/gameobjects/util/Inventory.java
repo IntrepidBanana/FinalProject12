@@ -12,7 +12,7 @@ import com.aidenlauris.render.menu.MenuPointer;
 
 public class Inventory {
 
-	ArrayList<Item> items = new ArrayList<>();
+	public ArrayList<Item> items = new ArrayList<>();
 	int selectedItem = 0;
 	String inventoryTitle = "Contents";
 	GameObject pointer = null;

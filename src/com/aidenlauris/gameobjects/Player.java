@@ -77,7 +77,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		//inventory.addItem(new LaserGun());
 		// inventory.addItem(new Knife());
 		// inventory.addItem(new ShotgunAmmo(500));
-		inventory.addItem(new BulletAmmo(500));
+		inventory.addItem(new BulletAmmo(50));
 		//inventory.addItem(new EnergyCell(10));
 		inventory.addItem(new Knife());
 		

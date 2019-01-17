@@ -14,7 +14,7 @@ public class Slug extends Enemy {
 		super(x, y, 20, 5, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 15, 15, true));
-		addCollisionBox(new HurtBox(this, 20, 20, 5));
+		addCollisionBox(new HurtBox(this, 20, 20, 10));
 	}
 	
 	

@@ -28,7 +28,7 @@ public class Enemy extends Entity {
 		super(x, y, 1, 1);
 
 		addCollisionBox(new HitBox(this, 25, 25, true));
-		addCollisionBox(new HurtBox(this, 30, 30, 10));
+		addCollisionBox(new HurtBox(this, 30, 30, 20));
 
 		this.health = health;
 		this.maxHealth = health;
@@ -102,11 +102,11 @@ public class Enemy extends Entity {
 	@Override
 	public void kill() {
 
-		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.2, 4, 10);
-		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.15, 2, 3);
+		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.25, 10, 15);
+		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.2, 5, 8);
 		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
 		ItemDropEntity.drop(x, y, new EnergyCell(1), 0.05, 1, 2);
-		HealthDropEntity.drop(x, y, 0.15, 1, 3);
+		HealthDropEntity.drop(x, y, 0.15, 1, 1);
 		WorldMap.addGameObject(new Corpse(x, y, this));
 System.out.println(getForceSet().getNetMagnitude());
 		removeSelf();

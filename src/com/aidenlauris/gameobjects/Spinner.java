@@ -4,6 +4,7 @@ import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
+import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Spinner extends Enemy {
 
@@ -54,6 +55,10 @@ public void attack(){
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
+		b.getCollisionBoxes().clear();
+		HurtBox hb = new HurtBox(this, 12, 12, b.getDamage());
+		hb.addHint(Wall.class);
+		b.addCollisionBox(hb);
 		b.setMoveSpeed(0.2f);
 		b.setGunOffset(50);
 		b.health = Integer.MAX_VALUE;

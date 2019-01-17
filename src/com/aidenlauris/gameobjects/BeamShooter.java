@@ -49,11 +49,11 @@ public class BeamShooter extends Enemy {
 	}
 	
 	public void attack(){
-		Beam b = new Beam(3, this.x, this.y);
+		Beam b = new Beam(10, this.x, this.y);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
-		b.setMoveSpeed(100);
+		b.setMoveSpeed(80);
 		b.setLifeSpan(60);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;

@@ -57,7 +57,7 @@ public abstract class Projectile extends Entity {
 				health--;
 			}
 			if (box.getOwner() instanceof Wall) {
-				this.health -= 50;
+				this.kill();
 			}
 		}
 		highSpeedAccess = false;

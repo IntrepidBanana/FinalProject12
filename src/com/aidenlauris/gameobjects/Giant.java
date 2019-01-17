@@ -14,7 +14,7 @@ public class Giant extends Enemy {
 		super(x, y, 100, 10, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 100, 100, true));
-		addCollisionBox(new HurtBox(this, 105, 105, 15));
+		addCollisionBox(new HurtBox(this, 105, 105, 30));
 		
 	}
 	

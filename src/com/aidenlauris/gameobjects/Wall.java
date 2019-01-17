@@ -187,8 +187,8 @@ public class Wall extends Entity {
 		float drawX = PaintHelper.x(getVertex(0).getX());
 		float drawY = PaintHelper.y(getVertex(0).getY());
 		Shape s = new Rectangle2D.Float(drawX, drawY, wid, len);
-		g2d.setColor(Color.DARK_GRAY);
-		g2d.draw(s);
+		g2d.setColor(Color.LIGHT_GRAY);
+		g2d.fill(s);
 
 		return g2d;
 	}

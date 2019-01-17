@@ -14,7 +14,7 @@ public class SuperSlug extends Slug {
 		
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 35, 35, true));
-		addCollisionBox(new HurtBox(this, 40, 40, 5));
+		addCollisionBox(new HurtBox(this, 40, 40, 20));
 	}
 	
 	@Override

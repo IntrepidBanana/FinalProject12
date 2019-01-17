@@ -27,6 +27,8 @@ public class HealthBar extends MenuObject {
 		x = 64;
 		y = 32;
 
+		Player p = Player.getPlayer();
+		
 		int wPad = 8;
 		int hPad = 8;
 
@@ -52,6 +54,8 @@ public class HealthBar extends MenuObject {
 		g2d.setColor(Color.WHITE);
 		g2d.setFont(PaintHelper.font);
 		g2d.drawString(health + " / " + (int) maxHealth, x + wPad + 4, y + h / 2 + 7);
+		
+		g2d.drawString(p.getInventory().items.toString(), 72, 86);
 
 		return g2d;
 	}
