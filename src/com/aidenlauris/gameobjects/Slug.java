@@ -6,6 +6,7 @@ import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.render.SoundHelper;
 
 public class Slug extends Enemy {
 
@@ -32,6 +33,13 @@ public class Slug extends Enemy {
 			collide(box, myBox);
 		}
 
+	}
+	
+	@Override
+	public void kill() {
+		
+		SoundHelper.makeSound("slug.wav");
+		super.kill();
 	}
 	
 	

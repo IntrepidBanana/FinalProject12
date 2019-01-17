@@ -12,6 +12,7 @@ public class MeleeSwing extends Projectile {
 		HurtBox box = new HurtBox(this, 6,6, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
+		setSpawnSound("sword.wav");
 	}
 	
 	@Override

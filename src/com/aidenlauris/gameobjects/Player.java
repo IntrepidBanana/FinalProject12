@@ -24,6 +24,7 @@ import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
+import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
 import com.aidenlauris.gameobjects.util.ItemContainer;
@@ -40,6 +41,7 @@ import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.items.Sword;
 import com.aidenlauris.render.PaintHelper;
+import com.aidenlauris.render.SoundHelper;
 import com.aidenlauris.render.menu.HealthBar;
 import com.aidenlauris.render.menu.Menu;
 import com.aidenlauris.render.menu.MenuItemLabel;
@@ -71,11 +73,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		// inventory.addItem(new Cannon());
 		// inventory.addItem(new Shotgun());
 		inventory.addItem(new Pistol());
-//		inventory.addItem(new LaserGun());
+		//inventory.addItem(new LaserGun());
 		// inventory.addItem(new Knife());
 		// inventory.addItem(new ShotgunAmmo(500));
 		inventory.addItem(new BulletAmmo(500));
-//		inventory.addItem(new EnergyCell(10));
+		//inventory.addItem(new EnergyCell(10));
 		inventory.addItem(new Knife());
 		
 		WorldMap.addMenu(healthBar);
@@ -517,6 +519,32 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	public void removeInteractable(Interactable e) {
 		interactables.remove(e);
+	}
+	
+	public void damage(HurtBox box) {
+		if (invincibility <= 0) {
+			health -= (box.damage);
+			int num = (int)(Math.random()*8) + 1;
+			String choice = "" + num;
+			SoundHelper.makeSound("pain" + choice + ".wav");
+		}
+
+	}
+
+	public void damage(int damage) {
+		if (invincibility <= 0) {
+			health -= (damage);
+			int num = (int)(Math.random()*8) + 1;
+			String choice = "" + num;
+			SoundHelper.makeSound("pain" + choice + ".wav");
+		}
+
+	}
+	
+	@Override
+	public void kill() {
+		SoundHelper.makeSound("death.wav");
+		super.kill();
 	}
 
 }

@@ -23,6 +23,7 @@ public class ShotgunShell extends Projectile {
 		addCollisionBox(box);
 		setKnockback(5f);
 		health = 10;
+		setSpawnSound("shotgun.wav");
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.render.SoundHelper;
 
 public class SuperSlug extends Slug {
 
@@ -20,6 +21,7 @@ public class SuperSlug extends Slug {
 	public void kill() {
 		
 		super.kill();
+		SoundHelper.makeSound("slug.wav");
 		for (int i = 0; i < 4; i++){
 		WorldMap.addGameObject(new Slug(this.x, this.y));
 		}

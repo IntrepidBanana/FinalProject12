@@ -51,17 +51,16 @@ public class Shotgunner extends Enemy {
 	
 	
 	public void attack(){
-		//weapon.useItem();
 		for (int i = 0; i < 9; i++) {
 			
 		
-		Bullet b = new Bullet(1f);
+		ShotgunShell b = new ShotgunShell(5f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(10);
 		b.setReduction(0.01f);
-		b.setLifeSpan(30f);
+		b.setLifeSpan(60f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y - 45 + Math.random()*90, p.x - this.x - 45 + Math.random()*90);

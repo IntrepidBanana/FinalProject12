@@ -19,7 +19,7 @@ public abstract class Projectile extends Entity {
 	private float damage = 1;
 	private float reduction = 0;
 	private float knockback = 1;
-	private String spawnSound = "beam.wav";
+	private String spawnSound = "pew.wav";
 
 	public Projectile() {
 		super(0, 0);
@@ -57,7 +57,7 @@ public abstract class Projectile extends Entity {
 				health--;
 			}
 			if (box.getOwner() instanceof Wall) {
-				kill();
+				this.health -= 50;
 			}
 		}
 		highSpeedAccess = false;
@@ -88,7 +88,9 @@ public abstract class Projectile extends Entity {
 		getForceSet().addForce(f);
 		
 		WorldMap.addGameObject(this);
+		if (distToPlayer() < 600) {
 		SoundHelper.makeSound(getSpawnSound());
+		}
 	}
 
 	private void lifeSpanTick() {

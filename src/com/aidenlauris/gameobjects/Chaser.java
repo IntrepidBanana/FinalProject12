@@ -3,10 +3,13 @@ package com.aidenlauris.gameobjects;
 import java.util.Random;
 
 import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.items.BulletAmmo;
 import com.aidenlauris.items.EnergyCell;
 import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.ShotgunAmmo;
+import com.aidenlauris.render.SoundHelper;
 
 public class Chaser extends Enemy {
 
@@ -63,5 +66,30 @@ public class Chaser extends Enemy {
 		
 		removeSelf();
 	}
+	
+	public void move() {
+		float dist = (float) Math
+				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+		if (dist < 400) {
+			ForceAnchor f = new ForceAnchor(3f, this, Player.getPlayer(), -1);
+			
+			f.setId("PlayerFollow");
+			f.hasVariableSpeed(false);
+			if (getForceSet().getForce("PlayerFollow") == null) {
+				getForceSet().removeForce("Random");
+				getForceSet().addForce(f);
+			}
+		} else {
+			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
+			f.setId("Random");
+			f.setLifeSpan(60);
+			f.setReduction(0f);
+			if (getForceSet().getForce("Random") == null) {
+				getForceSet().removeForce("PlayerFollow");
+				getForceSet().addForce(f);
+			}
+		}
+	}
+	
 	
 }

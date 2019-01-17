@@ -17,6 +17,7 @@ public class SoundHelper {
 	public static void makeSound(String name) {
 		// open the sound file as a Java input stream
 		File pew = new File(".\\Assets\\"+ name);
+		//File pew = new File(".\\Assets\\pew.wav");
 		try {
 			AudioInputStream stream = AudioSystem.getAudioInputStream(pew);
 			DataLine.Info info = new DataLine.Info(Clip.class, stream.getFormat());

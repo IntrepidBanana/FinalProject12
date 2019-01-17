@@ -50,7 +50,7 @@ public class Gunman extends Enemy {
 	
 	
 	public void attack(){
-		Bullet b = new Bullet(1f);
+		Bullet b = new Bullet(5f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();

@@ -1,6 +1,7 @@
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Bullet;
+import com.aidenlauris.gameobjects.MachineBullet;
 import com.aidenlauris.gameobjects.Projectile;
 
 public class MachineGun extends Gun {
@@ -16,8 +17,8 @@ public class MachineGun extends Gun {
 
 	@Override
 	public Projectile bulletType() {
-		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(90f);
+		MachineBullet b = new MachineBullet(getDamage());
+		b.setMoveSpeed(60f);
 		return b;
 	}
 
