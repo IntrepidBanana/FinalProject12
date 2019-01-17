@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-
 import com.aidenlauris.gameobjects.BeamShooter;
 import com.aidenlauris.gameobjects.Chaser;
 import com.aidenlauris.gameobjects.FourShooter;
@@ -48,14 +47,14 @@ public class MapGen {
 
 	}
 
-	public static ArrayList<GameObject> genMap() {
+	public static ArrayList<GameObject> genMap(Player p) {
 		int[][] geo = new int[30][30];
 
 		// a single wall is going to be something like 200 blocks
 
 		long seed = 1;
 
-//		 Random ran = new Random(seed);
+		// Random ran = new Random(seed);
 		Random ran = new Random();
 		// plotting the rooms
 		int rooms = 10;
@@ -99,7 +98,7 @@ public class MapGen {
 		printMap(geo);
 		geo = pruneDeadArea(geo);
 		printMap(geo);
-		objects.addAll(genObjects(geo, playerSpawn));
+		objects.addAll(genObjects(geo, playerSpawn, p));
 		return objects;
 
 	}
@@ -178,7 +177,7 @@ public class MapGen {
 		return geo;
 	}
 
-	private static ArrayList<GameObject> genObjects(int[][] geo, XY player) {
+	private static ArrayList<GameObject> genObjects(int[][] geo, XY player,Player p) {
 
 		ArrayList<GameObject> objects = new ArrayList<>();
 
@@ -202,8 +201,8 @@ public class MapGen {
 			objects.add(w1);
 			objects.add(w2);
 		}
-
-		Player p = new Player(player.x * wallSize, player.y * wallSize, 1);
+		p.x = player.x * wallSize;
+		p.y = player.y * wallSize;
 		objects.add(p);
 
 		return objects;
@@ -215,7 +214,7 @@ public class MapGen {
 		int numOfEnemies = ran.nextInt(1) + 1;
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
-			//int choice = 2;
+			// int choice = 2;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150,
@@ -246,11 +245,11 @@ public class MapGen {
 						rc.y * wallSize + ran.nextInt(300) - 150);
 				enemies.add(s2);
 			} else if (choice == 7) {
-				for (int j = 0; j < Math.random()*3 + 3; j++){
-				Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(300) - 150,
-						rc.y * wallSize + ran.nextInt(300) - 150);
-				enemies.add(s3);
-		}
+				for (int j = 0; j < Math.random() * 3 + 3; j++) {
+					Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(300) - 150,
+							rc.y * wallSize + ran.nextInt(300) - 150);
+					enemies.add(s3);
+				}
 			} else if (choice == 8) {
 				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(300) - 150,
 						rc.y * wallSize + ran.nextInt(300) - 150);

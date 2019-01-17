@@ -184,8 +184,12 @@ public class WorldMap {
 	}
 
 	public static void init() {
-
-		gameObjects = MapGen.genMap();
+		lastEnemy = null;
+		endOfLevel = false;
+		gameObjects.clear();
+		nonStaticObjects.clear();
+		objectsToDraw.clear();
+		gameObjects = MapGen.genMap(Player.getPlayer());
 		for(GameObject e : gameObjects) {
 			if(e instanceof Enemy) {
 				enemies.add( (Enemy) e);
