@@ -50,7 +50,8 @@ import com.aidenlauris.render.util.SightPolygon;
 import com.aidenlauris.items.EnergyCell;
 
 public class Player extends Entity implements LightSource, ItemContainer {
-
+	
+	protected long alert = Time.alert(10);
 	int score = 0;
 	boolean idle = true;
 	Inventory inventory = new Inventory();
@@ -184,6 +185,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	public void update() {
+		
+		if (Time.alertPassed(alert)) {
+			SoundHelper.makeSound("music.wav");
+			alert = Time.alert(720);
+		}
 		
 		parseInput();
 		tickUpdate();

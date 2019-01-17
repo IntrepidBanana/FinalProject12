@@ -17,7 +17,7 @@ public class Corpse extends Entity {
 		super(x, y);
 		for (CollisionBox c : e.getCollisionBoxes()) {
 			CollisionBox box = new HitBox(this, c.x, c.y, c.len, c.wid, false);
-			addCollisionBox(box);
+			//addCollisionBox(box);
 		}
 //		forces = e.forces;
 		Force f = new Force(e.getForceSet().getNetMagnitude(), e.getForceSet().getNetTheta());

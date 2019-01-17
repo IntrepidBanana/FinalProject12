@@ -214,8 +214,8 @@ public class MapGen {
 		ArrayList<GameObject> enemies = new ArrayList<>();
 		int numOfEnemies = ran.nextInt(1) + 1;
 		for (int i = 0; i < numOfEnemies; i++) {
-//			int choice = ran.nextInt(11);
-			int choice = 2;
+			int choice = ran.nextInt(11);
+			//int choice = 2;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(300) - 150,

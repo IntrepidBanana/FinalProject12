@@ -4,6 +4,7 @@ import java.util.Queue;
 
 import com.aidenlauris.render.PainterLoop;
 import com.aidenlauris.render.Screen;
+import com.aidenlauris.render.SoundHelper;
 
 public class GameLoop implements Runnable {
 	private Thread t;
