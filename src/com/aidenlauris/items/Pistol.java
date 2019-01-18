@@ -13,6 +13,9 @@ public class Pistol extends MachineGun{
 		setDamage(20);
 		setLength(10);
 		setAccuracy(1);
+		
+		setSpawnSound("pew.wav");
+
 	}
 	
 	@Override

@@ -19,6 +19,9 @@ public class LaserGun extends Gun {
 		setBulletCount(1);
 		setAmmoPerUse(1);
 		
+		setSpawnSound("beam.wav");
+
+		
 		setAmmoType(new EnergyCell().item());
 	}
 

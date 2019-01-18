@@ -3,6 +3,7 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.render.SoundHelper;
 
 public class FourShooter extends Enemy {
 
@@ -60,6 +61,7 @@ public class FourShooter extends Enemy {
 			b.setTheta(theta);
 			b.init();
 		}
+		SoundHelper.makeSound("pew.wav");
 
 		
 	}

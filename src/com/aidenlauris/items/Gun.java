@@ -38,6 +38,7 @@ public abstract class Gun extends Weapon {
 	private float bulletCount = 1;
 	private float spread = 0;
 	private String ammoType = "";
+	private String spawnSound = "pew.wav";
 
 	private int ammoPerUse = 1;
 
@@ -79,6 +80,7 @@ public abstract class Gun extends Weapon {
 	public void fire() {
 		if (canFire()) {
 
+			SoundHelper.makeSound(getSpawnSound());
 			Player player = WorldMap.getPlayer();
 			float theta = Mouse.theta(player.x, player.y);
 
@@ -256,5 +258,13 @@ public abstract class Gun extends Weapon {
 
 	public void setAmmoType(String ammoType) {
 		this.ammoType = ammoType;
+	}
+
+	public String getSpawnSound() {
+		return spawnSound;
+	}
+
+	public void setSpawnSound(String spawnSound) {
+		this.spawnSound = spawnSound;
 	}
 }

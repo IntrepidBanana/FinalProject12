@@ -12,6 +12,9 @@ public class Cannon extends Gun {
 		setAccuracy(0);
 		setAuto(true);
 		setDamage(120);
+		
+		setSpawnSound("cannon.wav");
+
 //		setAmmoType(new ExplosiveAmmo().item());
 	}
 

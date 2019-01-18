@@ -19,7 +19,7 @@ public class CannonShell extends Projectile{
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		setKnockback(10f);
-		setSpawnSound("cannon.wav");
+//		setSpawnSound("cannon.wav");
 	}
 
 	

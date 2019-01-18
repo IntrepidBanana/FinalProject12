@@ -13,6 +13,8 @@ public class MachineGun extends Gun {
 		setAccuracy(3);
 		setDamage(70);
 		setAmmoType(new BulletAmmo().item());
+		
+		setSpawnSound("machine.wav");
 	}
 
 	@Override

@@ -47,6 +47,8 @@ public class Chaser extends Enemy {
 	System.out.println(getForceSet().getNetMagnitude());
 			removeSelf();
 			
+			SoundHelper.makeSound("pew.wav");
+			
 		}
 	}else if (death == 2) {
 		for (int i = 45; i < 405; i += 90) {

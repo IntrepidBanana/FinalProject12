@@ -21,6 +21,8 @@ public class Shotgun extends Gun {
 		
 		setAmmoType(new ShotgunAmmo().item());
 		
+		setSpawnSound("shotgun.wav");
+		
 		
 		// TODO Auto-generated constructor stub
 	}

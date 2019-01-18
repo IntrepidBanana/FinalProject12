@@ -5,6 +5,7 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.Shotgun;
+import com.aidenlauris.render.SoundHelper;
 
 public class BeamShooter extends Enemy {
 
@@ -60,6 +61,8 @@ public class BeamShooter extends Enemy {
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
 		b.init();
+		
+		SoundHelper.makeSound("beam.wav");
 		
 	}
 	
