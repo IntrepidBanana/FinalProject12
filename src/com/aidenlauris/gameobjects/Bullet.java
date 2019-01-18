@@ -38,7 +38,7 @@ public class Bullet extends Projectile {
 //		int trail = (int) (24 * time + 48);
 		int trail = 20;
 
-		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 3f);
+		Shape s = new Rectangle2D.Float(drawX, drawY - 2f, trail, 4f);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
@@ -49,7 +49,7 @@ public class Bullet extends Projectile {
 			g2d.fill(s);
 		}
 		g2d.setTransform(old);
-		g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
+//		g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
 		return g2d;
 	}
 }

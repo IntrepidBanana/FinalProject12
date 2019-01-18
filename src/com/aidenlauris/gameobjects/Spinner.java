@@ -49,7 +49,7 @@ public void update() {
 public void attack(){
 	for (int i = 0; i < 450; i += 90) {
 		Bullet b = new Bullet(1f);
-		ForceAnchor f = new ForceAnchor(100f, b, this, -1f);
+		ForceAnchor f = new ForceAnchor(5f, b, this, -1f);
 		f.setOffset(50);
 		b.getForceSet().addForce(f);
 		b.x = this.x;

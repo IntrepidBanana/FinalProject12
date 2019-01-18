@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.BeamShooter;
 import com.aidenlauris.gameobjects.Chaser;
 import com.aidenlauris.gameobjects.FourShooter;
@@ -211,7 +212,7 @@ public class MapGen {
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(1) + 1;
+		int numOfEnemies = ran.nextInt(WorldMap.globalDifficulty) + WorldMap.globalDifficulty;
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
 			// int choice = 2;
