@@ -14,6 +14,8 @@ public class Knife extends Gun {
 		setBulletCount(1);
 		setDamage(40);
 		setAmmoPerUse(0);
+		
+		setSpawnSound("sword.wav");
 	}
 
 	@Override

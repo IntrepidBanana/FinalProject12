@@ -23,7 +23,7 @@ public class MachineBullet extends Projectile {
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = 1;
-		setSpawnSound("machine.wav");
+		//setSpawnSound("machine.wav");
 	}
 
 	@Override

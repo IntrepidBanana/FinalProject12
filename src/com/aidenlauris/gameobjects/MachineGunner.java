@@ -5,6 +5,7 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Shotgun;
+import com.aidenlauris.render.SoundHelper;
 
 public class MachineGunner extends Enemy {
 	
@@ -48,10 +49,10 @@ public class MachineGunner extends Enemy {
 		if (dist < 500 && Time.alertPassed(shootTime) && bullets < 4) {
 			attack();
 			bullets++;
-			shootTime = Time.alert((long)10);
+			shootTime = Time.alert((long)7);
 		}else if(bullets > 3 && dist < 500 && Time.alertPassed(shootTime)) {
 			bullets = 0;
-			shootTime = Time.alert((long) (30 + Math.random()*30));
+			shootTime = Time.alert((long) (150 + Math.random()*30));
 		}
 
 
@@ -73,6 +74,7 @@ public class MachineGunner extends Enemy {
 		b.setTheta(theta);
 		b.init();
 			
+		SoundHelper.makeSound("machine.wav");
 		
 	}
 	

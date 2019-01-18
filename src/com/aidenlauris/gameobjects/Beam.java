@@ -23,7 +23,7 @@ public class Beam extends Projectile {
 		health = Integer.MAX_VALUE;
 		this.startX = x;
 		this.startY = y;
-		setSpawnSound("beam.wav");
+		//setSpawnSound("beam.wav");
 		
 	}
 

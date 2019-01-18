@@ -6,6 +6,7 @@ import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.Weapon;
+import com.aidenlauris.render.SoundHelper;
 
 public class Shotgunner extends Enemy {
 
@@ -67,6 +68,8 @@ public class Shotgunner extends Enemy {
 		b.setTheta(theta);
 		b.init();
 		}
+		
+		SoundHelper.makeSound("shotgun.wav");
 	}
 	
 	@Override

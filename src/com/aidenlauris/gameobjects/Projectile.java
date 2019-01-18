@@ -19,7 +19,7 @@ public abstract class Projectile extends Entity {
 	private float damage = 1;
 	private float reduction = 0;
 	private float knockback = 1;
-	private String spawnSound = "pew.wav";
+//	private String spawnSound = "pew.wav";
 
 	public Projectile() {
 		super(0, 0);
@@ -89,7 +89,7 @@ public abstract class Projectile extends Entity {
 		
 		WorldMap.addGameObject(this);
 		if (distToPlayer() < 600) {
-		SoundHelper.makeSound(getSpawnSound());
+//		SoundHelper.makeSound(getSpawnSound());
 		}
 	}
 
@@ -144,12 +144,12 @@ public abstract class Projectile extends Entity {
 		this.knockback = knockback;
 	}
 
-	public String getSpawnSound() {
-		return spawnSound;
-	}
-
-	public void setSpawnSound(String spawnSound) {
-		this.spawnSound = spawnSound;
-	}
+//	public String getSpawnSound() {
+//		return spawnSound;
+//	}
+//
+//	public void setSpawnSound(String spawnSound) {
+//		this.spawnSound = spawnSound;
+//	}
 
 }

@@ -19,6 +19,8 @@ public class Sword extends Gun {
 		setDamage(10);
 		
 		setAmmoPerUse(0);
+		
+		setSpawnSound("sword.wav");
 	}
 	
 	@Override

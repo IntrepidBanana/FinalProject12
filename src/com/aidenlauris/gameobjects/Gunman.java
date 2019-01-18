@@ -5,6 +5,7 @@ import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.items.Pistol;
+import com.aidenlauris.render.SoundHelper;
 
 public class Gunman extends Enemy {
 
@@ -62,6 +63,7 @@ public class Gunman extends Enemy {
 		b.setTheta(theta);
 		b.init();
 		
+		SoundHelper.makeSound("pew.wav");
 	}
 	
 	@Override
