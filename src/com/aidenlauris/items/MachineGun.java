@@ -11,7 +11,7 @@ public class MachineGun extends Gun {
 		setQuickRelease(3);
 		setLength(20);
 		setAccuracy(3);
-		setDamage(70);
+		setDamage(20);
 		setAmmoType(new BulletAmmo().item());
 		
 		setSpawnSound("machine.wav");
@@ -19,8 +19,8 @@ public class MachineGun extends Gun {
 
 	@Override
 	public Projectile bulletType() {
-		MachineBullet b = new MachineBullet(getDamage());
-		b.setMoveSpeed(60f);
+		Bullet b = new Bullet(getDamage());
+		b.setMoveSpeed(30f);
 		return b;
 	}
 

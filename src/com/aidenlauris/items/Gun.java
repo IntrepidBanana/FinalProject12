@@ -80,7 +80,6 @@ public abstract class Gun extends Weapon {
 	public void fire() {
 		if (canFire()) {
 
-			SoundHelper.makeSound(getSpawnSound());
 			Player player = WorldMap.getPlayer();
 			float theta = Mouse.theta(player.x, player.y);
 
@@ -136,6 +135,7 @@ public abstract class Gun extends Weapon {
 					Particle.create(p.x, p.y, (float) (3f + Math.random() * 5), (float) (theta + Math.PI - Math.PI / 2),
 							i * 2, 1, false, Color.yellow, 10, 6);
 				}
+				SoundHelper.makeSound(getSpawnSound());
 			}
 			switch (ammoType) {
 			case "BulletAmmo":

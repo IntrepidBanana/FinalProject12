@@ -13,7 +13,7 @@ public class Shotgun extends Gun {
 		setAccuracy(8);
 		setAtkSpeed(30);
 		
-		setDamage(90);
+		setDamage(20);
 		
 		setSpread(1);
 		setBulletCount(8);
