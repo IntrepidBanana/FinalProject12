@@ -56,7 +56,7 @@ public void attack(){
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.getCollisionBoxes().clear();
-		HurtBox hb = new HurtBox(this, 12, 12, b.getDamage());
+		HurtBox hb = new HurtBox(b, 12, 12, b.getDamage());
 		hb.addHint(Wall.class);
 		b.addCollisionBox(hb);
 		b.setMoveSpeed(0.2f);

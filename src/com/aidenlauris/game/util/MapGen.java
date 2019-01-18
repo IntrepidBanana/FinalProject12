@@ -177,7 +177,7 @@ public class MapGen {
 		return geo;
 	}
 
-	private static ArrayList<GameObject> genObjects(int[][] geo, XY player,Player p) {
+	private static ArrayList<GameObject> genObjects(int[][] geo, XY player, Player p) {
 
 		ArrayList<GameObject> objects = new ArrayList<>();
 

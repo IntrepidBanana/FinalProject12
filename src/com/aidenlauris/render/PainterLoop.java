@@ -110,7 +110,7 @@ public class PainterLoop extends JPanel {
 				WorldMap.sightPolygon.addPath((Wall) e);
 			}
 		}
-		g2d = WorldMap.sightPolygon.draw(g2d);
+//		g2d = WorldMap.sightPolygon.draw(g2d);
 		g2d = WorldMap.menuLayer.draw(g2d);
 		Cursor c = WorldMap.getCursor();
 		g2d = c.draw(g2d);

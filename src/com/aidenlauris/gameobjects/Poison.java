@@ -10,6 +10,7 @@ import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.render.PaintHelper;
 
 public class Poison extends Entity {
@@ -23,6 +24,7 @@ public class Poison extends Entity {
 //		addCollisionBox(new HitBox(this, 25, 25, false));
 		addCollisionBox(new HurtBox(this, 30, 30, 0.000004f));
 		this.z = -1;
+		team = Team.ENEMY;
 	}
 
 

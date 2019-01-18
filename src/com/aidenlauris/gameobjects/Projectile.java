@@ -45,7 +45,7 @@ public abstract class Projectile extends Entity {
 			return;
 		}
 
-		if (box.getOwner() instanceof Entity && !(box.getOwner() instanceof Poison)) {
+		if (box.getOwner() instanceof Entity && !(box.getOwner() instanceof Projectile) && !(box.getOwner() instanceof Poison)) {
 			Entity owner = (Entity) box.getOwner();
 			if (owner.team != this.team) {
 				owner.damage((HurtBox) myBox);
