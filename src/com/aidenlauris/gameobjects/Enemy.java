@@ -1,4 +1,5 @@
 package com.aidenlauris.gameobjects;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -23,6 +24,7 @@ public class Enemy extends Entity {
 	protected long alert = Time.alert(60);
 	private boolean isHovering;
 	private long lastMoveCall = Time.alert(60);
+	private final float DROP_CHANCE = 0.2f;
 
 	public Enemy(float x, float y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
@@ -38,10 +40,10 @@ public class Enemy extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if(myBox instanceof HurtBox && box.getOwner() instanceof Player){
-			((Entity)box.getOwner()).damage((HurtBox) myBox);
+		if (myBox instanceof HurtBox && box.getOwner() instanceof Player) {
+			((Entity) box.getOwner()).damage((HurtBox) myBox);
 			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
-			Player.getPlayer().knockBack(25, (float) (theta+Math.PI));
+			Player.getPlayer().knockBack(25, (float) (theta + Math.PI));
 			return;
 		}
 		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
@@ -64,8 +66,6 @@ public class Enemy extends Entity {
 		}
 		move();
 
-		
-		
 		if (dist < 80) {
 			attack();
 		}
@@ -101,19 +101,12 @@ public class Enemy extends Entity {
 
 	@Override
 	public void kill() {
-
-		ItemDropEntity.drop(x, y, new BulletAmmo(1), 0.25, 10, 15);
-		ItemDropEntity.drop(x, y, new ShotgunAmmo(1), 0.2, 5, 8);
-		ItemDropEntity.drop(x, y, new ExplosiveAmmo(1), 0.05, 1, 1);
-		ItemDropEntity.drop(x, y, new EnergyCell(1), 0.05, 1, 2);
-		HealthDropEntity.drop(x, y, 0.15, 1, 1);
+		AmmoDropEntity.drop(x, y, DROP_CHANCE, 1, 3);
+		HealthDropEntity.drop(x, y, DROP_CHANCE, 1, 1);
+		GunDrop.drop(x, y, DROP_CHANCE);
 		WorldMap.addGameObject(new Corpse(x, y, this));
-System.out.println(getForceSet().getNetMagnitude());
 		removeSelf();
 	}
-
-
-
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {

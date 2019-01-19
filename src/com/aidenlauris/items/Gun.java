@@ -88,17 +88,13 @@ public abstract class Gun extends Weapon {
 
 			if (!getAmmoType().equals("")) {
 				Inventory pInv = player.getInventory();
-				int ammoIndex = pInv.indexOf(getAmmoType());
 
-				if (ammoIndex == -1) {
+				if (pInv.getAmmoCount(this) < ammoPerUse) {
+					pInv.getAmmoCount(this);
 					return;
 				}
 
-				if (pInv.getItem(ammoIndex).getCount() < ammoPerUse) {
-					return;
-				}
-				pInv.getItem(ammoIndex).removeFromCount(ammoPerUse);
-
+				pInv.useAmmo(getAmmoType(), ammoPerUse);
 			}
 
 			for (int i = 0; i < bulletCount; i++) {
@@ -247,9 +243,7 @@ public abstract class Gun extends Weapon {
 	@Override
 	public void useItem() {
 		fire();
-		
-		  
-		
+
 	}
 
 	public String getAmmoType() {

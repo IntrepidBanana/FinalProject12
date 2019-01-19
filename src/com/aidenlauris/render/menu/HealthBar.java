@@ -7,8 +7,11 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import com.aidenlauris.gameobjects.Player;
+import com.aidenlauris.gameobjects.util.Inventory;
+import com.aidenlauris.items.Gun;
 import com.aidenlauris.render.PaintHelper;
 
 public class HealthBar extends MenuObject {
@@ -28,7 +31,7 @@ public class HealthBar extends MenuObject {
 		y = 32;
 
 		Player p = Player.getPlayer();
-		
+
 		int wPad = 8;
 		int hPad = 8;
 
@@ -36,7 +39,8 @@ public class HealthBar extends MenuObject {
 		int w = (int) (maxWid * (health / maxHealth));
 		int h = 38;
 
-		Shape back = new Rectangle2D.Double(x, y, maxWid, h);
+		int pad = 6;
+		Shape back = new Rectangle2D.Double(x, y - pad, maxWid, h + pad);
 		Shape front = new Rectangle2D.Double(x + wPad, y + hPad, w - 2 * wPad, h - 2 * hPad);
 
 		g2d.setColor(Color.black);
@@ -48,14 +52,29 @@ public class HealthBar extends MenuObject {
 		Stroke old = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(3));
 		g2d.setColor(Color.white);
-		g2d.draw(front);
+
+		g2d.draw(new Rectangle2D.Double(x + wPad, y + hPad - pad, maxWid - 2 * wPad, h - 2 * hPad + pad));
 		g2d.setStroke(old);
 
 		g2d.setColor(Color.WHITE);
 		g2d.setFont(PaintHelper.font);
 		g2d.drawString(health + " / " + (int) maxHealth, x + wPad + 4, y + h / 2 + 7);
-		
-		g2d.drawString(p.getInventory().items.toString(), 72, 86);
+
+		Inventory inv = p.getInventory();
+
+		Gun gun1 = inv.getGun();
+		int ammo1 = 0;
+		if (gun1 != null) {
+			ammo1 = inv.getAmmoCount(gun1);
+		}
+		Gun gun2 = inv.getGuns()[1];
+		int ammo2 = 0;
+		if (gun2 != null) {
+			ammo2 = inv.getAmmoCount(gun2);
+		}
+		String gunString = gun1 + " " + ammo1 + " " + gun2 + " " + ammo2;
+
+		g2d.drawString(gunString, 72, 86);
 
 		return g2d;
 	}

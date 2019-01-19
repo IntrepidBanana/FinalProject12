@@ -1,4 +1,5 @@
 package com.aidenlauris.gameobjects;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
@@ -18,7 +19,7 @@ public class Bullet extends Projectile {
 	public Bullet(float damage) {
 		setKnockback(9f);
 		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
-//		box.addHint(this.getClass());
+		// box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = 1;
 	}
@@ -35,10 +36,10 @@ public class Bullet extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-//		int trail = (int) (24 * time + 48);
-		int trail = 20;
-
-		Shape s = new Rectangle2D.Float(drawX, drawY - 2f, trail, 4f);
+		// int trail = (int) (24 * time + 48);
+		int trail = 50;
+		int width = 30;
+		Shape s = new Rectangle2D.Float(drawX, drawY - width / 2, trail, width);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
@@ -49,7 +50,7 @@ public class Bullet extends Projectile {
 			g2d.fill(s);
 		}
 		g2d.setTransform(old);
-//		g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
+		// g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
 		return g2d;
 	}
 }

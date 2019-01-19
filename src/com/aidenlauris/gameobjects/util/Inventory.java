@@ -1,170 +1,128 @@
 package com.aidenlauris.gameobjects.util;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 
-import com.aidenlauris.game.WorldMap;
-import com.aidenlauris.items.Item;
-import com.aidenlauris.render.menu.Menu;
-import com.aidenlauris.render.menu.MenuItemLabel;
-import com.aidenlauris.render.menu.MenuLabel;
-import com.aidenlauris.render.menu.MenuPointer;
+import com.aidenlauris.gameobjects.Ammo;
+import com.aidenlauris.items.BulletAmmo;
+import com.aidenlauris.items.EnergyCell;
+import com.aidenlauris.items.ExplosiveAmmo;
+import com.aidenlauris.items.Gun;
+import com.aidenlauris.items.ShotgunAmmo;
 
 public class Inventory {
 
-	public ArrayList<Item> items = new ArrayList<>();
-	int selectedItem = 0;
-	String inventoryTitle = "Contents";
-	GameObject pointer = null;
+	private Gun currentGun = null;
+	private Gun storedGun = null;
+
+	private Ammo[] ammoCount = new Ammo[4];
 
 	public Inventory() {
-		items = new ArrayList<Item>();
-	}
-
-	int indexOf(String item, int start) {
-		for (int i = start; i < items.size(); i++) {
-			Item inventoryItem = items.get(i);
-			if (inventoryItem.item().equals(item)) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public int indexOf(String item) {
-		return indexOf(item, 0);
-	}
-
-	int indexOfEmpty() {
-
-		for (int i = 0; i < items.size(); i++) {
-			Item item = items.get(i);
-			if (item == null) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public boolean addItem(Item item) {
-		int itemCount = item.getCount();
-		if (indexOf(item.item()) != -1) {
-			int start = indexOf(item.item(), 0);
-			Item existingItem = items.get(start);
-			while (start != -1) {
-				existingItem = items.get(start);
-				int leftoverSize = existingItem.getStackSize() - existingItem.getCount();
-				if (leftoverSize > 0) {
-					if (itemCount >= leftoverSize) {
-						itemCount -= leftoverSize;
-						existingItem.addToCount(leftoverSize);
-					} else {
-						existingItem.addToCount(itemCount);
-						return true;
-					}
-				}
-
-				start = indexOf(item.item(), start+1);
-			}
-		}
-		if (itemCount > 0) {
-			item.setCount(itemCount);
-			items.add(item);
-		}
-
-		return true;
+		ammoCount[0] = new BulletAmmo();
+		ammoCount[1] = new EnergyCell();
+		ammoCount[2] = new ExplosiveAmmo();
+		ammoCount[3] = new ShotgunAmmo();
 
 	}
 
-	public Item getItem(int index) {
-		return items.get(index);
-	}
-
-	public void nextItem() {
-		selectedItem++;
-		if (selectedItem >= items.size()) {
-			selectedItem = 0;
-		}
-	}
-
-	public void previousItem() {
-		selectedItem--;
-		System.out.println(selectedItem);
-		if (selectedItem < 0) {
-			selectedItem = items.size() - 1;
-		}
-	}
-
-	public Item getItem() {
-		return items.get(selectedItem);
-	}
-
-	public void removeItem() {
-		items.remove(selectedItem);
-		nextItem();
-	}
-
-	public void moveItem(Inventory anotherInventory) {
-		if (items.size() == 0) {
+	public void swapGun() {
+		if (currentGun == null || storedGun == null) {
 			return;
 		}
-		anotherInventory.addItem(getItem());
-		removeItem();
+
+		Gun temp = currentGun;
+		currentGun = storedGun;
+		storedGun = temp;
+
 	}
 
-	public Menu getMenu(double xPosition) {
-		return getMenu(xPosition, null);
-	}
-
-	public Menu getMenu(double xPosition, GameObject point) {
-		Menu menu = new Menu();
-
-		Iterator<Item> i = items.iterator();
-		int numLabel = 0;
-		menu.length = 24 + 24 * items.size();
-		menu.y = (WorldMap.camy - menu.length) / 2;
-		menu.x = (float) xPosition;
-
-		MenuLabel title = new MenuLabel();
-		title.setLabel(inventoryTitle);
-		title.x = 16;
-		pointer = point;
-		menu.add(title);
-
-		while (i.hasNext()) {
-			Item item = i.next();
-
-			if (item.getCount() <= 0) {
-				i.remove();
-				if (selectedItem == numLabel) {
-					nextItem();
-				}
-				continue;
-
-			}
-
-			MenuItemLabel label = new MenuItemLabel();
-			label.setItem(item);
-
-			label.x = 16;
-			label.y = 24 + 24 * numLabel;
-			label.length = 24;
-			if (numLabel == selectedItem) {
-				label.selected = true;
-			} else {
-				label.selected = false;
-			}
-
-			menu.add(label);
-			numLabel++;
+	public Gun addGun(Gun gun) {
+		if (currentGun == null) {
+			currentGun = gun;
+			return null;
 		}
-		if (pointer != null) {
-			MenuPointer arrow = new MenuPointer(pointer);
-			arrow.y = -8;
-			menu.add(arrow);
+		if (storedGun == null) {
+			storedGun = gun;
+			return null;
 		}
+		Gun temp = currentGun;
+		currentGun = gun;
+		return temp;
 
-		return menu;
 	}
 
+	public void addAmmo(Ammo ammo) {
+		switch (ammo.item()) {
+		case "BulletAmmo":
+			ammoCount[0].addToCount(ammo.getCount());
+			break;
+		case "EnergyCell":
+			ammoCount[1].addToCount(ammo.getCount());
+			break;
+		case "ExplosiveAmmo":
+			ammoCount[2].addToCount(ammo.getCount());
+			break;
+		case "ShotgunAmmo":
+			ammoCount[3].addToCount(ammo.getCount());
+			break;
+		default:
+			break;
+		}
+	}
+
+	public Gun[] getGuns() {
+		return new Gun[] { currentGun, storedGun };
+	}
+
+	public int getAmmoCount(Ammo ammo) {
+		return getAmmoCount(ammo.item());
+	}
+
+	public int getAmmoCount(String ammo) {
+		switch (ammo) {
+		case "BulletAmmo":
+			return ammoCount[0].getCount();
+		case "EnergyCell":
+			return ammoCount[1].getCount();
+		case "ExplosiveAmmo":
+			return ammoCount[2].getCount();
+		case "ShotgunAmmo":
+			return ammoCount[3].getCount();
+		default:
+			return 0;
+		}
+	}
+
+	public void useAmmo(String ammo, int count) {
+		switch (ammo) {
+		case "BulletAmmo":
+			ammoCount[0].removeFromCount(count);
+			break;
+		case "EnergyCell":
+			ammoCount[1].removeFromCount(count);
+			break;
+		case "ExplosiveAmmo":
+			ammoCount[2].removeFromCount(count);
+			break;
+		case "ShotgunAmmo":
+			ammoCount[3].removeFromCount(count);
+			break;
+		default:
+			break;
+		}
+	}
+
+	public int getAmmoCount(Gun gun) {
+		return getAmmoCount(gun.getAmmoType());
+	}
+
+	public Gun getGun() {
+		return currentGun;
+	}
+
+	public String ammoToString() {
+		String s = "";
+		s += ammoCount[0].item() + " " + ammoCount[0].getCount() + " ";
+		s += ammoCount[1].item() + " " + ammoCount[1].getCount() + " ";
+		s += ammoCount[2].item() + " " + ammoCount[2].getCount() + " ";
+		s += ammoCount[3].item() + " " + ammoCount[3].getCount();
+		return s;
+	}
 }

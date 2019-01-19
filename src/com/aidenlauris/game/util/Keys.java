@@ -11,6 +11,7 @@ public class Keys {
 		keySet.put(KeyEvent.VK_A, KeyType.RELEASED);
 		keySet.put(KeyEvent.VK_S, KeyType.RELEASED);
 		keySet.put(KeyEvent.VK_D, KeyType.RELEASED);
+		keySet.put(KeyEvent.VK_SPACE, KeyType.RELEASED);
 	}
 
 	public static boolean isKeyHeld(int key) {

@@ -49,7 +49,7 @@ public abstract class Projectile extends Entity {
 			Entity owner = (Entity) box.getOwner();
 			if (owner.team != this.team) {
 				owner.damage((HurtBox) myBox);
-				owner.knockBack(getKnockback(), getForceSet().getX(), getForceSet().getY());
+				owner.knockBack(getKnockback(), getTheta());
 //				owner.stun(30);
 				if (health == 1) {
 					kill();

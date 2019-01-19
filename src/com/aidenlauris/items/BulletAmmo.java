@@ -10,6 +10,7 @@ public class BulletAmmo extends Ammo {
 	public BulletAmmo(int count){
 		this();
 		setCount(count);
+
 	}
 
 }

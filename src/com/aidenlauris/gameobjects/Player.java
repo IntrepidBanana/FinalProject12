@@ -27,6 +27,7 @@ import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
+import com.aidenlauris.gameobjects.util.Inventory;
 import com.aidenlauris.gameobjects.util.ItemContainer;
 import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
@@ -50,40 +51,31 @@ import com.aidenlauris.render.util.SightPolygon;
 import com.aidenlauris.items.EnergyCell;
 
 public class Player extends Entity implements LightSource, ItemContainer {
-	
+
 	protected long alert = Time.alert(10);
 	int score = 0;
 	boolean idle = true;
-	Inventory inventory = new Inventory();
+	public Inventory inv = new Inventory();
 	Menu menu = new Menu();
 	MenuItemLabel[] itemLabels = new MenuItemLabel[20];
 	int selectedItem = 0;
 	ArrayList<Interactable> interactables = new ArrayList<>();
 	private int effectType = 8;
 	private HealthBar healthBar = new HealthBar();
-	
-	
+
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 100);
 		maxHealth = 100;
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
-		// inventory.addItem(new Sword());
-		// inventory.addItem(new MachineGun());
-		// inventory.addItem(new Cannon());
-		// inventory.addItem(new Shotgun());
-		inventory.addItem(new Pistol());
-		//inventory.addItem(new LaserGun());
-		// inventory.addItem(new Knife());
-		// inventory.addItem(new ShotgunAmmo(500));
-		inventory.addItem(new BulletAmmo(50));
-		//inventory.addItem(new EnergyCell(10));
-		inventory.addItem(new Knife());
-		
+
+		inv.addGun(new Pistol());
+		inv.addGun(new MachineGun());
+		inv.addAmmo(new BulletAmmo(255));
+
 		WorldMap.addMenu(healthBar);
-		menu = inventory.getMenu(32);
-//		WorldMap.addMenu(menu);
+		// WorldMap.addMenu(menu);
 	}
 
 	public void parseInput() {
@@ -99,7 +91,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_S)) {
-			dy += 1;	
+			dy += 1;
 			idle = false;
 		}
 		if (Keys.isKeyHeld(KeyEvent.VK_A)) {
@@ -128,20 +120,17 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		int mouseRotation = Mouse.getWheelRotation();
 		if (mouseRotation > 0) {
 			if (Mouse.getFocus() instanceof ItemContainer) {
-				((ItemContainer) Mouse.getFocus()).getInventory().nextItem();
 			} else {
-				inventory.nextItem();
 			}
 		}
 		if (mouseRotation < 0) {
 			if (Mouse.getFocus() instanceof ItemContainer) {
-				((ItemContainer) Mouse.getFocus()).getInventory().previousItem();
 			} else {
-				inventory.previousItem();
 			}
 		}
 		if (Keys.isKeyPressed(KeyEvent.VK_SPACE)) {
 			interactWith();
+			inv.swapGun();
 		}
 
 		if (dx != 0 || dy != 0) {
@@ -155,7 +144,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		}
 
 		if (Mouse.isLeftPressed()) {
-			inventory.getItem().useItem();
+			inv.getGun().useItem();
+			
 		}
 
 		if (!idle) {
@@ -185,16 +175,16 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	public void update() {
-		
+
 		if (Time.alertPassed(alert)) {
 			SoundHelper.makeSound("music.wav");
 			alert = Time.alert(720);
 		}
-		
+
 		parseInput();
 		tickUpdate();
 		healthBar.update(this);
-//		menu = inventory.getMenu(32);
+		// menu = inventory.getMenu(32);
 		if (time % 1 == 0) {
 
 			int options = 10;
@@ -460,8 +450,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float gunLength = 0;
-		if (inventory.getItem() instanceof Gun) {
-			gunLength = ((Gun) inventory.getItem()).getLength();
+		if (inv.getGuns()[0] instanceof Gun) {
+			gunLength = inv.getGuns()[0].getLength();
 		}
 
 		float theta = Mouse.theta(x, y);
@@ -483,15 +473,14 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		Color[] colors = { new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), Color.darkGray };
 		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
 		Paint oldpaint = g2d.getPaint();
-		
-//		Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
-//		g2d.setColor(Color.BLACK);
-//		g2d.fill(barOutline);
-//		
-//		Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
-//		g2d.setColor(Color.RED);
-//		g2d.fill(healthBar);
-		
+
+		// Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
+		// g2d.setColor(Color.BLACK);
+		// g2d.fill(barOutline);
+		//
+		// Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
+		// g2d.setColor(Color.RED);
+		// g2d.fill(healthBar);
 
 		g2d.setPaint(radial);
 		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
@@ -510,14 +499,14 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	@Override
 	public Inventory getInventory() {
-		return inventory;
+		return inv;
 	}
 
 	public static Player getPlayer() {
-		if(WorldMap.getPlayer() != null){
-		return WorldMap.getPlayer();}
-		else{
-			return new Player(0,0,2f);
+		if (WorldMap.getPlayer() != null) {
+			return WorldMap.getPlayer();
+		} else {
+			return new Player(0, 0, 2f);
 		}
 	}
 
@@ -530,11 +519,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	public void removeInteractable(Interactable e) {
 		interactables.remove(e);
 	}
-	
+
 	public void damage(HurtBox box) {
 		if (invincibility <= 0) {
 			health -= (box.damage);
-			int num = (int)(Math.random()*8) + 1;
+			int num = (int) (Math.random() * 8) + 1;
 			String choice = "" + num;
 			SoundHelper.makeSound("pain" + choice + ".wav");
 		}
@@ -544,13 +533,13 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	public void damage(int damage) {
 		if (invincibility <= 0) {
 			health -= (damage);
-			int num = (int)(Math.random()*8) + 1;
+			int num = (int) (Math.random() * 8) + 1;
 			String choice = "" + num;
 			SoundHelper.makeSound("pain" + choice + ".wav");
 		}
 
 	}
-	
+
 	@Override
 	public void kill() {
 		SoundHelper.makeSound("death.wav");

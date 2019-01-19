@@ -1,10 +1,12 @@
 package com.aidenlauris.gameobjects;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
@@ -188,7 +190,11 @@ public class Wall extends Entity {
 		float drawY = PaintHelper.y(getVertex(0).getY());
 		Shape s = new Rectangle2D.Float(drawX, drawY, wid, len);
 		g2d.setColor(Color.LIGHT_GRAY);
+		Stroke old = g2d.getStroke();
+		g2d.setStroke(new BasicStroke(2));
 		g2d.fill(s);
+		g2d.draw(s);
+		g2d.setStroke(old);
 
 		return g2d;
 	}

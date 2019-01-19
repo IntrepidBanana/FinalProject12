@@ -3,7 +3,7 @@ package com.aidenlauris.gameobjects;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.items.Item;
 
-public class HealthDropEntity extends ItemDropEntity {
+public class HealthDropEntity extends AmmoDropEntity {
 
 	public HealthDropEntity(float x, float y) {
 		super(x, y);

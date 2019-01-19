@@ -98,7 +98,7 @@ public abstract class Entity extends GameObject {
 
 	public void knockBack(float magnitude, float theta) {
 
-		Force f = new Force(magnitude, (float) (theta + Math.PI));
+		Force f = new Force(magnitude, (float) (theta));
 		f.setReduction(0.3f);
 		getForceSet().addForce(f);
 	}

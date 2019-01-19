@@ -35,7 +35,7 @@ import com.aidenlauris.game.util.GameState;
 import com.aidenlauris.game.util.XY;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
-import com.aidenlauris.gameobjects.ItemDropEntity;
+import com.aidenlauris.gameobjects.AmmoDropEntity;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
@@ -110,7 +110,7 @@ public class PainterLoop extends JPanel {
 				WorldMap.sightPolygon.addPath((Wall) e);
 			}
 		}
-//		g2d = WorldMap.sightPolygon.draw(g2d);
+		g2d = WorldMap.sightPolygon.draw(g2d);
 		g2d = WorldMap.menuLayer.draw(g2d);
 		Cursor c = WorldMap.getCursor();
 		g2d = c.draw(g2d);

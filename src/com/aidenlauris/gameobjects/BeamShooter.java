@@ -69,10 +69,6 @@ public class BeamShooter extends Enemy {
 	@Override
 	public void kill() {
 		
-		double chance = Math.random()*100;
-		if (chance < 15) {
-			WorldMap.addGameObject(new ItemDrop(this.x, this.y, new LaserGun()));
-		}
 		super.kill();
 	}
 
