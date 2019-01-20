@@ -101,7 +101,7 @@ public class Enemy extends Entity {
 
 	@Override
 	public void kill() {
-		AmmoDropEntity.drop(x, y, DROP_CHANCE, 1, 3);
+		AmmoDropEntity.drop(x, y, DROP_CHANCE*2, 1, 3);
 		HealthDropEntity.drop(x, y, DROP_CHANCE, 1, 1);
 		GunDrop.drop(x, y, DROP_CHANCE);
 		WorldMap.addGameObject(new Corpse(x, y, this));
