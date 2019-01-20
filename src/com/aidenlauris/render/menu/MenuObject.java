@@ -6,6 +6,7 @@ public abstract class MenuObject {
 	public float y = 0;
 	public float length = 0;
 	public float width = 0;
+	public boolean remove = false;
 
 	public MenuLayer parent = null;
 	public String id = "";

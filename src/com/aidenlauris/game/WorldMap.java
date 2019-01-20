@@ -13,7 +13,9 @@ import com.aidenlauris.game.util.MapGen;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
 import com.aidenlauris.gameobjects.Enemy;
+import com.aidenlauris.gameobjects.Explosion;
 import com.aidenlauris.gameobjects.HealthDropEntity;
+import com.aidenlauris.gameobjects.Particle;
 import com.aidenlauris.gameobjects.GunDrop;
 import com.aidenlauris.gameobjects.AmmoDropEntity;
 import com.aidenlauris.gameobjects.Player;
@@ -36,9 +38,8 @@ public class WorldMap {
 	public static int camx = 1260;
 	public static int camy = 960;
 	public static Camera camera;
-	
-	
-	public static int globalDifficulty = 1;
+
+	public static int globalDifficulty = 0;
 	static ArrayList<GameObject> gameObjects = new ArrayList<>();
 	static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
 	public static ArrayList<GameObject> objectsToDraw = new ArrayList<>();
@@ -49,17 +50,17 @@ public class WorldMap {
 	final static int sleepReset = 1;
 	static long timeSinceLastCall = System.currentTimeMillis();
 	public static Player player;
-	private static GameMap map = new GameMap(500);
+	private static GameMap map = new GameMap(125);
 	static int collisionsChecked = 0;
 	public static MenuLayer menuLayer = new MenuLayer();
 	public static SightPolygon sightPolygon = new SightPolygon();
 	public static ArrayList<Enemy> enemies = new ArrayList<>();
 	private static Enemy lastEnemy;
 	private static boolean endOfLevel = false;
-	
+	private static ArrayList<Particle> particles = new ArrayList<>();
+
 	public synchronized static void update() {
 
-		
 		Time.nextTick();
 
 		Cursor c = getCursor();
@@ -92,24 +93,21 @@ public class WorldMap {
 			checkChunkCollisions(chunk);
 			chunkCount++;
 		}
-		
-		if(enemies.size() == 1){
+
+		if (enemies.size() == 1) {
 			lastEnemy = enemies.get(0);
 		}
-		
-		if(enemies.size() == 0 && !endOfLevel){
+
+		if (enemies.size() == 0 && !endOfLevel) {
 			System.out.println(lastEnemy);
 			addGameObject(new Portal(lastEnemy));
 			endOfLevel = true;
 		}
-		
-		
+
 		objectsToDraw = (ArrayList<GameObject>) getMap().getUniqueObjects().clone();
 		getMap().clearUnique();
 		getMap().clear();
-		
-		
-		
+
 		if ((Time.global() % (1 * FRAMERATE)) == -1) {
 			System.out.println("# of game Objects       : " + gameObjects.size());
 			System.out.println("# of box cooliders      : " + collisionBoxes.size());
@@ -119,8 +117,6 @@ public class WorldMap {
 			System.out.println();
 			collisionsChecked = 0;
 		}
-		
-		
 
 	}
 
@@ -128,6 +124,14 @@ public class WorldMap {
 		if (!(e instanceof Wall)) {
 			nonStaticObjects.add(e);
 		}
+		if(e instanceof Particle) {
+			particles.add((Particle) e);
+			if((gameObjects.size() - nonStaticObjects.size()) > 700) {
+				removeGameObject(particles.get(0));
+			}
+		}
+		
+
 		gameObjects.add(e);
 		collisionBoxes.addAll(e.getCollisionBoxes());
 	}
@@ -145,6 +149,7 @@ public class WorldMap {
 			gameObjects.remove(gameObject);
 			nonStaticObjects.remove(gameObject);
 			enemies.remove(gameObject);
+			particles.remove(gameObject);
 		}
 	}
 
@@ -183,19 +188,21 @@ public class WorldMap {
 	}
 
 	public static void init() {
+		globalDifficulty++;
 		lastEnemy = null;
-		endOfLevel = false; 
+		endOfLevel = false;
 		gameObjects.clear();
 		nonStaticObjects.clear();
 		objectsToDraw.clear();
 		gameObjects = MapGen.genMap(Player.getPlayer());
-		for(GameObject e : gameObjects) {
-			if(e instanceof Enemy) {
-				enemies.add( (Enemy) e);
-				System.out.println(e);
+		for (GameObject e : gameObjects) {
+			if (e instanceof Enemy) {
+				enemies.add((Enemy) e);
 			}
 		}
 		addGameObject(new Cursor());
+		Explosion explosion = new Explosion(Player.getPlayer().x, Player.getPlayer().y, 300, 50f, 1000);
+		addGameObject(explosion);
 	}
 
 	public static void sleep() {

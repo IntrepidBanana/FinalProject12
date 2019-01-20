@@ -7,6 +7,7 @@ import java.util.Random;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.BeamShooter;
 import com.aidenlauris.gameobjects.Chaser;
+import com.aidenlauris.gameobjects.Explosion;
 import com.aidenlauris.gameobjects.FourShooter;
 import com.aidenlauris.gameobjects.Giant;
 import com.aidenlauris.gameobjects.Gunman;
@@ -58,16 +59,16 @@ public class MapGen {
 		// Random ran = new Random(seed);
 		Random ran = new Random();
 		// plotting the rooms
-		int rooms = 7;
+		int rooms = 7 + WorldMap.globalDifficulty;
 		int additionalRooms = 0;
-		int roomSize = 3;
+		int roomSize = 3+ (WorldMap.globalDifficulty/3);
 		int roomVariance = 3;
 		ArrayList<XY> roomLocations = new ArrayList<>();
 
 		for (int i = 0; i < rooms + additionalRooms; i++) {
 
-			int r = (int) (ran.nextGaussian() * geo.length / 7 + geo.length / 2);
-			int c = (int) (ran.nextGaussian() * geo[0].length / 7 + geo[0].length / 2);
+			int r = (int) (ran.nextGaussian() * geo.length / 8 + geo.length / 2);
+			int c = (int) (ran.nextGaussian() * geo[0].length / 8 + geo[0].length / 2);
 
 			int wid = roomSize + ran.nextInt(roomVariance);
 			int len = roomSize + ran.nextInt(roomVariance);
@@ -100,6 +101,7 @@ public class MapGen {
 		geo = pruneDeadArea(geo);
 		printMap(geo);
 		objects.addAll(genObjects(geo, playerSpawn, p));
+
 		return objects;
 
 	}
@@ -205,7 +207,11 @@ public class MapGen {
 		p.x = player.x * wallSize;
 		p.y = player.y * wallSize;
 		objects.add(p);
-
+		
+		Explosion explosion = new Explosion(p.x, p.y, 2*wallSize, 50f, 1000);
+		
+		objects.add(explosion);
+		
 		return objects;
 
 	}
@@ -215,53 +221,53 @@ public class MapGen {
 		int numOfEnemies = ran.nextInt(WorldMap.globalDifficulty) + WorldMap.globalDifficulty;
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
-//			 int choice = 6;
+//			choice = 10;
 
 			if (choice == 0) {
-				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(g);
 			} else if (choice == 1) {
-				FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				FourShooter f = new FourShooter(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(f);
 			} else if (choice == 2) {
-				Chaser c = new Chaser(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				Chaser c = new Chaser(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(c);
 			} else if (choice == 3) {
 				Giant g2 = new Giant(rc.x * wallSize + ran.nextInt(300) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(g2);
 			} else if (choice == 4) {
-				MachineGunner m = new MachineGunner(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				MachineGunner m = new MachineGunner(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(m);
 			} else if (choice == 5) {
-				Shotgunner s = new Shotgunner(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				Shotgunner s = new Shotgunner(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(s);
 			} else if (choice == 6) {
-				Spinner s2 = new Spinner(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				Spinner s2 = new Spinner(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(s2);
 			} else if (choice == 7) {
 				for (int j = 0; j < Math.random() * 3 + 3; j++) {
-					Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-							rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+					Slug s3 = new Slug(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+							rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 					enemies.add(s3);
 				}
 			} else if (choice == 8) {
-				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				PoisonWalker p = new PoisonWalker(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(p);
 			} else if (choice == 9) {
-				BeamShooter b = new BeamShooter(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				BeamShooter b = new BeamShooter(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(b);
 			} else if (choice == 10) {
-				SuperSlug s4 = new SuperSlug(rc.x * wallSize + ran.nextInt(2*wallSize) - wallSize,
-						rc.y * wallSize + ran.nextInt(2*wallSize) - wallSize);
+				SuperSlug s4 = new SuperSlug(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
+						rc.y * wallSize + ran.nextInt(2 * wallSize) - wallSize);
 				enemies.add(s4);
 			}
 

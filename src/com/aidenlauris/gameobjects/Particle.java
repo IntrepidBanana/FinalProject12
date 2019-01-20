@@ -170,6 +170,10 @@ public class Particle extends Entity {
 		this.rotationSpeed = rotationSpeed;
 	}
 
+	public void setRotation(int rotation) {
+		this.rotation = rotation;
+	}
+	
 	public void setSizeDecay(double sizeDecay) {
 		this.sizeDecay = sizeDecay;
 	}

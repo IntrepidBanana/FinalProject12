@@ -18,22 +18,22 @@ public class SoundHelper {
 		// open the sound file as a Java input stream
 		File pew = new File(".\\Assets\\"+ name);
 //		File pew = new File(".\\Assets\\pew.wav");
-		try {
-			AudioInputStream stream = AudioSystem.getAudioInputStream(pew);
-			DataLine.Info info = new DataLine.Info(Clip.class, stream.getFormat());
-			Clip clip = (Clip) AudioSystem.getLine(info);
-			clip.addLineListener(new SoundListener());
-			clip.open(stream);
-			clip.start();
-			
-			
-		} catch (UnsupportedAudioFileException e) {
-
-			e.printStackTrace();
-		} catch (IOException | LineUnavailableException a) {
-
-			a.printStackTrace();
-		}
+//		try {
+//			AudioInputStream stream = AudioSystem.getAudioInputStream(pew);
+//			DataLine.Info info = new DataLine.Info(Clip.class, stream.getFormat());
+//			Clip clip = (Clip) AudioSystem.getLine(info);
+//			clip.addLineListener(new SoundListener());
+//			clip.open(stream);
+//			clip.start();
+//			
+//			
+//		} catch (UnsupportedAudioFileException e) {
+//
+//			e.printStackTrace();
+//		} catch (IOException | LineUnavailableException a) {
+//
+//			a.printStackTrace();
+//		}
 	}
 
 

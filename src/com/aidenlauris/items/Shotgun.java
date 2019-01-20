@@ -15,8 +15,8 @@ public class Shotgun extends Gun {
 		
 		setDamage(20);
 		
-		setSpread(1);
-		setBulletCount(8);
+		setSpread(3);
+		setBulletCount(15);
 		setAmmoPerUse(1);
 		
 		setAmmoType(new ShotgunAmmo().item());

@@ -12,12 +12,13 @@ public class Explosion extends Entity {
 	float size;
 	float lifespan = 2;
 
-	Explosion(float x, float y, float size, float magnitude, float damage) {
+	public Explosion(float x, float y, float size, float magnitude, float damage) {
 		super(x, y);
 		this.magnitude = magnitude;
 		this.size = size;
 		team = team.PLAYER;
 		addCollisionBox(new HurtBox(this, -size / 2, -size / 2, size, size, damage));
+		Particle.create(x, y, 45f, 0, 180, 20);
 	}
 
 	@Override

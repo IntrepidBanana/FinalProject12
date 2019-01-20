@@ -7,9 +7,8 @@ public class Pistol extends MachineGun{
 
 	public Pistol() {
 		super();
-		setAuto(true);
-		setAtkSpeed(15);
-		setQuickRelease(3);
+		setAuto(false);
+		setAtkSpeed(4);
 		setDamage(20);
 		setLength(10);
 		setAccuracy(1);
@@ -21,7 +20,7 @@ public class Pistol extends MachineGun{
 	@Override
 	public Projectile bulletType() {
 		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(20);
+		b.setMoveSpeed(16);
 		return b;
 	}
 }

@@ -2,6 +2,7 @@ package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.items.Item;
+import com.aidenlauris.render.menu.CollectionText;
 
 public class HealthDropEntity extends AmmoDropEntity {
 
@@ -16,7 +17,7 @@ public class HealthDropEntity extends AmmoDropEntity {
 		if (distToPlayer() < 40) {
 			Player p = Player.getPlayer();
 			p.health = Math.min(p.maxHealth, p.health + 25);
-			System.out.println("I have health " + p.health + " " + p.maxHealth + " that is my maximum");
+			WorldMap.addMenu( new CollectionText( "+25 Health"));
 
 			kill();
 		}

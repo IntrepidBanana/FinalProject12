@@ -60,10 +60,11 @@ public class Shotgunner extends Enemy {
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(10);
-		b.setReduction(0.01f);
+		b.setReduction(0.03f);
 		b.setLifeSpan(60f);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
+		b.health = 1;
 		float theta = (float) Math.atan2(p.y - this.y - 45 + Math.random()*90, p.x - this.x - 45 + Math.random()*90);
 		b.setTheta(theta);
 		b.init();

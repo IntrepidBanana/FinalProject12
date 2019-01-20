@@ -7,18 +7,24 @@ import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.gameobjects.util.Entity;
+import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.render.PaintHelper;
 
 public class SpinnerBlade extends Projectile {
 
-	public Spinner parent = null;
+	public Entity parent = null;
 	private float theta = 0;
 	private float speed = 0;
 	private int offset = 25;
+	public Color color = Color.darkGray;
+	public boolean trail = true;
+	public int chains = 5;
+	public int chainUpdate = 3;
 
-	public SpinnerBlade(Spinner parent, int damage, float angle, float speed, int offset) {
+	public SpinnerBlade(Entity parent, int damage, float angle, float speed, int offset) {
 		this.parent = parent;
 		team = Team.ENEMY;
 		HurtBox hb = new HurtBox(this, 15, 15, damage);
@@ -63,7 +69,7 @@ public class SpinnerBlade extends Projectile {
 	}
 
 	@Override
-	public void damage(int damage) {
+	public void damage(float damage) {
 	}
 
 	@Override
@@ -74,30 +80,31 @@ public class SpinnerBlade extends Projectile {
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
 
-		double a = Math.toRadians(theta + speed*5);
-		double ox = offset * Math.cos(a);
-		double oy = offset * Math.sin(a);
+		double a = Math.toRadians(theta + speed * 5);
+		if (trail) {
+			double ox = offset * Math.cos(a);
+			double oy = offset * Math.sin(a);
 
-		float chain = 5;
-		if (Time.global() % 5 == 0) {
-			for (int i = 0; i <= chain; i++) {
-				float dx = (float) (ox - (i / chain) * ox);
-				float dy = (float) (oy - (i / chain) * oy);
+			if (Time.global() % chainUpdate == 0) {
+				for (int i = 0; i <= chains; i++) {
+					float dx = (float) (ox - (i / chains) * ox);
+					float dy = (float) (oy - (i / chains) * oy);
 
-				Particle p = new Particle(parent.x + dx, parent.y + dy);
-				p.setFadeMinimum(0);
-				p.setSizeDecay(0);
-				p.setLifeSpan(60);
-				p.setSize(10);
-				p.setRotationSpeed(1);
-				p.setColor(Color.darkGray);
-				p.init();
+					Particle p = new Particle(parent.x + dx, parent.y + dy);
+					p.setFadeMinimum(0);
+					p.setSizeDecay(0);
+					p.setLifeSpan(60);
+					p.setSize(10);
+					p.setRotationSpeed(1);
+					p.setColor(color);
+					p.init();
 
+				}
 			}
 		}
 		long t = System.currentTimeMillis() / 2;
 		transform.rotate(Math.toRadians(t), drawX, drawY);
-		g2d.setColor(Color.DARK_GRAY);
+		g2d.setColor(color);
 		g2d.transform(transform);
 		g2d.fill(new Rectangle2D.Float(drawX - 12.5f, drawY - 12.5f, 25, 25));
 		g2d.setTransform(old);

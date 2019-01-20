@@ -17,6 +17,7 @@ import com.aidenlauris.items.ExplosiveAmmo;
 import com.aidenlauris.items.Item;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
+import com.aidenlauris.render.menu.CollectionText;
 
 public class AmmoDropEntity extends Entity {
 
@@ -57,14 +58,6 @@ public class AmmoDropEntity extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if (box.getOwner() instanceof Player) {
-			Player p = (Player) box.getOwner();
-			if (ammo != null) {
-				p.getInventory().addAmmo(ammo);
-			}
-			((Player) box.getOwner()).score++;
-			kill();
-		}
 		if (box.isSolid) {
 			collide(box, myBox);
 		}
@@ -77,7 +70,7 @@ public class AmmoDropEntity extends Entity {
 		if (distToPlayer() < 40) {
 			if (ammo != null) {
 				Player.getPlayer().getInventory().addAmmo(ammo);
-				;
+				WorldMap.addMenu( new CollectionText( ammo.item() + " " + ammo.getCount()));
 			}
 			kill();
 		}

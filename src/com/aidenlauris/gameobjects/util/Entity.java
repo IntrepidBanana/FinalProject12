@@ -17,7 +17,8 @@ public abstract class Entity extends GameObject {
 	protected final int invincibilityFrames = 10;
 	protected int invincibility = 0;
 	protected Map<GameObject, Integer> invincibleAgainst = new HashMap<>();
-	protected int stunTimer = 0;
+	protected long stunTimer = 0;
+	protected boolean stunned = false;
 
 	public Entity(float x, float y) {
 		this.x = x;
@@ -127,20 +128,18 @@ public abstract class Entity extends GameObject {
 		if (invincibility > 0) {
 			invincibility--;
 		}
-		if (stunTimer > 0) {
-			stunTimer--;
+		if (stunned && Time.alertPassed(stunTimer)) {
+			stunned = false;
 		}
 
 	}
 
 	public void damage(HurtBox box) {
-		if (invincibility <= 0) {
-			health -= (box.damage);
-		}
+		damage(box.damage);
 
 	}
 
-	public void damage(int damage) {
+	public void damage(float damage) {
 		if (invincibility <= 0) {
 			health -= (damage);
 		}
@@ -171,14 +170,13 @@ public abstract class Entity extends GameObject {
 	}
 
 	public void stun(int stun) {
-		stunTimer = Math.max(stunTimer, stun);
+		stunTimer = Time.alert(stun);
+		System.out.println(Time.alertPassed(stunTimer));
+		stunned = true;
 	}
 
 	public boolean isStunned() {
-		if (stunTimer > 0) {
-			return true;
-		}
-		return false;
+		return stunned;
 
 	}
 }

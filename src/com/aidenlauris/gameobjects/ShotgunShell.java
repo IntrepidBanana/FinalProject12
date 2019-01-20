@@ -29,7 +29,6 @@ public class ShotgunShell extends Projectile {
 	@Override
 	public void update() {
 		setDamage(getDamage()*0.9f);
-		health *= 0.95f;
 		super.update();
 	}
 

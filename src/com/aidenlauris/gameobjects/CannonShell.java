@@ -25,7 +25,6 @@ public class CannonShell extends Projectile{
 	
 	@Override
 	public void kill() {
-		Particle.create(x, y, 45f, getTheta(), 180, 20);
 		WorldMap.addGameObject(new Explosion(x, y, 200, 30f, 150f));
 		removeSelf();
 	}

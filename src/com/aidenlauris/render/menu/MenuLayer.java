@@ -17,9 +17,9 @@ public class MenuLayer {
 	public Graphics2D draw(Graphics2D g2d) {
 		for (int i = 0; i < components.size(); i++) {
 			MenuObject c = components.get(i);
-			if (c == null) {
-				i--;
+			if (c == null || c.remove) {
 				components.remove(i);
+				i--;
 				continue;
 			}
 

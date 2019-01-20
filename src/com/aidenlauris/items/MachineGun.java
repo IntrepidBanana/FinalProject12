@@ -7,8 +7,7 @@ import com.aidenlauris.gameobjects.Projectile;
 public class MachineGun extends Gun {
 
 	public MachineGun() {
-		setAtkSpeed(3);
-		setQuickRelease(3);
+		setAtkSpeed(8);
 		setLength(20);
 		setAccuracy(3);
 		setDamage(20);
@@ -20,7 +19,7 @@ public class MachineGun extends Gun {
 	@Override
 	public Projectile bulletType() {
 		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(30f);
+		b.setMoveSpeed(20f);
 		return b;
 	}
 

@@ -74,8 +74,14 @@ public class HealthBar extends MenuObject {
 		}
 		String gunString = gun1 + " " + ammo1 + " " + gun2 + " " + ammo2;
 
-		g2d.drawString(gunString, 72, 86);
 
+		int strWidth = g2d.getFontMetrics().stringWidth(gunString);
+		Shape textBack = new Rectangle2D.Float(72-wPad, 64, strWidth +2*wPad, 32);
+		g2d.setColor(Color.black);
+		g2d.fill(textBack);
+
+		g2d.setColor(Color.WHITE);
+		g2d.drawString(gunString, 72, 86);
 		return g2d;
 	}
 

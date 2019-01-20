@@ -22,7 +22,7 @@ public class MeleeSwing extends Projectile {
 			Entity owner = (Entity) box.getOwner();
 			if(owner.team != Team.PLAYER) {
 				owner.damage((HurtBox) myBox);
-				owner.knockBack(getKnockback(), getForceSet().getX(), getForceSet().getY());
+				owner.knockBack(getKnockback(), getTheta());
 				owner.stun(30);
 				
 			}

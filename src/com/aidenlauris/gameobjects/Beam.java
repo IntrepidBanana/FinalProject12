@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.render.PaintHelper;
 
@@ -17,7 +18,7 @@ public class Beam extends Projectile {
 	
 	public Beam(float damage, float x, float y) {
 		setKnockback(0);
-		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
+		HurtBox box = new HurtBox(this, 20, 20, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = Integer.MAX_VALUE;
@@ -35,7 +36,6 @@ public class Beam extends Projectile {
 	@Override
 	public void kill() {
 		Particle.create(x, y, 15f, getTheta(), 40, 1);
-		System.out.println(this + " " + time + " " + getLifeSpan());
 		super.kill();
 	}
 	
@@ -47,8 +47,8 @@ public class Beam extends Projectile {
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
 		float trail = dist;
-
-		Shape s = new Rectangle2D.Float(drawX, drawY - 1.5f, trail, 6);
+		float width = 20;
+		Shape s = new Rectangle2D.Float(drawX, drawY - width/2, trail, width);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
@@ -59,10 +59,47 @@ public class Beam extends Projectile {
 			g2d.fill(s);
 		}
 		g2d.setTransform(old);
-		g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
 		return g2d;
 	}
 	
 	
+	@Override
+	public void forceUpdate() {
+		double narrowestSide = Math.min(CollisionHelper.width(this), CollisionHelper.length(this));
+		if (getForceSet().getNetMagnitude() > narrowestSide && forceAccurate && narrowestSide > 0) {
+
+			double divisions = (getForceSet().getNetMagnitude() / (narrowestSide / 2));
+
+			double dx = getForceSet().getX() / divisions;
+			double dy = getForceSet().getY() / divisions;
+			for (int i = 0; i < divisions; i++) {
+				if (CollisionHelper.chunkCollision(this)) {
+				}
+				
+				Particle p = new Particle(x, y);
+				p.setLifeSpan(30);
+				p.setSize(20);
+				p.setSizeDecay(0);
+				p.setColor(new Color(255, 0, 125, 0));
+				p.setRotationSpeed(30);
+				p.setRotation((int) Math.toDegrees(getForceSet().getNetTheta()));
+				
+				p.addCollider();
+				p.setFadeMinimum(0);
+				p.init();
+				
+				
+				
+				x += dx;
+				y += dy;
+			}
+		} else {
+			x += getForceSet().getX();
+			y += getForceSet().getY();
+		}
+
+		getForceSet().update();
+	
+	}
 
 }

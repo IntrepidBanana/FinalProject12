@@ -105,6 +105,25 @@ public class Enemy extends Entity {
 		HealthDropEntity.drop(x, y, DROP_CHANCE, 1, 1);
 		GunDrop.drop(x, y, DROP_CHANCE);
 		WorldMap.addGameObject(new Corpse(x, y, this));
+		
+		for(int i = 0; i < 10; i++) {
+			float theta = (float) Math.toRadians(Math.random()*360);
+			
+			Particle p = new Particle(x, y);
+			p.setColor(Color.red);
+			p.setRotation(1);
+			p.setSize(12);
+			p.setSizeDecay(1);
+			p.setLifeSpan(80);
+			
+			Force f = new Force(8, theta);
+			f.setReduction(0.1f);
+			
+			p.addForce(f);
+			p.init();
+			
+		}
+		
 		removeSelf();
 	}
 

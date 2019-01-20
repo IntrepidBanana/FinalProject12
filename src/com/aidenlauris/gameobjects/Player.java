@@ -71,8 +71,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		addCollisionBox(new HitBox(this, 15, 15, false));
 
 		inv.addGun(new Pistol());
-		inv.addGun(new MachineGun());
-		inv.addAmmo(new BulletAmmo(255));
+		inv.addAmmo(new BulletAmmo(125));
 
 		WorldMap.addMenu(healthBar);
 		// WorldMap.addMenu(menu);
@@ -129,10 +128,13 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			}
 		}
 		if (Keys.isKeyPressed(KeyEvent.VK_SPACE)) {
-			interactWith();
 			inv.swapGun();
 		}
 
+		if (Keys.isKeyPressed(KeyEvent.VK_E)) {
+			interactWith();
+		
+		}
 		if (dx != 0 || dy != 0) {
 			setMoveSpeed(5);
 			Force f = new Force((float) (getMoveSpeed() * Time.delta()), dx, dy);
@@ -431,10 +433,6 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	}
 
-	public static void useEvent() {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
