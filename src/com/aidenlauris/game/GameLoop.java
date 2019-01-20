@@ -37,7 +37,7 @@ public class GameLoop implements Runnable {
 		int loops;
 		long previousTime = System.currentTimeMillis();
 		ArrayList<Integer> fps = new ArrayList<>(60);
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 60; i++) {
 			fps.add(0);
 		}
 		int totalFPS = 0;
@@ -59,7 +59,7 @@ public class GameLoop implements Runnable {
 			fps.remove(0);
 			fps.add(cfps);
 			totalFPS += cfps;
-			p.fpsTimer = totalFPS / 30;
+			p.fpsTimer = totalFPS / 60;
 			p.repaint();
 
 			try {

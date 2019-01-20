@@ -69,7 +69,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
-
+		addCollisionBox(new HurtBox(this, 20, 20, 20));
 		inv.addGun(new Pistol());
 		inv.addAmmo(new BulletAmmo(125));
 
@@ -133,7 +133,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 		if (Keys.isKeyPressed(KeyEvent.VK_E)) {
 			interactWith();
-		
+
 		}
 		if (dx != 0 || dy != 0) {
 			setMoveSpeed(5);
@@ -147,7 +147,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 		if (Mouse.isLeftPressed()) {
 			inv.getGun().useItem();
-			
+
 		}
 
 		if (!idle) {
@@ -433,11 +433,15 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	}
 
-
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
 		if (box.isSolid) {
 			collide(box, myBox);
+		}
+
+		if (box.getOwner() instanceof Enemy && myBox instanceof HurtBox) {
+			((Entity) box.getOwner()).damage((HurtBox) myBox);
+			((Entity) box.getOwner()).knockBack(10f, x, y, box.getOwner().x, box.getOwner().y);
 		}
 	}
 

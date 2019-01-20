@@ -21,8 +21,8 @@ public class SpinnerBlade extends Projectile {
 	private int offset = 25;
 	public Color color = Color.darkGray;
 	public boolean trail = true;
-	public int chains = 5;
-	public int chainUpdate = 3;
+	public int chains = 4;
+	public int chainUpdate = 20;
 
 	public SpinnerBlade(Entity parent, int damage, float angle, float speed, int offset) {
 		this.parent = parent;
@@ -86,14 +86,14 @@ public class SpinnerBlade extends Projectile {
 			double oy = offset * Math.sin(a);
 
 			if (Time.global() % chainUpdate == 0) {
-				for (int i = 0; i <= chains; i++) {
+				for (int i = -1; i < chains; i++) {
 					float dx = (float) (ox - (i / chains) * ox);
 					float dy = (float) (oy - (i / chains) * oy);
 
 					Particle p = new Particle(parent.x + dx, parent.y + dy);
 					p.setFadeMinimum(0);
 					p.setSizeDecay(0);
-					p.setLifeSpan(60);
+					p.setLifeSpan(chainUpdate*3);
 					p.setSize(10);
 					p.setRotationSpeed(1);
 					p.setColor(color);

@@ -59,7 +59,7 @@ public class MapGen {
 		// Random ran = new Random(seed);
 		Random ran = new Random();
 		// plotting the rooms
-		int rooms = 7 + WorldMap.globalDifficulty;
+		int rooms = 7 + WorldMap.globalDifficulty/3;
 		int additionalRooms = 0;
 		int roomSize = 3+ (WorldMap.globalDifficulty/3);
 		int roomVariance = 3;
@@ -218,7 +218,8 @@ public class MapGen {
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(WorldMap.globalDifficulty) + WorldMap.globalDifficulty;
+		int numOfEnemies = ran.nextInt(2) + WorldMap.globalDifficulty-2;
+		numOfEnemies = Math.max(numOfEnemies, 1);
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
 //			choice = 10;

@@ -49,14 +49,14 @@ public class BeamShooter extends Enemy {
 			a.color = new Color(255, 0, 125);
 			b.color = new Color(255, 0, 125);
 			c.color = new Color(255, 0, 125);
-//			a.trail = false;
-//			b.trail = false;
-//			c.trail = false;
-			a.chainUpdate = 5;
+			// a.trail = false;
+			// b.trail = false;
+			// c.trail = false;
+			a.chainUpdate = 10;
 			a.chains = 3;
-			b.chainUpdate = 5;
+			b.chainUpdate = 10;
 			b.chains = 3;
-			c.chainUpdate = 5;
+			c.chainUpdate = 10;
 			c.chains = 3;
 			spinnersCreated = true;
 		}
@@ -117,7 +117,6 @@ public class BeamShooter extends Enemy {
 			p.setRotationSpeed(0);
 			p.setRotation((int) Math.toDegrees(theta));
 
-			p.addCollider();
 			p.setFadeMinimum(255);
 			p.init();
 

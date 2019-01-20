@@ -43,8 +43,8 @@ public class Camera extends Entity {
 		mouseOffsetY = Mouse.planeY();
 		destX = (Mouse.realX() + player.x) / 2;
 		destY = (Mouse.realY() + player.y) / 2;
-		moveTo(player.x + mouseOffsetX/5, player.y + mouseOffsetY/5);
-		 tickUpdate();
+		moveTo(player.x + mouseOffsetX / 5, player.y + mouseOffsetY / 5);
+		tickUpdate();
 	}
 
 	public float camX() {
@@ -70,17 +70,17 @@ public class Camera extends Entity {
 	private void moveTo(float dx, float dy) {
 		float distToX = dx - this.x;
 		float distToY = dy - this.y;
-		this.x += distToX*0.2 ;
-		this.y += distToY*0.2;
+		this.x += distToX * 0.2;
+		this.y += distToY * 0.2;
 
 	}
 
 	public void cameraShake(double theta, float angle, float power) {
 
 		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
-		Force f = new Force(power*1f, (float) (theta + Math.PI + angle));
+		Force f = new Force(power * 1f, (float) (theta + Math.PI + angle));
 		f.setReduction(0.1f);
-		getForceSet().addForce(f);
+		 getForceSet().addForce(f);
 
 	}
 

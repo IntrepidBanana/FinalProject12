@@ -84,7 +84,6 @@ public class Beam extends Projectile {
 				p.setRotationSpeed(30);
 				p.setRotation((int) Math.toDegrees(getForceSet().getNetTheta()));
 				
-				p.addCollider();
 				p.setFadeMinimum(0);
 				p.init();
 				

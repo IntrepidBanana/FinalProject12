@@ -53,8 +53,7 @@ public class PainterLoop extends JPanel {
 	private BufferedImage lightMap;
 	public long fpsTimer;
 	public GameState gameState = new GameState();
-	
-	
+
 	public PainterLoop(IOHandler io) {
 		WorldMap.init();
 
@@ -81,14 +80,14 @@ public class PainterLoop extends JPanel {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d = playState(g2d);
 	}
-	
-	
+
 	public Graphics2D playState(Graphics2D g2d) {
-		g2d.drawString("FPS: " + fpsTimer, 16, 16);
 
 		ArrayList<GameObject> objects = WorldMap.objectsToDraw;
+//		System.out.println(WorldMap.globalRotation);
+//		g2d.rotate(WorldMap.globalRotation, WorldMap.camx/2, WorldMap.camy/2);
+//		WorldMap.globalRotation *= 0.6f;
 
-		
 		WorldMap.sightPolygon.clear();
 		int sizeMishap = 0;
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
@@ -115,12 +114,11 @@ public class PainterLoop extends JPanel {
 		Cursor c = WorldMap.getCursor();
 		g2d = c.draw(g2d);
 
-		long end = System.currentTimeMillis();
-		
+		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
+
+		g2d.drawString("FPS: " + fpsTimer + " Delta: " + Time.delta(), 16, 16);
+
 		return g2d;
 	}
-
-	
-	
 
 }

@@ -77,6 +77,8 @@ public class GunDrop extends Entity implements Interactable {
 		}
 
 		if (gun == null) {
+
+			Player.getPlayer().removeInteractable(this);
 			kill();
 		}
 
@@ -94,8 +96,9 @@ public class GunDrop extends Entity implements Interactable {
 		Shape s = new Rectangle2D.Float(drawX - 5, drawY - 5, 10, 10);
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fill(s);
-		if (interacting && gun != null) {
-			g2d.drawString(gun.item(), drawX, drawY - 16);
+		if (interacting) {
+			String str = gun + "";
+			g2d.drawString(str, drawX, drawY - 16);
 		}
 		return g2d;
 	}

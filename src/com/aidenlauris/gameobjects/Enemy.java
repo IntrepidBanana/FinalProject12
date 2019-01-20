@@ -101,7 +101,7 @@ public class Enemy extends Entity {
 
 	@Override
 	public void kill() {
-		AmmoDropEntity.drop(x, y, DROP_CHANCE, 1, 3);
+		AmmoDropEntity.drop(x, y, DROP_CHANCE*3, 1, 3);
 		HealthDropEntity.drop(x, y, DROP_CHANCE, 1, 1);
 		GunDrop.drop(x, y, DROP_CHANCE);
 		WorldMap.addGameObject(new Corpse(x, y, this));
@@ -134,7 +134,7 @@ public class Enemy extends Entity {
 		drawY = PaintHelper.y(y);
 
 		g2d = super.draw(g2d);
-		g2d.drawString(this.getClass().getSimpleName(), drawX, drawY);
+//		g2d.drawString(this.getClass().getSimpleName(), drawX, drawY);
 		return g2d;
 	}
 }

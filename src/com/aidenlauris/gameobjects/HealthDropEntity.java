@@ -37,9 +37,11 @@ public class HealthDropEntity extends AmmoDropEntity {
 				randY = (float) (y + Math.random() * 20 - 10);
 
 				WorldMap.addGameObject(new HealthDropEntity(randX, randY));
-
+				
 			}
 
 		}
 	}
+	
+	
 }

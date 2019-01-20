@@ -1,6 +1,7 @@
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -22,7 +23,7 @@ import com.aidenlauris.render.menu.CollectionText;
 public class AmmoDropEntity extends Entity {
 
 	private Ammo ammo = null;
-
+	private int size = 15;
 	private void initValues() {
 		team = Team.PLAYER;
 		HitBox box = new HitBox(this, 12, 12, false);
@@ -55,7 +56,6 @@ public class AmmoDropEntity extends Entity {
 		}
 	}
 
-
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
 		if (box.isSolid) {
@@ -70,7 +70,7 @@ public class AmmoDropEntity extends Entity {
 		if (distToPlayer() < 40) {
 			if (ammo != null) {
 				Player.getPlayer().getInventory().addAmmo(ammo);
-				WorldMap.addMenu( new CollectionText( ammo.item() + " " + ammo.getCount()));
+				WorldMap.addMenu(new CollectionText(ammo.item() + " " + ammo.getCount()));
 			}
 			kill();
 		}
@@ -82,33 +82,25 @@ public class AmmoDropEntity extends Entity {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 
-		if (ammo != null) {
-			switch (ammo.item()) {
-			case "ShotgunAmmo":
-				g2d.setColor(Color.red);
-				break;
-			case "BulletAmmo":
-				g2d.setColor(Color.ORANGE);
-				break;
-			case "ExplosiveAmmo":
-				g2d.setColor(Color.green);
-				break;
-			case "EnergyCell":
-				g2d.setColor(Color.magenta);
-				break;
-			default:
-				g2d.setColor(Color.magenta);
-				break;
-			}
+		g2d.setColor(Color.ORANGE);
+		if (this instanceof HealthDropEntity) {
+			g2d.setColor(Color.MAGENTA);
 		}
-
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
 		transform.rotate(Math.toRadians(System.currentTimeMillis() / 3), drawX, drawY);
 		g2d.transform(transform);
 
-		g2d.fill(new Rectangle2D.Float(drawX - 6, drawY - 6, 12, 12));
+		g2d.fill(new Rectangle2D.Float(drawX - size/2, drawY - size/2, size, size));
 		g2d.setTransform(old);
+
+		if (this instanceof HealthDropEntity) {
+			g2d.setFont(new Font(PaintHelper.font.getFontName(), Font.BOLD, 28));
+			g2d.setColor(Color.WHITE);
+			g2d.drawString("+", drawX - 8, drawY + 7);
+			g2d.setFont(PaintHelper.font);
+		}
+
 		return g2d;
 	}
 

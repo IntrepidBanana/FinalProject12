@@ -185,7 +185,7 @@ public abstract class Gun extends Weapon {
 	}
 
 	public int getQuickRelease() {
-		return quickRelease;
+		return (int) (quickRelease/Time.delta());
 	}
 
 	public void setQuickRelease(int quickRelease) {

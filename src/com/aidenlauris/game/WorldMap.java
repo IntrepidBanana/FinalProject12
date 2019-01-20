@@ -58,6 +58,7 @@ public class WorldMap {
 	private static Enemy lastEnemy;
 	private static boolean endOfLevel = false;
 	private static ArrayList<Particle> particles = new ArrayList<>();
+//	public static float globalRotation = 0;
 
 	public synchronized static void update() {
 
@@ -89,10 +90,24 @@ public class WorldMap {
 
 			}
 		}
-		for (ArrayList<GameObject> chunk : getMap().getAllChunks()) {
+
+		Iterator<ArrayList<GameObject>> iter = getMap().getAllChunks().iterator();
+
+		while (iter.hasNext()) {
+			ArrayList<GameObject> chunk = iter.next();
+			if (chunk.isEmpty()) {
+				iter.remove();
+				continue;
+			}
 			checkChunkCollisions(chunk);
 			chunkCount++;
+			
 		}
+
+//		for (ArrayList<GameObject> chunk : getMap().getAllChunks()) {
+//			checkChunkCollisions(chunk);
+//			chunkCount++;
+//		}
 
 		if (enemies.size() == 1) {
 			lastEnemy = enemies.get(0);
@@ -124,13 +139,12 @@ public class WorldMap {
 		if (!(e instanceof Wall)) {
 			nonStaticObjects.add(e);
 		}
-		if(e instanceof Particle) {
+		if (e instanceof Particle) {
 			particles.add((Particle) e);
-			if((gameObjects.size() - nonStaticObjects.size()) > 700) {
+			if ((gameObjects.size() - nonStaticObjects.size()) > 700) {
 				removeGameObject(particles.get(0));
 			}
 		}
-		
 
 		gameObjects.add(e);
 		collisionBoxes.addAll(e.getCollisionBoxes());

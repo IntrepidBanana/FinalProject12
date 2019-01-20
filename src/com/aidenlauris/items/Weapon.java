@@ -1,5 +1,7 @@
 package com.aidenlauris.items;
 
+import com.aidenlauris.game.Time;
+
 public abstract class Weapon extends Item {
 
 	private int damage;
@@ -20,7 +22,7 @@ public abstract class Weapon extends Item {
 	}
 	
 	public int getAtkSpeed() {
-		return atkSpeed;
+		return (int) (atkSpeed/Time.delta());
 	}
 	
 	public void setAtkSpeed(int atkSpeed) {
