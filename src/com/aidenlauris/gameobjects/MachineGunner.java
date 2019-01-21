@@ -66,7 +66,7 @@ public class MachineGunner extends Enemy {
 	
 	
 	public void attack(){
-		MachineBullet b = new MachineBullet(5);
+		Bullet b = new Bullet(15);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();

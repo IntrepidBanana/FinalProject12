@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.render.PaintHelper;
+import com.aidenlauris.render.util.SpriteManager.State;
 
 public abstract class GameObject {
 	public float x;
@@ -18,6 +19,8 @@ public abstract class GameObject {
 	public boolean forceAccurate = false;
 	public boolean highSpeedAccess = false;
 	protected long initTime = Time.global();
+	public State mySprite = State.Idle;
+	public long animation = 0;
 
 	ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
 

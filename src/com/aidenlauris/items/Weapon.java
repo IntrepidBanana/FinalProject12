@@ -6,6 +6,8 @@
 
 package com.aidenlauris.items;
 
+import java.awt.Graphics2D;
+
 import com.aidenlauris.game.Time;
 
 public abstract class Weapon extends Item {
@@ -35,4 +37,7 @@ public abstract class Weapon extends Item {
 		this.atkSpeed = atkSpeed;
 	}
 
+	public Graphics2D attackAnimation(Graphics2D g2d, float playerX, float playerY, float theta) {
+		return g2d;
+	}
 }

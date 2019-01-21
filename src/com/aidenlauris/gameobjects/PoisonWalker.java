@@ -6,14 +6,29 @@
 
 package com.aidenlauris.gameobjects;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
 
 public class PoisonWalker extends Enemy {
 
+	private Particle part;
+
 	public PoisonWalker(float x, float y) {
 		super(x, y, 50, 10, 2);
+
+		part = new Particle(x, y);
+
+		part.setRotation(3);
+		part.setColor(Color.green);
+		part.setSize(45);
+		part.setSizeDecay(45);
+		part.setLifeSpan(Integer.MAX_VALUE);
+		part.init();
+
 	}
 
 	@Override
@@ -32,6 +47,9 @@ public class PoisonWalker extends Enemy {
 	}
 
 	public void update() {
+		part.x = x;
+		part.y = y;
+
 		tickUpdate();
 
 		float dist = (float) Math
@@ -54,4 +72,14 @@ public class PoisonWalker extends Enemy {
 
 	}
 
+	@Override
+	public void kill() {
+		part.kill();
+		super.kill();
+	}
+	
+	@Override
+	public Graphics2D draw(Graphics2D g2d) {
+		return g2d;
+	}
 }

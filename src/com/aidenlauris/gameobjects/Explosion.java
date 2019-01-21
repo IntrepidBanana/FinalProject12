@@ -5,6 +5,7 @@
  */
 
 package com.aidenlauris.gameobjects;
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
@@ -24,7 +25,18 @@ public class Explosion extends Entity {
 		this.size = size;
 		team = team.PLAYER;
 		addCollisionBox(new HurtBox(this, -size / 2, -size / 2, size, size, damage));
-		Particle.create(x, y, 45f, 0, 180, 20);
+		Particle.create(x, y, 45f, 0, 180, 20, Color.LIGHT_GRAY);
+		
+		Particle p = new Particle(x, y);
+		p.setColor(Color.yellow);
+		p.setFadeMinimum(0);
+		p.setSize((int) size);
+		p.setRotationSpeed(3);
+		p.setRotation((int) (Math.random()*360));
+		p.setSizeDecay(0);
+		p.setLifeSpan(20);
+		p.init();
+		
 	}
 
 	@Override

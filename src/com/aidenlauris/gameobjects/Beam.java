@@ -61,8 +61,8 @@ public class Beam extends Projectile {
 		transform.rotate(theta, drawX, drawY);
 		g2d.transform(transform);
 		g2d.setColor(Color.RED);
-		if (getForceSet().getNetMagnitude() > 1) {
-			g2d.fill(s);
+		if (getForceSet().getNetMagnitude() > 1 ) {
+//			g2d.fill(s);
 		}
 		g2d.setTransform(old);
 		return g2d;

@@ -7,6 +7,7 @@
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
@@ -23,12 +24,21 @@ public class BeamShooter extends Enemy {
 	long prepAttack = Time.alert(180);
 	long attack = 0;
 	private boolean attacking;
-
+	private Particle part;
+	
 	float px = 0;
 	float py = 0;
 
 	public BeamShooter(float x, float y) {
 		super(x, y, 200, 10, 1);
+		
+		part = new Particle(x, y);
+		part.setRotationSpeed(3);
+		part.setSize(64);
+		part.setLifeSpan(Integer.MAX_VALUE);
+		part.setColor(new Color(255, 0, 125));
+		part.init();
+		
 	}
 
 	@Override
@@ -48,6 +58,10 @@ public class BeamShooter extends Enemy {
 
 	public void update() {
 		tickUpdate();
+		
+		part.x = x;
+		part.y = y;
+		
 		if (!spinnersCreated) {
 			SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 50);
 			SpinnerBlade b = new SpinnerBlade(this, 20, 120, 1, 50);
@@ -153,8 +167,15 @@ public class BeamShooter extends Enemy {
 
 	@Override
 	public void kill() {
-
+		part.kill();
 		super.kill();
 	}
 
+	
+	@Override
+	public Graphics2D draw(Graphics2D g2d) {
+		
+		
+		return g2d;
+	}
 }

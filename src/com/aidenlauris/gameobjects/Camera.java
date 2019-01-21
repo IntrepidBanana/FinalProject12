@@ -86,7 +86,10 @@ public class Camera extends Entity {
 		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
 		Force f = new Force(power * 1f, (float) (theta + Math.PI + angle));
 		f.setReduction(0.1f);
-		 getForceSet().addForce(f);
+
+		if (getForceSet().getNetMagnitude() < 10) {
+			getForceSet().addForce(f);
+		}
 
 	}
 

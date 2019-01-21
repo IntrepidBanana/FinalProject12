@@ -61,7 +61,7 @@ public class Shotgunner extends Enemy {
 		for (int i = 0; i < 9; i++) {
 			
 		
-		ShotgunShell b = new ShotgunShell(5f);
+		Bullet b = new Bullet(10f);
 		b.x = this.x;
 		b.y = this.y;
 		Player p = Player.getPlayer();

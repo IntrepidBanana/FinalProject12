@@ -11,7 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
+import com.aidenlauris.game.RocketLauncher;
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.Keys;
 import com.aidenlauris.gameobjects.util.CollisionBox;
@@ -25,6 +28,7 @@ import com.aidenlauris.items.Gun;
 import com.aidenlauris.items.Item;
 import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.MachineGun;
+import com.aidenlauris.items.Minigun;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.items.Sword;
@@ -34,29 +38,31 @@ public class GunDrop extends Entity implements Interactable {
 
 	private boolean interacting;
 	private Gun gun;
+	private Particle p;
 
 	public GunDrop(float x, float y) {
 		super(x, y);
+		ArrayList<Gun> guns = new ArrayList<>();
+		guns.add(new MachineGun());
+		guns.add(new Cannon());
+		guns.add(new Shotgun());
+		guns.add(new LaserGun());
+		guns.add(new Sword());
+		guns.add(new Minigun());
+		guns.add(new RocketLauncher());
 
-		switch ((int) (Math.random() * 5)) {
-		case 0:
-			gun = new MachineGun();
-			break;
-		case 1:
-			gun = new LaserGun();
-			break;
-		case 2:
-			gun = new Cannon();
-			break;
-		case 3:
-			gun = new Shotgun();
-			break;
+		int index = (int) (Math.random() * guns.size());
+		gun = guns.get(index);
 
-		case 4:
-			gun = new Sword();
-			break;
-		}
-
+		p = new Particle(x, y);
+		p.setLifeSpan(Integer.MAX_VALUE);
+		p.setRotation((int) (System.currentTimeMillis() / 3));
+		p.setRotationSpeed(3);
+		p.setColor(Color.LIGHT_GRAY);
+		p.setFadeMinimum(255);
+		p.setSize(20);
+		p.setSizeDecay(20);
+		p.init();
 	}
 
 	@Override
@@ -91,20 +97,35 @@ public class GunDrop extends Entity implements Interactable {
 	}
 
 	@Override
+	public void kill() {
+		p.kill();
+		super.kill();
+	}
+
+	@Override
 	public void collisionOccured(CollisionBox theirBox, CollisionBox myBox) {
 
 	}
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
+
+		if (Time.alertPassed(animation)) {
+			animation = Time.alert(1600);
+
+		}
+
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		Shape s = new Rectangle2D.Float(drawX - 5, drawY - 5, 10, 10);
-		g2d.setColor(Color.DARK_GRAY);
-		g2d.fill(s);
 		if (interacting) {
-			String str = gun + "";
-			g2d.drawString(str, drawX, drawY - 16);
+
+			String str = "[E] " + gun;
+			int wid = g2d.getFontMetrics().stringWidth(str);
+
+			g2d.setColor(Color.lightGray);
+			g2d.setFont(PaintHelper.font);
+			g2d.drawString(str, drawX - wid / 2 - 16, drawY - 24);
 		}
 		return g2d;
 	}

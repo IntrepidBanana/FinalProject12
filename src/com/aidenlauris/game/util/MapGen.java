@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
+import com.Tile;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.BeamShooter;
 import com.aidenlauris.gameobjects.Chaser;
@@ -50,6 +51,8 @@ public class MapGen {
 	}
 
 	public static ArrayList<GameObject> genMap(Player p) {
+		
+		
 		int[][] geo = new int[30][30];
 
 		// a single wall is going to be something like 200 blocks
@@ -96,7 +99,10 @@ public class MapGen {
 			iter.remove();
 
 		}
-
+		
+		
+		
+		
 		printMap(geo);
 		geo = pruneDeadArea(geo);
 		printMap(geo);
@@ -212,6 +218,7 @@ public class MapGen {
 		
 		objects.add(explosion);
 		
+		
 		return objects;
 
 	}
@@ -222,7 +229,7 @@ public class MapGen {
 		numOfEnemies = Math.max(numOfEnemies, 1);
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
-//			choice = 10;
+//			choice = 3;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,

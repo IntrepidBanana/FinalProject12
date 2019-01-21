@@ -137,8 +137,10 @@ public abstract class Gun extends Weapon {
 					Particle.create(p.x, p.y, (float) (3f + Math.random() * 5), (float) (theta + Math.PI - Math.PI / 2),
 							i * 2, 1, false, Color.yellow, 10, 6);
 				}
-				SoundHelper.makeSound(getSpawnSound());
 			}
+			SoundHelper.makeSound(getSpawnSound());
+			attackAnimation(null, player.x, player.y, theta);
+			
 			switch (ammoType) {
 			case "BulletAmmo":
 				Particle.create(player.x, player.y, 20f, (float) (theta + Math.PI / 1.8), 15, ammoPerUse, false,

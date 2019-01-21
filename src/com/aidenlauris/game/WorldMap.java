@@ -40,8 +40,8 @@ public class WorldMap {
 	public static Camera camera;
 
 	public static int globalDifficulty = 0;
-	static ArrayList<GameObject> gameObjects = new ArrayList<>();
-	static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
+	public static ArrayList<GameObject> gameObjects = new ArrayList<>();
+	public static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
 	public static ArrayList<GameObject> objectsToDraw = new ArrayList<>();
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
 	static ArrayList<Entity> toRemove = new ArrayList<>();
@@ -90,7 +90,10 @@ public class WorldMap {
 
 			}
 		}
-
+		if ((gameObjects.size() - nonStaticObjects.size()) > 1000) {
+			System.out.println("RESIZE! " + (gameObjects.size() - nonStaticObjects.size()));
+			removeGameObject(particles.get(0));
+		}
 		Iterator<ArrayList<GameObject>> iter = getMap().getAllChunks().iterator();
 
 		while (iter.hasNext()) {
@@ -136,14 +139,16 @@ public class WorldMap {
 	}
 
 	public synchronized static void addGameObject(GameObject e) {
+		
 		if (!(e instanceof Wall)) {
 			nonStaticObjects.add(e);
 		}
 		if (e instanceof Particle) {
 			particles.add((Particle) e);
-			if ((gameObjects.size() - nonStaticObjects.size()) > 700) {
-				removeGameObject(particles.get(0));
-			}
+			
+		}
+		if(e instanceof Enemy) {
+			enemies.add((Enemy) e);
 		}
 
 		gameObjects.add(e);
@@ -208,11 +213,10 @@ public class WorldMap {
 		gameObjects.clear();
 		nonStaticObjects.clear();
 		objectsToDraw.clear();
-		gameObjects = MapGen.genMap(Player.getPlayer());
-		for (GameObject e : gameObjects) {
-			if (e instanceof Enemy) {
-				enemies.add((Enemy) e);
-			}
+		ArrayList<GameObject> generatedMap = MapGen.genMap(Player.getPlayer());
+		for (GameObject e : generatedMap) {
+			addGameObject(e);
+			
 		}
 		addGameObject(new Cursor());
 		Explosion explosion = new Explosion(Player.getPlayer().x, Player.getPlayer().y, 300, 50f, 1000);
