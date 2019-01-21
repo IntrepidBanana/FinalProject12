@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * PoisonWalker
+ * type of enemy that puts poison on the floor
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.Time;

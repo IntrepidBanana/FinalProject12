@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Gun
+ * super class for all types of guns
+ */
+
 package com.aidenlauris.items;
 
 import java.awt.Color;

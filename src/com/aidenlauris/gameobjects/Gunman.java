@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Gunman
+ * type of enemy that shoots pistol bullets at the player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.Time;

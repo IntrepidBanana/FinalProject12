@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * SpinnerBlade
+ * type of projectile for Spinners
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

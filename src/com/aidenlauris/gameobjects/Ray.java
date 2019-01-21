@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Ray
+ * 
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Graphics2D;

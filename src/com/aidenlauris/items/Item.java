@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Item
+ * super class for all types of items such as guns or ammo
+ */
+
 package com.aidenlauris.items;
 
 public abstract class Item {

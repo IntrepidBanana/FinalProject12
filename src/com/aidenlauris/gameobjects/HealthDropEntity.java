@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * HealthDropEntity
+ * health that drops on the floor to heal the player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.WorldMap;

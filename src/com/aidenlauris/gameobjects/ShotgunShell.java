@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * ShotgunShell
+ * type of projectile for shotguns
+ */
+
 package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;

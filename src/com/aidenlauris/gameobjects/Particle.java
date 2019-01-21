@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Particle
+ * used for effects with bullets and player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

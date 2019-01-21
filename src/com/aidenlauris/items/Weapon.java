@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Weapon
+ * super class for all types of weapons
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.game.Time;

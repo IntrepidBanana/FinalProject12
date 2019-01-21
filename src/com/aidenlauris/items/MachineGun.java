@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * MachineGun
+ * type of gun that uses machine bullet, fully automatic
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Bullet;

@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * BeamShooter
+ * an enemy that shoots beams
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

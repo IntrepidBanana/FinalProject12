@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * FourShooter
+ * type of enemy that shoots in four directions
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.Time;

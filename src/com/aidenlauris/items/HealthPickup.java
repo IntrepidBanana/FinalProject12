@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * HealthPickup
+ * gives player health
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Player;

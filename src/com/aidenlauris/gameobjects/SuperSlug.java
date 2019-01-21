@@ -1,3 +1,8 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * SuperSlug
+ * type of enemy that splits into 4 slugs on death
+ */
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

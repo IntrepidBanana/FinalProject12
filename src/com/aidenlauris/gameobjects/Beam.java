@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Beam
+ * a type of projectile that creates a laser beam
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

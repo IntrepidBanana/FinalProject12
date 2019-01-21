@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * PoiosnCreep
+ * type of projectile that gets put on the floor to damage player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

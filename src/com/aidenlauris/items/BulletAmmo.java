@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * BulletAmmo
+ * type of ammo for pistols
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Ammo;

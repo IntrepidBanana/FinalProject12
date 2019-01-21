@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Projectile
+ * the superclass for all types of bullets
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.util.FormatterClosedException;

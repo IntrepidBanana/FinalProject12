@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * MelleSwing
+ * type of projectile for the sword and knife swings
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;

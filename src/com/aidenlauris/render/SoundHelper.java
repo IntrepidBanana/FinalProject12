@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * SoundHelper
+ * plays specific sounds for different things in the game
+ */
+
 package com.aidenlauris.render;
 
 import java.io.File;

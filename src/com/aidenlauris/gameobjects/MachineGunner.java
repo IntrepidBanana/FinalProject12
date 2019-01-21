@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * MachineGunner
+ * Type of enemy that shoots a machine gun 
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.Time;

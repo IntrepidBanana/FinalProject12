@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Cursor
+ * The spot where the mouse is to detect shooting direction
+ */
+
 package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;

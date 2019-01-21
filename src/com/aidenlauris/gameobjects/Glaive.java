@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Glaive
+ * type of projectile that spins around a point
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.gameobjects.util.HurtBox;

@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Poison
+ * PoisonWalker creates this when it walks to damage player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

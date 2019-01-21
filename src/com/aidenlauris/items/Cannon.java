@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Cannon
+ * type of gun that shoots explosives
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.CannonShell;

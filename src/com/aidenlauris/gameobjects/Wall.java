@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Wall
+ * literally a wall, blocks things from passing it
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.BasicStroke;

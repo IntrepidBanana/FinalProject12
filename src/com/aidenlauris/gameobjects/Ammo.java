@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Ammo
+ * ammunition for weapons super class
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.items.Consumable;
