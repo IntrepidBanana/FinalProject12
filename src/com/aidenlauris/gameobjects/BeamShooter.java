@@ -57,15 +57,12 @@ public class BeamShooter extends Enemy {
 		part.y = y;
 		
 		if (!spinnersCreated) {
-			SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 50);
-			SpinnerBlade b = new SpinnerBlade(this, 20, 120, 1, 50);
-			SpinnerBlade c = new SpinnerBlade(this, 20, 240, 1, 50);
+			SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 80);
+			SpinnerBlade b = new SpinnerBlade(this, 20, 120, 1, 80);
+			SpinnerBlade c = new SpinnerBlade(this, 20, 240, 1, 80);
 			a.color = new Color(255, 0, 125);
 			b.color = new Color(255, 0, 125);
 			c.color = new Color(255, 0, 125);
-			// a.trail = false;
-			// b.trail = false;
-			// c.trail = false;
 			a.chainUpdate = 10;
 			a.chains = 3;
 			b.chainUpdate = 10;

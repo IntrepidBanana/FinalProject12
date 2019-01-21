@@ -40,9 +40,6 @@ public abstract class GameObject {
 	}
 
 	public Graphics2D draw(Graphics2D g2d) {
-		for (CollisionBox cb : collisionBoxes) {
-			g2d = PaintHelper.drawCollisionBox(g2d, cb);
-		}
 
 		return g2d;
 	}

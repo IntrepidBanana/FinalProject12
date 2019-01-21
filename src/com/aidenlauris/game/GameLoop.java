@@ -67,21 +67,7 @@ public class GameLoop implements Runnable {
 			} catch (InterruptedException e) {
 				System.out.println("oops");
 			}
-
-			//
-			// WorldMap.update();
-			// p.repaint();
-			// nextGameTick+=SKIP_TICKS;
-			// long sleepTime = nextGameTick - getTickCount();
-			// if(sleepTime>=0) {
-			// try {
-			// Thread.sleep(sleepTime);
-			// } catch (InterruptedException e) {
-			// // TODO Auto-generated catch block
-			// e.printStackTrace();
-			// }
-			// }
-			//
+ 
 		}
 	}
 
@@ -95,7 +81,7 @@ public class GameLoop implements Runnable {
 	}
 
 	public static void main(String[] args) {
-		GameLoop gl = new GameLoop("yobunga");
+		GameLoop gl = new GameLoop("GameThread");
 		gl.start();
 	}
 }

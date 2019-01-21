@@ -1,5 +1,7 @@
 package com.aidenlauris.gameobjects;
 
+import java.awt.Color;
+
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
@@ -8,10 +10,20 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Spinner extends Enemy {
 
+	private Particle part;
+
 	private boolean spinnersCreated = false;
 
 	public Spinner(float x, float y) {
 		super(x, y, 50, 20, 2);
+		part = new Particle(x, y);
+		part.setColor(Color.orange);
+		part.setSize(25);
+		part.setSizeDecay(25);
+		part.setFadeMinimum(255);
+		part.setRotationSpeed(5);
+		part.setLifeSpan(Integer.MAX_VALUE);
+		part.init();
 	}
 
 	public void move() {
@@ -30,6 +42,9 @@ public class Spinner extends Enemy {
 	}
 
 	public void update() {
+		part.x = x;
+		part.y = y;
+
 		tickUpdate();
 		if (!spinnersCreated) {
 			attack();
@@ -40,12 +55,19 @@ public class Spinner extends Enemy {
 	public void attack() {
 
 		SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 50);
+		a.color = Color.ORANGE;
 		SpinnerBlade b = new SpinnerBlade(this, 20, 180, 1, 50);
-
+		b.color = Color.orange;
 	}
 
 	@Override
 	public void knockBack(float magnitude, float theta) {
 	}
 
+	@Override
+	public void kill() {
+
+		part.kill();
+		super.kill();
+	}
 }

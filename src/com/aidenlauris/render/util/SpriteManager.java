@@ -46,7 +46,6 @@ public class SpriteManager {
 			iter++;
 		}
 		
-		System.out.println("Tiles: " + tileSprites.size());
 		for(int i = 0; i < 8; i++) {
 			tileSprites.add(tilesheet.getSubimage(i*32, 0, 32, 32));
 		}

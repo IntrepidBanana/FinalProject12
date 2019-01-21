@@ -23,7 +23,6 @@ public class MeleeSwing extends Projectile {
 			if(owner.team != Team.PLAYER) {
 				owner.damage((HurtBox) myBox);
 				owner.knockBack(getKnockback(), getTheta());
-				owner.stun(30);
 				
 			}
 		}

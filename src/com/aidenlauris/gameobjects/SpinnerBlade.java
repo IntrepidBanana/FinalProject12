@@ -86,14 +86,14 @@ public class SpinnerBlade extends Projectile {
 			double oy = offset * Math.sin(a);
 
 			if (Time.global() % chainUpdate == 0) {
-				for (int i = -1; i < chains; i++) {
-					float dx = (float) (ox - (i / chains) * ox);
-					float dy = (float) (oy - (i / chains) * oy);
+				for (int i = 0; i < chains; i++) {
+					float dx = (float) ((i / (chains * 1.0f)) * ox);
+					float dy = (float) ((i /( chains * 1.0f)) * oy);
 
 					Particle p = new Particle(parent.x + dx, parent.y + dy);
 					p.setFadeMinimum(0);
 					p.setSizeDecay(0);
-					p.setLifeSpan(chainUpdate*3);
+					p.setLifeSpan(chainUpdate * 3);
 					p.setSize(10);
 					p.setRotationSpeed(1);
 					p.setColor(color);
@@ -109,6 +109,6 @@ public class SpinnerBlade extends Projectile {
 		g2d.fill(new Rectangle2D.Float(drawX - 12.5f, drawY - 12.5f, 25, 25));
 		g2d.setTransform(old);
 
-		return PaintHelper.drawCollisionBox(g2d, this);
+		return g2d;
 	}
 }

@@ -19,6 +19,7 @@ import com.aidenlauris.gameobjects.Shotgunner;
 import com.aidenlauris.gameobjects.Slug;
 import com.aidenlauris.gameobjects.Spinner;
 import com.aidenlauris.gameobjects.SuperSlug;
+import com.aidenlauris.gameobjects.TutorialText;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
 
@@ -51,8 +52,10 @@ public class MapGen {
 	}
 
 	public static ArrayList<GameObject> genMap(Player p) {
-		
-		
+		if (WorldMap.globalDifficulty == 0) {
+return genTutorialRoom();
+		}
+
 		int[][] geo = new int[30][30];
 
 		// a single wall is going to be something like 200 blocks
@@ -62,9 +65,9 @@ public class MapGen {
 		// Random ran = new Random(seed);
 		Random ran = new Random();
 		// plotting the rooms
-		int rooms = 7 + WorldMap.globalDifficulty/3;
+		int rooms = 7 + WorldMap.globalDifficulty / 3;
 		int additionalRooms = 0;
-		int roomSize = 3+ (WorldMap.globalDifficulty/3);
+		int roomSize = 3 + (WorldMap.globalDifficulty / 3);
 		int roomVariance = 3;
 		ArrayList<XY> roomLocations = new ArrayList<>();
 
@@ -99,10 +102,7 @@ public class MapGen {
 			iter.remove();
 
 		}
-		
-		
-		
-		
+
 		printMap(geo);
 		geo = pruneDeadArea(geo);
 		printMap(geo);
@@ -113,7 +113,6 @@ public class MapGen {
 	}
 
 	public static int[][] carveRoom(int[][] geo, int row, int col, int wid, int len) {
-		// System.out.println(row + " " + col);
 		row = Math.max(0, row);
 		col = Math.max(0, col);
 		for (int r = row; r < geo.length && r < row + wid; r++) {
@@ -213,23 +212,22 @@ public class MapGen {
 		p.x = player.x * wallSize;
 		p.y = player.y * wallSize;
 		objects.add(p);
-		
-		Explosion explosion = new Explosion(p.x, p.y, 2*wallSize, 50f, 1000);
-		
+
+		Explosion explosion = new Explosion(p.x, p.y, 2 * wallSize, 50f, 1000);
+
 		objects.add(explosion);
-		
-		
+
 		return objects;
 
 	}
 
 	private static ArrayList<GameObject> genEnemy(int[][] geo, XY rc, Random ran) {
 		ArrayList<GameObject> enemies = new ArrayList<>();
-		int numOfEnemies = ran.nextInt(2) + WorldMap.globalDifficulty-2;
+		int numOfEnemies = ran.nextInt(2) + WorldMap.globalDifficulty - 2;
 		numOfEnemies = Math.max(numOfEnemies, 1);
 		for (int i = 0; i < numOfEnemies; i++) {
 			int choice = ran.nextInt(11);
-//			choice = 3;
+			// choice = 3;
 
 			if (choice == 0) {
 				Gunman g = new Gunman(rc.x * wallSize + ran.nextInt(2 * wallSize) - wallSize,
@@ -281,5 +279,35 @@ public class MapGen {
 
 		}
 		return enemies;
+	}
+
+	private static ArrayList<GameObject> genTutorialRoom() {
+		Wall up = new Wall(0, 0, 300, 800);
+		Wall down = new Wall(0, 800, 300, 800);
+
+		Wall left = new Wall(0, 0, 800, 300);
+		Wall right = new Wall(800, 0, 1200, 300);
+
+		Player player = new Player(385, 560, 0.2f);
+		
+		Spinner spinner = new Spinner(725, 550);
+
+		TutorialText text1 = new TutorialText(470, 400, "Use W,A,S,D to Move");
+		TutorialText text2 = new TutorialText(470, 420, "Use Space to switch weapons");
+		TutorialText text3 = new TutorialText(470, 440, "Left Click to shoot!");
+		
+		ArrayList<GameObject> objects = new ArrayList<>();
+		objects.add(up);
+		objects.add(left);
+		objects.add(right);
+		objects.add(down);
+		objects.add(player);
+		objects.add(spinner);
+		objects.add(text1);
+		objects.add(text2);
+		objects.add(text3);
+
+		return objects;
+
 	}
 }

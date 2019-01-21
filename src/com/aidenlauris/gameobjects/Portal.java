@@ -16,14 +16,14 @@ public class Portal extends Entity {
 	private boolean timeHasStarted = false;
 	private long alert = 0;
 
-	public Portal(Enemy lastEnemy) {
+	public Portal(GameObject obj) {
 		super(0, 0);
 		addCollisionBox(new HitBox(this, 30, 30, false));
 		ForceAnchor fa = new ForceAnchor(10f, Player.getPlayer(), this, -1);
 		fa.setId("portal");
 		Player.getPlayer().getForceSet().addForce(fa, 30);
-		x = lastEnemy.x;
-		y = lastEnemy.y;
+		x = obj.x;
+		y = obj.y;
 
 	}
 
@@ -41,7 +41,7 @@ public class Portal extends Entity {
 		}
 		
 		double theta = Math.toRadians(Math.random() * 360);
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 1; i++) {
 			theta += Math.toRadians(120);
 			float dx = (float) (x + Math.cos(theta) * 30);
 			float dy = (float) (y + Math.sin(theta) * 30);
@@ -52,7 +52,7 @@ public class Portal extends Entity {
 			part.setSizeDecay(3);
 			part.setRotationSpeed(8);
 			part.setFadeMinimum(0);
-			part.setColor(Color.pink);
+			part.setColor(Color.cyan);
 			
 			
 			ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);

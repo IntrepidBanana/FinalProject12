@@ -31,7 +31,6 @@ public abstract class Entity extends GameObject {
 		setMoveSpeed(moveSpeed);
 		this.health = health;
 		this.maxHealth = health;
-		System.out.println(health + " " + maxHealth);
 	}
 
 	public void collide(CollisionBox box, CollisionBox myBox) {
@@ -171,7 +170,6 @@ public abstract class Entity extends GameObject {
 
 	public void stun(int stun) {
 		stunTimer = Time.alert(stun);
-		System.out.println(Time.alertPassed(stunTimer));
 		stunned = true;
 	}
 

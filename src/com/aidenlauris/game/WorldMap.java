@@ -39,11 +39,12 @@ public class WorldMap {
 	public static int camy = 960;
 	public static Camera camera;
 
-	public static int globalDifficulty = 0;
+	public static int globalDifficulty = -1;
 	public static ArrayList<GameObject> gameObjects = new ArrayList<>();
 	public static ArrayList<GameObject> nonStaticObjects = new ArrayList<>();
 	public static ArrayList<GameObject> objectsToDraw = new ArrayList<>();
 	static ArrayList<CollisionBox> collisionBoxes = new ArrayList<>();
+	private static ArrayList<Particle> particles = new ArrayList<>();
 	static ArrayList<Entity> toRemove = new ArrayList<>();
 	static boolean sleep = false;
 	static int sleepTime = 0;
@@ -57,8 +58,6 @@ public class WorldMap {
 	public static ArrayList<Enemy> enemies = new ArrayList<>();
 	private static Enemy lastEnemy;
 	private static boolean endOfLevel = false;
-	private static ArrayList<Particle> particles = new ArrayList<>();
-//	public static float globalRotation = 0;
 
 	public synchronized static void update() {
 
@@ -90,9 +89,10 @@ public class WorldMap {
 
 			}
 		}
-		if ((gameObjects.size() - nonStaticObjects.size()) > 1000) {
-			System.out.println("RESIZE! " + (gameObjects.size() - nonStaticObjects.size()));
-			removeGameObject(particles.get(0));
+		if (particles.size() > 1000) {
+			for (int i = 0; i < particles.size() - 1000; i++) {
+				particles.remove(0);
+			}
 		}
 		Iterator<ArrayList<GameObject>> iter = getMap().getAllChunks().iterator();
 
@@ -104,20 +104,19 @@ public class WorldMap {
 			}
 			checkChunkCollisions(chunk);
 			chunkCount++;
-			
+
 		}
 
-//		for (ArrayList<GameObject> chunk : getMap().getAllChunks()) {
-//			checkChunkCollisions(chunk);
-//			chunkCount++;
-//		}
+		// for (ArrayList<GameObject> chunk : getMap().getAllChunks()) {
+		// checkChunkCollisions(chunk);
+		// chunkCount++;
+		// }
 
 		if (enemies.size() == 1) {
 			lastEnemy = enemies.get(0);
 		}
 
 		if (enemies.size() == 0 && !endOfLevel) {
-			System.out.println(lastEnemy);
 			addGameObject(new Portal(lastEnemy));
 			endOfLevel = true;
 		}
@@ -126,29 +125,22 @@ public class WorldMap {
 		getMap().clearUnique();
 		getMap().clear();
 
-		if ((Time.global() % (1 * FRAMERATE)) == -1) {
-			System.out.println("# of game Objects       : " + gameObjects.size());
-			System.out.println("# of box cooliders      : " + collisionBoxes.size());
-			System.out.println("# of forces             : " + numOfForces);
-			System.out.println("# of Collisions checked : " + collisionsChecked);
-			System.out.println("# of chunks             : " + chunkCount);
-			System.out.println();
-			collisionsChecked = 0;
-		}
-
 	}
 
 	public synchronized static void addGameObject(GameObject e) {
-		
+
 		if (!(e instanceof Wall)) {
 			nonStaticObjects.add(e);
 		}
 		if (e instanceof Particle) {
 			particles.add((Particle) e);
-			
+
 		}
-		if(e instanceof Enemy) {
+		if (e instanceof Enemy) {
 			enemies.add((Enemy) e);
+		}
+		if (e instanceof Player) {
+			player = (Player) e;
 		}
 
 		gameObjects.add(e);
@@ -213,10 +205,12 @@ public class WorldMap {
 		gameObjects.clear();
 		nonStaticObjects.clear();
 		objectsToDraw.clear();
-		ArrayList<GameObject> generatedMap = MapGen.genMap(Player.getPlayer());
+		enemies.clear();
+		particles.clear();
+		ArrayList<GameObject> generatedMap = MapGen.genMap(player);
 		for (GameObject e : generatedMap) {
 			addGameObject(e);
-			
+
 		}
 		addGameObject(new Cursor());
 		Explosion explosion = new Explosion(Player.getPlayer().x, Player.getPlayer().y, 300, 50f, 1000);
@@ -272,4 +266,5 @@ public class WorldMap {
 	public static void addMenu(MenuObject m) {
 		menuLayer.add(m);
 	}
+
 }

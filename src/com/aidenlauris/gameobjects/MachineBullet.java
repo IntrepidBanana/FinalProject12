@@ -28,6 +28,7 @@ public class MachineBullet extends Projectile {
 
 	@Override
 	public void kill() {
+		
 		Particle.create(x, y, 15f, getTheta(), 40, 1);
 		super.kill();
 	}

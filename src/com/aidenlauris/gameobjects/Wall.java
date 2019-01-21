@@ -47,6 +47,7 @@ public class Wall extends Entity {
 	 * @return the coordinates
 	 */
 	public Point2D getVertex(int vertexIndex) {
+
 		switch (vertexIndex) {
 		default:
 			return new Point2D.Float(x, y);
@@ -201,7 +202,6 @@ public class Wall extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		// TODO Auto-generated method stub
 
 	}
 

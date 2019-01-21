@@ -6,6 +6,8 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.ForceSet;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.render.PaintHelper;
@@ -25,7 +27,17 @@ public class Bullet extends Projectile {
 		// box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = 1;
+		
+		
+		part = new Particle(x, y);
+		part.setColor(Color.orange);
 
+		part.setSize(25);
+		part.setRotationSpeed(12);
+		part.setSizeDecay(25);
+		part.setFadeMinimum(255);
+		part.setLifeSpan(Integer.MAX_VALUE);
+		part.init();
 	}
 
 	@Override
@@ -55,8 +67,8 @@ public class Bullet extends Projectile {
 
 	@Override
 	public void kill() {
-		Particle.create(x, y, 15f, getTheta(), 40, 1);
-		if(part != null) {
+		Particle.create(x, y, 15f, getTheta(), 40, 1, Color.LIGHT_GRAY);
+		if (part != null) {
 			part.kill();
 		}
 		super.kill();
@@ -67,10 +79,11 @@ public class Bullet extends Projectile {
 		// g2d = super.draw(g2d);
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
-		if (team == Team.ENEMY) {
+		if (team == team.ENEMY) {
 			if (time % 5 == 0) {
 				Particle p = new Particle(x, y);
 				p.setColor(Color.red);
+
 				p.setSize(16);
 				p.setRotationSpeed(3);
 				p.setSizeDecay(0);
@@ -78,25 +91,8 @@ public class Bullet extends Projectile {
 				p.setLifeSpan(30);
 				p.init();
 			}
-		} else {
-
-			float theta = (float) (getForceSet().getNetTheta() + Math.PI);
-			// int trail = (int) (24 * time + 48);
-			int trail = 50;
-			int width = 30;
-			Shape s = new Rectangle2D.Float(drawX, drawY - width / 2, trail, width);
-			AffineTransform transform = new AffineTransform();
-			AffineTransform old = g2d.getTransform();
-			transform.rotate(theta, drawX, drawY);
-			g2d.transform(transform);
-			g2d.setColor(Color.orange);
-			if (getForceSet().getNetMagnitude() > 1) {
-				g2d.fill(s);
-			}
-			g2d.setTransform(old);
 		}
 
-		// g2d = PaintHelper.drawCollisionBox(g2d, getCollisionBoxes());
 		return g2d;
 	}
 }

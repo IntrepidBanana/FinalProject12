@@ -93,23 +93,9 @@ public class PainterLoop extends JPanel {
 	public Graphics2D playState(Graphics2D g2d) {
 
 		ArrayList<GameObject> objects = WorldMap.objectsToDraw;
-		// System.out.println(WorldMap.globalRotation);
-		// g2d.rotate(WorldMap.globalRotation, WorldMap.camx/2, WorldMap.camy/2);
-		// WorldMap.globalRotation *= 0.6f;
 
 		WorldMap.sightPolygon.clear();
 
-//		for(int i = 0; i<118; i++) {
-//			for(int j = 0; j<118; j++) {
-//				if(tiles[i][j] == null) {
-//					tiles[i][j] = new Tile(i*32, j*32);
-//				}
-//				
-//				g2d = tiles[i][j].draw(g2d);
-//				
-//			}	
-//			
-//		}
 		
 		int sizeMishap = 0;
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
@@ -123,7 +109,7 @@ public class PainterLoop extends JPanel {
 				continue;
 
 			}
-			if (Math.hypot(PaintHelper.x(e.x - WorldMap.camx / 2), PaintHelper.y(e.y - WorldMap.camy / 2)) > 1260) {
+			if (Math.hypot(PaintHelper.x(e.x - WorldMap.camx / 2), PaintHelper.y(e.y - WorldMap.camy / 2)) > 1080) {
 				continue;
 			}
 			g2d = e.draw(g2d);
@@ -137,8 +123,8 @@ public class PainterLoop extends JPanel {
 		g2d = c.draw(g2d);
 
 		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
-
-		g2d.drawString("FPS: " + fpsTimer + " Delta: " + Time.delta(), 16, 16);
+g2d.setColor(Color.white);
+		g2d.drawString("FPS: " + fpsTimer + " Delta: " + (Math.round(Time.delta()*100)/100.0), 16, 16);
 
 		return g2d;
 	}

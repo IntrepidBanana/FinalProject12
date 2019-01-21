@@ -12,6 +12,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.aidenlauris.game.IOHandler;
@@ -69,11 +70,12 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	private int effectType = 8;
 	private HealthBar healthBar = new HealthBar();
 	public long animation = 0;
+	public ArrayList<Particle> effects = new ArrayList<>();
 
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 100);
-		health = 10000;
-		maxHealth = 10000;
+		health = 100;
+		maxHealth = 100;
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
@@ -85,7 +87,6 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		inv.addAmmo(new ShotgunAmmo(10));
 
 		WorldMap.addMenu(healthBar);
-		// WorldMap.addMenu(menu);
 	}
 
 	public void parseInput() {
@@ -180,12 +181,10 @@ public class Player extends Entity implements LightSource, ItemContainer {
 			f.setReduction(0.8f);
 			c.getForceSet().addForce(f);
 		}
-		System.out.println(time);
 		screenShake(c, time - 1);
 	}
 
 	public void update() {
-
 		if (Time.alertPassed(alert)) {
 			SoundHelper.makeSound("music.wav");
 			alert = Time.alert(720);
@@ -220,8 +219,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		part.setRotationSpeed(1);
 		part.setFadeMinimum(0);
 		part.setColor(Color.DARK_GRAY);
-
 		part.init();
+		effects.add(part);
+		if (effects.size() > 500) {
+			effects.remove(0);
+		}
 	}
 
 	@Override
@@ -315,8 +317,13 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	@Override
 	public void kill() {
+		health = 100;
+		Iterator<Enemy> iter = WorldMap.enemies.iterator();
+		new Explosion(x, y, 250, 400, 1000).init();;
+		
 		SoundHelper.makeSound("death.wav");
-		super.kill();
+		WorldMap.globalDifficulty = -1;
+		new Portal(this).init();
 	}
 
 }

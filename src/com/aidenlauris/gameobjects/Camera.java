@@ -17,7 +17,7 @@ public class Camera extends Entity {
 	float destY = 0;
 	int sizeX = 720;
 	int sizeY = 720;
-	Player player = Player.getPlayer();
+	public Player player = Player.getPlayer();
 
 	public Camera() {
 		super(0, 0, 1f, 1);
@@ -39,6 +39,7 @@ public class Camera extends Entity {
 
 	@Override
 	public void update() {
+		player = Player.getPlayer();
 		mouseOffsetX = Mouse.planeX();
 		mouseOffsetY = Mouse.planeY();
 		destX = (Mouse.realX() + player.x) / 2;

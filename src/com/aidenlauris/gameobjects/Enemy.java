@@ -21,6 +21,7 @@ import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
 
 public class Enemy extends Entity {
+
 	protected long alert = Time.alert(60);
 	private final float DROP_CHANCE = 0.2f;
 
@@ -34,6 +35,8 @@ public class Enemy extends Entity {
 		this.maxHealth = health;
 		setMoveSpeed(speed);
 		team = Team.ENEMY;
+		
+		
 	}
 
 	@Override

@@ -60,7 +60,6 @@ public class PaintHelper {
 		try {
 			// create the font to use. Specify the size!
 			File[] f = new File("./Press_Start_2P").listFiles();
-			System.out.println(Arrays.toString(f));
 			font = Font.createFont(Font.TRUETYPE_FONT, new File(".\\Press_Start_2P\\VT323-Regular.ttf"))
 					.deriveFont(24f);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

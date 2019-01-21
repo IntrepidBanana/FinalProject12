@@ -9,7 +9,6 @@ public class Minigun extends Gun{
 		setAtkSpeed(1);
 		setLength(50);
 		setAccuracy(20);
-		setBulletCount(2);
 		setDamage(20);
 		setAmmoType(new BulletAmmo().item());
 		

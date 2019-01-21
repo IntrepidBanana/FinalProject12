@@ -1,5 +1,7 @@
 package com.aidenlauris.gameobjects;
 
+import java.awt.Color;
+
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.Force;
@@ -11,9 +13,18 @@ public class MachineGunner extends Enemy {
 	
 	private long shootTime = Time.alert(20);
 	private int bullets;
+	private Particle part;
 
 	public MachineGunner(float x, float y) {
 		super(x, y, 50, 10, 3.5f);
+		part = new Particle(x, y);
+		part.setColor(Color.red);
+		part.setSize(25);
+		part.setSizeDecay(25);
+		part.setFadeMinimum(255);
+		part.setRotationSpeed(5);
+		part.setLifeSpan(Integer.MAX_VALUE);
+		part.init();
 	}
 	
 	
@@ -34,6 +45,9 @@ public class MachineGunner extends Enemy {
 	}
 	
 	public void update() {
+		part.x = x;
+		part.y = y;
+
 		tickUpdate();
 
 		float dist = (float) Math
@@ -80,7 +94,8 @@ public class MachineGunner extends Enemy {
 	
 	@Override
 	public void kill() {
-		
+
+		part.kill();
 		super.kill();
 	}
 
