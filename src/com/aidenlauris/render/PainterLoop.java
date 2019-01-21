@@ -125,7 +125,7 @@ public class PainterLoop extends JPanel {
 		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
 g2d.setColor(Color.white);
 		g2d.drawString("FPS: " + fpsTimer + " Delta: " + (Math.round(Time.delta()*100)/100.0), 16, 16);
-
+		g2d.drawString("Level: " + WorldMap.globalDifficulty, WorldMap.camx/2 -48, 16);
 		return g2d;
 	}
 

@@ -37,7 +37,7 @@ import com.aidenlauris.render.PaintHelper;
 public class GunDrop extends Entity implements Interactable {
 
 	private boolean interacting;
-	private Gun gun;
+	public Gun gun;
 	private Particle p;
 
 	public GunDrop(float x, float y) {

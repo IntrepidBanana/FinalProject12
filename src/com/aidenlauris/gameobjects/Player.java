@@ -86,11 +86,11 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
 		addCollisionBox(new HurtBox(this, 20, 20, 20));
-		inv.addGun(new Pistol());
+		//inv.addGun(new Pistol());
 		inv.addAmmo(new BulletAmmo(125));
-		inv.addAmmo(new ExplosiveAmmo(7));
+		inv.addAmmo(new ExplosiveAmmo(5));
 		inv.addAmmo(new EnergyCell(5));
-		inv.addAmmo(new ShotgunAmmo(10));
+		inv.addAmmo(new ShotgunAmmo(25));
 
 		WorldMap.addMenu(healthBar);
 	}
@@ -164,7 +164,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		}
 
 		if (Mouse.isLeftPressed()) {
+			if(inv.getGun() != null){
 			inv.getGun().useItem();
+			}
 
 		}
 
@@ -266,6 +268,10 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		g2d.fill(s);
 		g2d.drawImage(SpriteManager.playerSprites.get(mySprite), null, (int) drawX - 14, (int) drawY - 12);
 		g2d.setTransform(old);
+		
+		if (health < 1){
+			g2d.drawString("YOU'RE DEAD!", 1000, 1000);
+		}
 
 		return g2d;
 	}
@@ -323,13 +329,29 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	@Override
 	public void kill() {
-		health = 100;
-		Iterator<Enemy> iter = WorldMap.enemies.iterator();
-		new Explosion(x, y, 250, 400, 1000).init();;
+		health = 0;
+		new Explosion(x, y, 250, 700, 5000).init();;
 		
+		for(int i = 0; i < 10; i++) {
+			float theta = (float) Math.toRadians(Math.random()*360);
+			
+			Particle p = new Particle(x, y);
+			p.setColor(Color.red);
+			p.setRotation(1);
+			p.setSize(12);
+			p.setSizeDecay(1);
+			p.setLifeSpan(80);
+			
+			Force f = new Force(8, theta);
+			f.setReduction(0.1f);
+			
+			p.addForce(f);
+			p.init();
+			
+		}
 		SoundHelper.makeSound("death.wav");
-		WorldMap.globalDifficulty = -1;
-		new Portal(this).init();
+		removeSelf();
+		WorldMap.restart();
 	}
 
 }

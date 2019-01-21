@@ -11,6 +11,7 @@ import com.aidenlauris.gameobjects.Chaser;
 import com.aidenlauris.gameobjects.Explosion;
 import com.aidenlauris.gameobjects.FourShooter;
 import com.aidenlauris.gameobjects.Giant;
+import com.aidenlauris.gameobjects.GunDrop;
 import com.aidenlauris.gameobjects.Gunman;
 import com.aidenlauris.gameobjects.MachineGunner;
 import com.aidenlauris.gameobjects.Player;
@@ -22,6 +23,7 @@ import com.aidenlauris.gameobjects.SuperSlug;
 import com.aidenlauris.gameobjects.TutorialText;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
+import com.aidenlauris.items.Pistol;
 
 public class MapGen {
 
@@ -291,10 +293,13 @@ return genTutorialRoom();
 		Player player = new Player(385, 560, 0.2f);
 		
 		Spinner spinner = new Spinner(725, 550);
-
+		
+		GunDrop pistol = new GunDrop(550, 710);
+		pistol.gun = new Pistol();
 		TutorialText text1 = new TutorialText(470, 400, "Use W,A,S,D to Move");
 		TutorialText text2 = new TutorialText(470, 420, "Use Space to switch weapons");
 		TutorialText text3 = new TutorialText(470, 440, "Left Click to shoot!");
+		TutorialText text4 = new TutorialText(470, 460, "E to pick up weapons");
 		
 		ArrayList<GameObject> objects = new ArrayList<>();
 		objects.add(up);
@@ -306,6 +311,8 @@ return genTutorialRoom();
 		objects.add(text1);
 		objects.add(text2);
 		objects.add(text3);
+		objects.add(text4);
+		objects.add(pistol);
 
 		return objects;
 

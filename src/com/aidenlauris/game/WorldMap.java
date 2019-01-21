@@ -58,11 +58,20 @@ public class WorldMap {
 	public static ArrayList<Enemy> enemies = new ArrayList<>();
 	private static Enemy lastEnemy;
 	private static boolean endOfLevel = false;
+	private static boolean restart;
+	private static long restartTimer;
 
 	public synchronized static void update() {
 
 		Time.nextTick();
 
+		if (restart == true) {
+			if(Time.alertPassed(restartTimer)){
+				restart = false;
+				init();
+			}
+		}
+		
 		Cursor c = getCursor();
 		if (c != null) {
 			c.update();
@@ -265,6 +274,12 @@ public class WorldMap {
 
 	public static void addMenu(MenuObject m) {
 		menuLayer.add(m);
+	}
+
+	public static void restart() {
+		restart = true;
+		restartTimer = Time.alert(60);
+		globalDifficulty = -1;
 	}
 
 }
