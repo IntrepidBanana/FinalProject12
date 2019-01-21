@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * AmmoDropEntity
+ * the pick-up ammo for the player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

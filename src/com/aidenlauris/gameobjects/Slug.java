@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Slug
+ * small type of enemy that chases player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Shotgunner
+ * type of enemy that shoots shotguns
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

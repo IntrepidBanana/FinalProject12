@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Spinner
+ * Type of enemy that doesn't move and has bullets spinning around it
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

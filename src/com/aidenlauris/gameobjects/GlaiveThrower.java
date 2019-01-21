@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * GlaiveThrower
+ * type of enemy that shoots glaives
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.Time;

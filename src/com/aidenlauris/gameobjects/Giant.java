@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Giant
+ * large type of enemy that slowly chases the player
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

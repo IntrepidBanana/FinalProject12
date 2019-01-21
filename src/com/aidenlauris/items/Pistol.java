@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Pistol
+ * type of gun that shoots bullets, player starting gun
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Bullet;

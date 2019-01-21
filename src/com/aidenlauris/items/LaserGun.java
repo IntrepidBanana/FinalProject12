@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * LaserGun
+ * type of gun that shoots laser beams
+ */
+
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Beam;

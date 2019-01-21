@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Enemy
+ * a super class for all types of enemies
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

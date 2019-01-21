@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Portal
+ * the entity that spawns at the end of a level to transport the player to the next one
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

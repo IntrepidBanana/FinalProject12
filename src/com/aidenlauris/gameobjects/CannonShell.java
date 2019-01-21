@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * CannonShell
+ * a type of projectile for cannons to use
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

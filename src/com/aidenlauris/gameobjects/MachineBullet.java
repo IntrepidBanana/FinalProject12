@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * MachineBullet
+ * type of projectile for machine guns
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

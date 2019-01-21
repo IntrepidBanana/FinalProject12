@@ -1,3 +1,8 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Shotgun
+ * type of gun that shoots shotgun shells
+ */
 package com.aidenlauris.items;
 
 import com.aidenlauris.gameobjects.Projectile;

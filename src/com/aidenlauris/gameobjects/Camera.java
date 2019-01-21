@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Camera
+ * Camera to show the game and move he screen
+ */
+
 package com.aidenlauris.gameobjects;
 
 import com.aidenlauris.game.IOHandler;

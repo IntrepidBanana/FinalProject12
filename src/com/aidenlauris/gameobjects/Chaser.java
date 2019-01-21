@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Chaser
+ * a type of enemy that chases player and shoots bullets on death
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;

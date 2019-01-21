@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Cursor
+ * The spot where the mouse is to detect shooting direction
+ */
+
 package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -24,7 +30,7 @@ public class Cursor extends GameObject {
 	
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
-		g2d.setColor(Color.BLUE);
+		g2d.setColor(Color.WHITE);
 		g2d.fill(new Rectangle2D.Float(x-2.5f, y-2.5f, 5, 5));
 		return g2d;
 	}

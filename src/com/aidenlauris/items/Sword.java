@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * Sword
+ * type of weapon to slice at enemies in an arc
+ */
+
 package com.aidenlauris.items;
 
 import java.awt.Color;
@@ -21,7 +27,7 @@ public class Sword extends Gun {
 
 		setSpread(8);
 		setBulletCount(10);
-		setDamage(10);
+		setDamage(5);
 
 		setAmmoPerUse(0);
 

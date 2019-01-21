@@ -1,3 +1,9 @@
+/*Aiden Gimpel, Lauris Petlah
+ * January 20th, 2019
+ * GunDrop
+ * object for the gun that drop on the floor for the player to pick up
+ */
+
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
