@@ -89,6 +89,7 @@ public class GameLoop implements Runnable {
 		System.out.println("Starting " + threadName);
 		if (t == null) {
 			t = new Thread(this, threadName);
+			
 			t.start();
 		}
 	}

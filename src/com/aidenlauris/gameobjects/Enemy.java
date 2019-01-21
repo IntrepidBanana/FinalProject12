@@ -22,14 +22,12 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Enemy extends Entity {
 	protected long alert = Time.alert(60);
-	private boolean isHovering;
-	private long lastMoveCall = Time.alert(60);
 	private final float DROP_CHANCE = 0.2f;
 
 	public Enemy(float x, float y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
 
-		addCollisionBox(new HitBox(this, 25, 25, true));
+		addCollisionBox(new HitBox(this, 25, 25, false));
 		addCollisionBox(new HurtBox(this, 30, 30, 20));
 
 		this.health = health;
@@ -43,7 +41,7 @@ public class Enemy extends Entity {
 		if (myBox instanceof HurtBox && box.getOwner() instanceof Player) {
 			((Entity) box.getOwner()).damage((HurtBox) myBox);
 			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
-			Player.getPlayer().knockBack(25, (float) (theta + Math.PI));
+			Player.getPlayer().knockBack(25, (float) (theta));
 			return;
 		}
 		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {

@@ -34,7 +34,7 @@ public class CollectionText extends MenuObject {
 		Shape rect = new Rectangle2D.Float(dx - wid / 2 - pad, dy - 56, wid + 2 * pad, 32);
 
 		g2d.setColor(new Color(0, 0, 0, Math.max(1f - reduce, 0)));
-		g2d.fill(rect);
+//		g2d.fill(rect);
 
 		g2d.setFont(PaintHelper.font);
 		g2d.setColor(new Color(1, 1, 1, Math.max(1f - reduce, 0)));

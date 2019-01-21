@@ -11,9 +11,9 @@ public class LaserGun extends Gun {
 		setAuto(false);
 		
 		setAccuracy(1);
-		setAtkSpeed(10);
+		setAtkSpeed(20);
 		
-		setDamage(120);
+		setDamage(60);
 		
 		setSpread(0);
 		setBulletCount(1);

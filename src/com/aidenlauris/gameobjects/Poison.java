@@ -32,8 +32,8 @@ public class Poison extends Entity {
 	public void collisionOccured(CollisionBox theirBox, CollisionBox myBox) {
 		
 		if(theirBox.getOwner() instanceof Player && Time.alertPassed(damageTimer)) {
-			((Entity)theirBox.getOwner()).damage((HurtBox)myBox);
-			damageTimer = Time.alert(20);
+			((Entity)theirBox.getOwner()).damage(5);
+			damageTimer = Time.alert(60);
 			
 		}
 

@@ -1,12 +1,18 @@
 package com.aidenlauris.gameobjects;
 
+import java.awt.Graphics2D;
+
+import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
+import com.aidenlauris.render.PaintHelper;
 import com.aidenlauris.render.SoundHelper;
+import com.aidenlauris.render.util.SpriteManager;
+import com.aidenlauris.render.util.SpriteManager.State;
 
 public class Slug extends Enemy {
 
@@ -16,32 +22,15 @@ public class Slug extends Enemy {
 		addCollisionBox(new HitBox(this, 15, 15, true));
 		addCollisionBox(new HurtBox(this, 20, 20, 10));
 	}
-	
-	
-	@Override
-	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if(myBox instanceof HurtBox && box.getOwner() instanceof Player){
-			((Entity)box.getOwner()).damage((HurtBox) myBox);
-			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
-			Player.getPlayer().knockBack(15, (float) (theta+Math.PI));
-			return;
-		}
-		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
-			Entity owner = (Entity) box.getOwner();
-		}
-		if (box.isSolid) {
-			collide(box, myBox);
-		}
 
-	}
-	
+
+
 	@Override
 	public void kill() {
-		
+
 		SoundHelper.makeSound("slug.wav");
 		super.kill();
 	}
-	
-	
+
 
 }

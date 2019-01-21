@@ -46,7 +46,7 @@ public class ForceAnchor extends Force {
 		isVariable = b;
 	}
 
-	void setAnchor(GameObject anchor2) {
+	public void setAnchor(GameObject anchor2) {
 		this.anchor = anchor2;
 	}
 
@@ -58,7 +58,7 @@ public class ForceAnchor extends Force {
 		this.offset = offset;
 	}
 
-	void setOwner(GameObject owner2) {
+	public void setOwner(GameObject owner2) {
 		this.owner = owner2;
 	}
 

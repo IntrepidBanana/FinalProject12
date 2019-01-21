@@ -2,9 +2,11 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import com.aidenlauris.gameobjects.util.CollisionBox;
+import com.aidenlauris.gameobjects.util.CollisionHelper;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -13,17 +15,20 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Corpse extends Entity {
 
+	private Entity owner;
+	private float wid = 0;
+	private float hgt = 0;
+	
+	
 	Corpse(float x, float y, Entity e) {
 		super(x, y);
-		for (CollisionBox c : e.getCollisionBoxes()) {
-			CollisionBox box = new HitBox(this, c.x, c.y, c.len, c.wid, false);
-			//addCollisionBox(box);
-		}
 //		forces = e.forces;
 		Force f = new Force(e.getForceSet().getNetMagnitude(), e.getForceSet().getNetTheta());
 		f.setReduction(0.1f);
 		getForceSet().addForce(f);
-		
+		owner = e;
+		 wid = CollisionHelper.width(owner);
+		 hgt = CollisionHelper.length(owner);
 		team = Team.ENEMY;
 		health = 10;
 		invincibility = 10;
@@ -48,8 +53,18 @@ public class Corpse extends Entity {
 	
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
-		g2d.setColor(Color.red);
-		g2d.draw( new Rectangle2D.Float(PaintHelper.x(x-12), PaintHelper.y(y-12), 24, 24));
+
+		float drawX = PaintHelper.x(x);
+		float drawY = PaintHelper.y(y);
+
+		
+		Shape s = new Rectangle2D.Float(drawX- wid/2, drawY-hgt/2, wid, hgt);
+		
+		g2d.setColor(Color.darkGray);
+		g2d.fill(s);
+		
+		
+		
 		return g2d;
 	}
 

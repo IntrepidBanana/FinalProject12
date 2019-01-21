@@ -189,7 +189,7 @@ public class Wall extends Entity {
 		float drawX = PaintHelper.x(getVertex(0).getX());
 		float drawY = PaintHelper.y(getVertex(0).getY());
 		Shape s = new Rectangle2D.Float(drawX, drawY, wid, len);
-		g2d.setColor(Color.LIGHT_GRAY);
+		g2d.setColor(new Color(0,21,23));
 		Stroke old = g2d.getStroke();
 		g2d.setStroke(new BasicStroke(2));
 		g2d.fill(s);

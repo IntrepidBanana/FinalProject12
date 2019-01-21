@@ -10,10 +10,12 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Map;
 
 import com.aidenlauris.game.IOHandler;
+import com.aidenlauris.game.RocketLauncher;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
 import com.aidenlauris.game.util.KeyType;
@@ -37,6 +39,7 @@ import com.aidenlauris.items.HealthPickup;
 import com.aidenlauris.items.Knife;
 import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.MachineGun;
+import com.aidenlauris.items.Minigun;
 import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
@@ -48,7 +51,10 @@ import com.aidenlauris.render.menu.Menu;
 import com.aidenlauris.render.menu.MenuItemLabel;
 import com.aidenlauris.render.util.LightSource;
 import com.aidenlauris.render.util.SightPolygon;
+import com.aidenlauris.render.util.SpriteManager;
+import com.aidenlauris.render.util.SpriteManager.State;
 import com.aidenlauris.items.EnergyCell;
+import com.aidenlauris.items.ExplosiveAmmo;
 
 public class Player extends Entity implements LightSource, ItemContainer {
 
@@ -62,16 +68,21 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	ArrayList<Interactable> interactables = new ArrayList<>();
 	private int effectType = 8;
 	private HealthBar healthBar = new HealthBar();
+	public long animation = 0;
 
 	public Player(float x, float y, float moveSpeed) {
 		super(x, y, moveSpeed, 100);
-		maxHealth = 100;
+		health = 10000;
+		maxHealth = 10000;
 		z = 1;
 		team = Team.PLAYER;
 		addCollisionBox(new HitBox(this, 15, 15, false));
 		addCollisionBox(new HurtBox(this, 20, 20, 20));
 		inv.addGun(new Pistol());
 		inv.addAmmo(new BulletAmmo(125));
+		inv.addAmmo(new ExplosiveAmmo(7));
+		inv.addAmmo(new EnergyCell(5));
+		inv.addAmmo(new ShotgunAmmo(10));
 
 		WorldMap.addMenu(healthBar);
 		// WorldMap.addMenu(menu);
@@ -150,9 +161,6 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 		}
 
-		if (!idle) {
-		}
-
 	}
 
 	private void interactWith() {
@@ -186,251 +194,34 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		parseInput();
 		tickUpdate();
 		healthBar.update(this);
-		// menu = inventory.getMenu(32);
-		if (time % 1 == 0) {
 
-			int options = 10;
-			if (effectType % options == 0) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 3; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 120);
-					float dy = (float) (y + Math.sin(theta) * 120);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(6);
-					part.setSizeDecay(3);
-					part.setRotationSpeed(8);
-					part.setFadeMinimum(0);
-
-					ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
-					fa.setOffset(85 * (int) (Math.random() * 3));
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					// fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
+		if (!idle) {
+			if (Time.alertPassed(animation)) {
+				switch (mySprite) {
+				case Move1:
+					mySprite = State.Move2;
+					break;
+				default:
+					mySprite = State.Move1;
+					break;
 				}
+				animation = Time.alert(10);
 			}
-			if (effectType % options == 1) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 3; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 120);
-					float dy = (float) (y + Math.sin(theta) * 120);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(9);
-					part.setSizeDecay(5);
-					part.setRotationSpeed(8);
-					part.setFadeMinimum(0);
-
-					ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
-					fa.setOffset(85 + 180 * (int) Math.random());
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					// fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
-				}
-			}
-			if (effectType % options == 2) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 3; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 120);
-					float dy = (float) (y + Math.sin(theta) * 50);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(6);
-					part.setSizeDecay(1);
-					part.setRotationSpeed(8);
-					part.setFadeMinimum(0);
-					part.setColor(Color.ORANGE);
-					ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
-					fa.setOffset(85 * (int) (Math.random() * 3));
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					// fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
-				}
-			}
-
-			if (effectType % options == 3) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 3; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 60);
-					float dy = (float) (y + Math.sin(theta) * 60);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(9);
-					part.setSizeDecay(5);
-					part.setRotationSpeed(8);
-					part.setFadeMinimum(0);
-					part.setColor(Color.ORANGE);
-					ForceAnchor fa = new ForceAnchor(100f, part, this, -1f);
-					fa.setOffset(85);
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					// fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
-				}
-			}
-			if (effectType % options == 4) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 2; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 120 + Math.random() * 30 - 15);
-					float dy = (float) (y + Math.sin(theta) * 120 + Math.random() * 30 - 15);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(20);
-					part.setSizeDecay(1);
-					part.setRotationSpeed(12);
-					part.setFadeMinimum(0);
-					part.setColor(Color.black);
-					ForceAnchor fa = new ForceAnchor(1f, part, this, -1f);
-					fa.setOffset(85);
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					// fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
-				}
-			}
-			if (effectType % options == 5) {
-				double theta = Math.toRadians(Math.random() * 360);
-				for (int i = 1; i <= 2; i++) {
-					theta += Math.toRadians(120);
-					float dx = (float) (x + Math.cos(theta) * 20 + Math.random() * 30 - 15);
-					float dy = (float) (y + Math.sin(theta) * 20 + Math.random() * 30 - 15);
-
-					Particle part = new Particle(dx, dy);
-					part.setLifeSpan(120);
-					part.setSize(20);
-					part.setSizeDecay(0);
-					part.setRotationSpeed(12);
-					part.setFadeMinimum(0);
-					part.setColor(Color.black);
-					ForceAnchor fa = new ForceAnchor(10f, part, this, -1f);
-					fa.setOffset(180);
-					fa.setLifeSpan(Integer.MAX_VALUE);
-					fa.hasVariableSpeed(false);
-
-					part.getForceSet().addForce(fa);
-
-					part.init();
-
-				}
-			}
-			if (effectType % options == 6) {
-				if (time % 4 == 0) {
-					double theta = Math.toRadians(Math.random() * 360);
-					for (int i = 1; i <= 5; i++) {
-						theta += Math.toRadians(120);
-						float dx = (float) (x + Math.random() * 6 - 3);
-						float dy = (float) (y - Math.random() * 10 - 5);
-
-						Particle part = new Particle(dx, dy);
-						part.setLifeSpan(120);
-						part.setSize(6);
-						part.setSizeDecay(0);
-						part.setRotationSpeed(30);
-						part.setFadeMinimum(180);
-						part.setColor(Color.red);
-						ForceAnchor fa = new ForceAnchor(3f, part, this, -1f);
-						fa.setOffset(180);
-						fa.setLifeSpan(Integer.MAX_VALUE);
-						fa.hasVariableSpeed(true);
-
-						part.getForceSet().addForce(fa);
-
-						part.init();
-
-					}
-					for (int i = 1; i <= 1; i++) {
-						theta += Math.toRadians(120);
-						float dx = (float) (x + Math.random() * 6 - 3);
-						float dy = (float) (y - Math.random() * 10 - 5);
-
-						Particle part = new Particle(dx, dy);
-						part.setLifeSpan(120);
-						part.setSize(6);
-						part.setSizeDecay(0);
-						part.setRotationSpeed(30);
-						part.setFadeMinimum(180);
-						part.setColor(Color.orange);
-						ForceAnchor fa = new ForceAnchor(3f, part, this, -1f);
-						fa.setOffset(180);
-						fa.setLifeSpan(Integer.MAX_VALUE);
-						fa.hasVariableSpeed(true);
-
-						part.getForceSet().addForce(fa);
-
-						part.init();
-					}
-					for (int i = 1; i <= 1; i++) {
-						theta += Math.toRadians(120);
-						float dx = (float) (x + Math.random() * 6 - 3);
-						float dy = (float) (y - Math.random() * 10 - 5);
-
-						Particle part = new Particle(dx, dy);
-						part.setLifeSpan(120);
-						part.setSize(6);
-						part.setSizeDecay(0);
-						part.setRotationSpeed(30);
-						part.setFadeMinimum(180);
-						part.setColor(Color.yellow);
-						ForceAnchor fa = new ForceAnchor(3f, part, this, -1f);
-						fa.setOffset(180);
-						fa.setLifeSpan(Integer.MAX_VALUE);
-						fa.hasVariableSpeed(true);
-
-						part.getForceSet().addForce(fa);
-
-						part.init();
-					}
-				}
-			}
-			if (effectType % options == 7) {
-				if (time % 1 == 0) {
-					for (int i = 1; i <= 1; i++) {
-						float dx = (float) (x + Math.random() * 2000 - 1000);
-						float dy = (float) (y + Math.random() * 2000 - 1000);
-
-						Particle part = new Particle(dx, dy);
-						part.setLifeSpan(300);
-						part.setSize(0);
-						part.setSizeDecay(15);
-						part.setRotationSpeed(1);
-						part.setFadeMinimum(0);
-						part.setColor(Color.DARK_GRAY);
-
-						part.init();
-					}
-				}
-			}
-
+		} else {
+			// mySprite = State.Idle;
 		}
+		float dx = (float) (x + Math.random() * 1500 - 750);
+		float dy = (float) (y + Math.random() * 1500 - 750);
 
+		Particle part = new Particle(dx, dy);
+		part.setLifeSpan(300);
+		part.setSize(0);
+		part.setSizeDecay(15);
+		part.setRotationSpeed(1);
+		part.setFadeMinimum(0);
+		part.setColor(Color.DARK_GRAY);
+
+		part.init();
 	}
 
 	@Override
@@ -441,13 +232,12 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 		if (box.getOwner() instanceof Enemy && myBox instanceof HurtBox) {
 			((Entity) box.getOwner()).damage((HurtBox) myBox);
-			((Entity) box.getOwner()).knockBack(10f, x, y, box.getOwner().x, box.getOwner().y);
+			((Entity) box.getOwner()).knockBack(-10f, x, y, box.getOwner().x, box.getOwner().y);
 		}
 	}
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
-		g2d = super.draw(g2d);
 
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
@@ -458,7 +248,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 		float theta = Mouse.theta(x, y);
 
-		Shape s = new Rectangle2D.Float(drawX, drawY - 5, gunLength, 10);
+		Shape s = new Rectangle2D.Float(drawX, drawY - 12, gunLength * 1.3f, 6);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();
@@ -466,27 +256,8 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		g2d.transform(transform);
 		g2d.setColor(Color.DARK_GRAY);
 		g2d.fill(s);
+		g2d.drawImage(SpriteManager.playerSprites.get(mySprite), null, (int) drawX - 14, (int) drawY - 12);
 		g2d.setTransform(old);
-
-		// darkness??
-		Point2D center = new Point2D.Float(drawX, drawY);
-		float radius = 500;
-		float[] dist = { 0.0f, 0.3f, 1.0f };
-		Color[] colors = { new Color(0, 0, 0, 0), new Color(0, 0, 0, 0), Color.darkGray };
-		RadialGradientPaint radial = new RadialGradientPaint(center, radius, dist, colors);
-		Paint oldpaint = g2d.getPaint();
-
-		// Shape barOutline = new Rectangle2D.Float(100, 100, maxHealth*2 + 5, 30);
-		// g2d.setColor(Color.BLACK);
-		// g2d.fill(barOutline);
-		//
-		// Shape healthBar = new Rectangle2D.Float(100, 100, health*2, 25);
-		// g2d.setColor(Color.RED);
-		// g2d.fill(healthBar);
-
-		g2d.setPaint(radial);
-		// g2d.fillRect(0, 0, WorldMap.camx, WorldMap.camy);
-		g2d.setPaint(oldpaint);
 
 		return g2d;
 	}

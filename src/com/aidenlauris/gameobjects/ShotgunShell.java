@@ -22,7 +22,7 @@ public class ShotgunShell extends Projectile {
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		setKnockback(5f);
-		health = 10;
+		health = 2;
 //		setSpawnSound("shotgun.wav");
 	}
 	
@@ -47,8 +47,8 @@ public class ShotgunShell extends Projectile {
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
 		int trail = 16;
-
-		Shape s = new Rectangle2D.Float(drawX, drawY - 2f, trail, 4f);
+		int width = 10;
+		Shape s = new Rectangle2D.Float(drawX, drawY - width/2, trail, width);
 
 		AffineTransform transform = new AffineTransform();
 		AffineTransform old = g2d.getTransform();

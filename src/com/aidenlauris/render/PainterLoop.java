@@ -28,6 +28,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.FontUIResource;
 
+import com.Tile;
 import com.aidenlauris.game.IOHandler;
 import com.aidenlauris.game.Time;
 import com.aidenlauris.game.WorldMap;
@@ -40,6 +41,7 @@ import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.util.DrawCompare;
+import com.aidenlauris.render.util.SpriteManager;
 
 public class PainterLoop extends JPanel {
 
@@ -53,7 +55,9 @@ public class PainterLoop extends JPanel {
 	private BufferedImage lightMap;
 	public long fpsTimer;
 	public GameState gameState = new GameState();
-
+	public Tile[][] tiles = new Tile[118][118];
+	
+	
 	public PainterLoop(IOHandler io) {
 		WorldMap.init();
 
@@ -67,8 +71,13 @@ public class PainterLoop extends JPanel {
 		addMouseWheelListener(io);
 		startTime = System.currentTimeMillis();
 		PaintHelper.initFont();
+
+		SpriteManager.initSpriteSheets();
+
 		lightMap = new BufferedImage(WorldMap.camx, WorldMap.camy, BufferedImage.TYPE_INT_ARGB);
 		repaint();
+
+		setBackground(new Color(0, 45, 48));
 
 		// gameLoop();
 	}
@@ -84,11 +93,24 @@ public class PainterLoop extends JPanel {
 	public Graphics2D playState(Graphics2D g2d) {
 
 		ArrayList<GameObject> objects = WorldMap.objectsToDraw;
-//		System.out.println(WorldMap.globalRotation);
-//		g2d.rotate(WorldMap.globalRotation, WorldMap.camx/2, WorldMap.camy/2);
-//		WorldMap.globalRotation *= 0.6f;
+		// System.out.println(WorldMap.globalRotation);
+		// g2d.rotate(WorldMap.globalRotation, WorldMap.camx/2, WorldMap.camy/2);
+		// WorldMap.globalRotation *= 0.6f;
 
 		WorldMap.sightPolygon.clear();
+
+//		for(int i = 0; i<118; i++) {
+//			for(int j = 0; j<118; j++) {
+//				if(tiles[i][j] == null) {
+//					tiles[i][j] = new Tile(i*32, j*32);
+//				}
+//				
+//				g2d = tiles[i][j].draw(g2d);
+//				
+//			}	
+//			
+//		}
+		
 		int sizeMishap = 0;
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
 			if (i >= objects.size()) {

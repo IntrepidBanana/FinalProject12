@@ -78,7 +78,7 @@ public class Particle extends Entity {
 	public void addCollider() {
 		HitBox box = new HitBox(this, 4, 4, true);
 		box.addHint(this.getClass());
-		addCollisionBox(box);
+//		addCollisionBox(box);
 	}
 
 	public void removeCollider() {

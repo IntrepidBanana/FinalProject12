@@ -19,7 +19,7 @@ public class SpinnerBlade extends Projectile {
 	private float theta = 0;
 	private float speed = 0;
 	private int offset = 25;
-	public Color color = Color.darkGray;
+	public Color color = Color.lightGray;
 	public boolean trail = true;
 	public int chains = 4;
 	public int chainUpdate = 20;
