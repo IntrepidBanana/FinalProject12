@@ -27,7 +27,7 @@ public class Sword extends Gun {
 
 		setSpread(8);
 		setBulletCount(10);
-		setDamage(10);
+		setDamage(5);
 
 		setAmmoPerUse(0);
 
