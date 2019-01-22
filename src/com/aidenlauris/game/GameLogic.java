@@ -254,6 +254,9 @@ public class GameLogic {
 		Explosion explosion = new Explosion(Player.getPlayer().x, Player.getPlayer().y, 300, 50f, 1000);
 		addGameObject(explosion);
 		
+		//clear interactabels
+		
+		player.interactables.clear();
 		
 		globalDifficulty++;
 	}

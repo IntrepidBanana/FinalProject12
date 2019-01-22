@@ -18,8 +18,17 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+
 public class SoundHelper {
 
+	
+	
+	/**makeSound
+	 * takes in the name of a sound file and plays it
+	 * returns nothing
+	 * @param name
+	 * @return void
+	 */
 	public static void makeSound(String name) {
 		// open the sound file as a Java input stream
 		File pew = new File(".\\Assets\\"+ name);
@@ -44,6 +53,12 @@ public class SoundHelper {
 
 
 
+/**
+ * @author Aiden, Lauris
+ * January 20th, 2019
+ * SoundListener
+ * detects when a sound file is over and closes it automatically
+ */
 static class SoundListener implements LineListener {
     public void update(LineEvent event) {
         if (event.getType() == LineEvent.Type.STOP) {
