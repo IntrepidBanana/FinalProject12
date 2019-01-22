@@ -97,7 +97,7 @@ public class MachineGunner extends Enemy {
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(6);
-		b.setLifeSpan(180f);
+		b.setLifeSpan(180);
 		b.setGunOffset(50);
 		b.setKnockback(0);
 		b.team = Team.ENEMY;

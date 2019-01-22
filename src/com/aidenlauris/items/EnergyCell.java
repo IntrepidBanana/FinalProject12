@@ -8,13 +8,19 @@ package com.aidenlauris.items;
 
 public class EnergyCell extends Ammo {
 
+	/**
+	 * Initiates ammo with a set number of bullets
+	 * @param count
+	 */
 	public EnergyCell(int count) {
 		this();
 		setCount(count);
 	}
 
+	/**
+	 * Inititiates empty ammo 
+	 */
 	public EnergyCell() {
-		setStackSize(15);
 	}
 
 }

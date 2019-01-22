@@ -12,6 +12,9 @@ import com.aidenlauris.gameobjects.Projectile;
 
 public class LaserGun extends Gun {
 
+	/**
+	 * creates a laser gun with preset values
+	 */
 	public LaserGun() {
 		setLength(40);
 		setAuto(false);
@@ -31,13 +34,12 @@ public class LaserGun extends Gun {
 		setAmmoType(new EnergyCell().item());
 	}
 
-	public LaserGun(double weight, int stackSize, int damage, int atkSpeed) {
-		super(weight, stackSize, damage, atkSpeed);
-	}
 
 	@Override
 	public Projectile bulletType() {
 		
+		
+		//factory for beam
 		Beam b = new Beam(getDamage(), Player.getPlayer().x, Player.getPlayer().y);
 		b.setMoveSpeed(100);
 		b.setReduction(0);

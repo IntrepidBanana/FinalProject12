@@ -13,7 +13,6 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.Tile;
 import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.game.util.IOHandler;
 import com.aidenlauris.gameobjects.Camera;

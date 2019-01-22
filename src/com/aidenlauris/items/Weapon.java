@@ -6,38 +6,61 @@
 
 package com.aidenlauris.items;
 
-import java.awt.Graphics2D;
-
 import com.aidenlauris.game.util.Time;
 
 public abstract class Weapon extends Item {
 
+	
+	//variables
 	private int damage;
 	private int atkSpeed;
 	
-	public Weapon(double weight, int stackSize, int damage, int atkSpeed) {
-		super(weight, stackSize);
+	/**
+	 * Initiates a weapon with set values
+	 * @param damage damage of weapon
+	 * @param atkSpeed attack speed
+	 */
+	public Weapon(int damage, int atkSpeed) {
+		super();
 		this.damage = damage;
 		this.atkSpeed = atkSpeed;
 	}
 	
+	/**
+	 * @return damage of weapon
+	 */
 	public int getDamage() {
 		return damage;
 	}
 	
+	/**
+	 * @param damage new damage of weapon
+	 */
 	public void setDamage(int damage) {
 		this.damage = damage;
 	}
 	
+	/**
+	 * @return attack speed
+	 */
 	public int getAtkSpeed() {
-		return (int) (atkSpeed/Time.delta());
+		return atkSpeed;
 	}
 	
+	/**
+	 * @param atkSpeed new attack speed
+	 */
 	public void setAtkSpeed(int atkSpeed) {
 		this.atkSpeed = atkSpeed;
 	}
 
-	public Graphics2D attackAnimation(Graphics2D g2d, float playerX, float playerY, float theta) {
-		return g2d;
+	/**
+	 * Event that describes instruction for event of attack animation
+	 * Meant to be overriden.
+	 * @param playerX position of the player x coordinate
+	 * @param playerY position of the player y coordinate
+	 * @param theta angle the player is facing
+	 */
+	public void attackAnimation(float playerX, float playerY, float theta) {
 	}
 }

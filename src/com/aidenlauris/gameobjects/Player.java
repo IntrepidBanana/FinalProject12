@@ -23,47 +23,30 @@ import java.util.Map;
 
 import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.game.util.IOHandler;
-import com.aidenlauris.game.util.KeyType;
 import com.aidenlauris.game.util.Keys;
 import com.aidenlauris.game.util.Mouse;
 import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
-import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Interactable;
 import com.aidenlauris.gameobjects.util.Inventory;
-import com.aidenlauris.gameobjects.util.Inventory;
 import com.aidenlauris.gameobjects.util.ItemContainer;
 import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.BulletAmmo;
-import com.aidenlauris.items.Cannon;
 import com.aidenlauris.items.Gun;
-import com.aidenlauris.items.HealthPickup;
-import com.aidenlauris.items.Knife;
-import com.aidenlauris.items.LaserGun;
-import com.aidenlauris.items.MachineGun;
-import com.aidenlauris.items.Minigun;
-import com.aidenlauris.items.Pistol;
-import com.aidenlauris.items.RocketLauncher;
-import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
-import com.aidenlauris.items.Sword;
 import com.aidenlauris.render.PaintHelper;
 import com.aidenlauris.render.SoundHelper;
 import com.aidenlauris.render.menu.HealthBar;
-import com.aidenlauris.render.menu.Menu;
-import com.aidenlauris.render.menu.MenuItemLabel;
-import com.aidenlauris.render.util.LightSource;
-import com.aidenlauris.render.util.SightPolygon;
 import com.aidenlauris.render.util.SpriteManager;
 import com.aidenlauris.render.util.SpriteManager.State;
 import com.aidenlauris.items.EnergyCell;
 import com.aidenlauris.items.ExplosiveAmmo;
 
-public class Player extends Entity implements LightSource, ItemContainer {
+public class Player extends Entity implements ItemContainer {
 
 	private long musicAlert = Time.alert(10);
 
@@ -75,8 +58,6 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	// list of all nearby objects that player can interact with
 	public ArrayList<Interactable> interactables = new ArrayList<>();
 
-	// healthbar menu
-	private HealthBar healthBar = new HealthBar();
 
 	// animation alert - used to change animation states
 	public long animation = 0;
@@ -109,7 +90,7 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		inv.addAmmo(new EnergyCell(5));
 		inv.addAmmo(new ShotgunAmmo(25));
 
-		GameLogic.addMenu(healthBar);
+		GameLogic.addMenu(new HealthBar());
 	}
 
 	/**
@@ -173,6 +154,9 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	}
 
+	/**
+	 * interacts with an object that is nearby
+	 */
 	private void interactWith() {
 		if (interactables.size() != 0) {
 			interactables.get(0).interact();
@@ -192,7 +176,6 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		// update everything
 		parseInput();
 		tickUpdate();
-		healthBar.update(this);
 
 		// parse animation
 		if (!idle) {
@@ -273,19 +256,16 @@ public class Player extends Entity implements LightSource, ItemContainer {
 	}
 
 	@Override
-	public Graphics2D renderLight(Graphics2D gl) {
-		SightPolygon sight = new SightPolygon();
-		gl.setColor(new Color(0, 0, 0, 0));
-		// gl.draw(sight.getPath());
-		return gl;
-	}
-
-	@Override
 	public Inventory getInventory() {
 		return inv;
 	}
 
+	/**
+	 * A static method used to grab the player from the game logic class
+	 * @return the player object
+	 */
 	public static Player getPlayer() {
+		//asks game logic for the player, if not creates a new one
 		if (GameLogic.getPlayer() != null) {
 			return GameLogic.getPlayer();
 		} else {
@@ -293,26 +273,28 @@ public class Player extends Entity implements LightSource, ItemContainer {
 		}
 	}
 
+	/**
+	 * Adds an object that the player can interact with
+	 * @param e Interactable object
+	 */
 	public void addInteractable(Interactable e) {
 		if (!interactables.contains(e)) {
 			interactables.add(e);
 		}
 	}
 
+	/**
+	 * removes a certain object from the list of interactables
+	 * @param e Interactable object
+	 */
 	public void removeInteractable(Interactable e) {
 		interactables.remove(e);
 	}
 
-	public void damage(HurtBox box) {
-		health -= (box.damage);
-		int num = (int) (Math.random() * 8) + 1;
-		String choice = "" + num;
-		SoundHelper.makeSound("pain" + choice + ".wav");
-
-	}
-
 	public void damage(int damage) {
-		health -= (damage);
+		super.damage(damage);
+		
+		//plays a random sound
 		int num = (int) (Math.random() * 8) + 1;
 		String choice = "" + num;
 		SoundHelper.makeSound("pain" + choice + ".wav");
@@ -321,9 +303,12 @@ public class Player extends Entity implements LightSource, ItemContainer {
 
 	@Override
 	public void kill() {
+		
+		
+		//makes player disappear, spawns some particles, plays a sound, creates an explosion and initiates the restart algorithm
 		health = 0;
 		new Explosion(x, y, 250, 700, 5000).init();
-		;
+		
 
 		for (int i = 0; i < 10; i++) {
 			float theta = (float) Math.toRadians(Math.random() * 360);

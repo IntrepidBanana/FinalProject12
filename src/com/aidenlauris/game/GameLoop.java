@@ -38,10 +38,10 @@ public class GameLoop implements Runnable {
 	public void run() {
 		
 		//starts the screen and renderhandler
+		GameLogic.init();
 		Screen s = new Screen();
 		RenderHandler p = s.getPainter();
 		p.repaint();
-
 		// MODIFIED DEWITTERS GAME LOOP
 		// http://www.koonsolo.com/news/dewitters-gameloop/
 		//

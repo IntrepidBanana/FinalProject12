@@ -16,64 +16,64 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Spinner extends Enemy {
 
-	private Particle part;
+	private Particle body;
 
+	
+	//is run once to spawn the spinners
 	private boolean spinnersCreated = false;
 
 	public Spinner(float x, float y) {
 		super(x, y, 50, 20, 2);
-		part = new Particle(x, y);
-		part.setColor(Color.orange);
-		part.setSize(25);
-		part.setSizeDecay(25);
-		part.setFadeMinimum(255);
-		part.setRotationSpeed(5);
-		part.setLifeSpan(Integer.MAX_VALUE);
-		part.init();
+		
+		//starts body particle
+		body = new Particle(x, y);
+		body.setColor(Color.orange);
+		body.setSize(40);
+		body.setSizeDecay(25);
+		body.setFadeMinimum(255);
+		body.setRotationSpeed(5);
+		body.setLifeSpan(Integer.MAX_VALUE);
+		body.init();
 	}
 
 	public void move() {
-		// float dist = (float) Math
-		// .sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) +
-		// Math.pow(WorldMap.getPlayer().y - y, 2));
-		//
-		// Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() *
-		// 360));
-		// f.setId("FourMove");
-		// f.setLifeSpan(60);
-		// f.setReduction(0);
-		// if (getForceSet().getForce("FourMove") == null) {
-		// addForce(f);
-		// }
+		//no move capability
 	}
 
 	public void update() {
-		part.x = x;
-		part.y = y;
+		body.x = x;
+		body.y = y;
 
 		tickUpdate();
 		if (!spinnersCreated) {
 			attack();
-			spinnersCreated = true;
 		}
 	}
 
 	public void attack() {
 
+		//creates spinner blades
 		SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 50);
 		a.color = Color.ORANGE;
 		SpinnerBlade b = new SpinnerBlade(this, 20, 180, 1, 50);
 		b.color = Color.orange;
+		
+		SpinnerBlade c = new SpinnerBlade(this, 20, 0, 1, 100);
+		c.color = Color.ORANGE;
+		SpinnerBlade d = new SpinnerBlade(this, 20, 180, 1, 100);
+		d.color = Color.orange;
+		spinnersCreated = true;
 	}
 
 	@Override
 	public void knockBack(float magnitude, float theta) {
+		//unable to take knockback
 	}
 
 	@Override
 	public void kill() {
 
-		part.kill();
+		body.kill();
 		super.kill();
 	}
 }

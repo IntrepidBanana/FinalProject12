@@ -11,8 +11,10 @@ import com.aidenlauris.gameobjects.Projectile;
 
 public class Pistol extends MachineGun{
 
+	/**
+	 * creates a pistol with preset values
+	 */
 	public Pistol() {
-		super();
 		setAuto(false);
 		setAtkSpeed(4);
 		setDamage(20);
@@ -25,6 +27,7 @@ public class Pistol extends MachineGun{
 	
 	@Override
 	public Projectile bulletType() {
+		//bullet factory
 		Bullet b = new Bullet(getDamage());
 		b.setMoveSpeed(16);
 		return b;

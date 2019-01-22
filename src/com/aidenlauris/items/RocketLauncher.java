@@ -7,6 +7,9 @@ import com.aidenlauris.gameobjects.Rocket;
 
 public class RocketLauncher extends Gun {
 
+	/**
+	 * creates a rocket launcher with preset values
+	 */
 	public RocketLauncher() {
 		setAtkSpeed(30);
 		setLength(30);
@@ -20,6 +23,7 @@ public class RocketLauncher extends Gun {
 	}
 	@Override
 	public Projectile bulletType() {
+		//rocket factory 
 		Rocket r = new Rocket(getDamage());
 		r.setMoveSpeed(10f);
 		r.setReduction(0.01f);
@@ -27,10 +31,4 @@ public class RocketLauncher extends Gun {
 	}
 
 	
-	@Override
-	public Graphics2D attackAnimation(Graphics2D g2d, float playerX, float playerY, float theta) {
-		
-		
-		return super.attackAnimation(g2d, playerX, playerY, theta);
-	}
 }

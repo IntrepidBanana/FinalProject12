@@ -19,58 +19,57 @@ import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 
+/**
+ * @author Aiden & Lauris
+ * Jan 22, 2019
+ * 
+ * Assortment of helper functions to assist in quickly drawing and calculating things
+ */
 public class PaintHelper {
+	
+	//quick access to font used
 	public static Font font;
 
-	public static float x(double d) {
-		return GameLogic.getCamera().relX(d);
+	
+	
+	/**
+	 * calculates the position of an x coordinate in relation to the drawing area
+	 * @param x x coordinate
+	 * @return transformed coordinate
+	 */
+	public static float x(double x) {
+		return GameLogic.getCamera().relX(x);
 	}
 
+	/**
+	 * calculates the position of an y coordinate in relation to the drawing area
+	 * @param y y coordinate
+	 * @return transformed coordinate
+	 */
 	public static float y(double d) {
 		return GameLogic.getCamera().relY(d);
 	}
-
-	public static Graphics2D drawCollisionBox(Graphics2D g2d, CollisionBox box) {
-
-		float drawX, drawY;
-		drawX = PaintHelper.x(box.getLeft());
-		drawY = PaintHelper.y(box.getTop());
-		if (box instanceof HurtBox) {
-			g2d.setColor(Color.blue);
-		}
-		if (box instanceof HitBox) {
-			g2d.setColor(Color.darkGray);
-		}
-		Shape s = new Rectangle2D.Float(drawX, drawY, box.wid, box.len);
-		g2d.draw(s);
-		return g2d;
-	}
-
-	public static Graphics2D drawCollisionBox(Graphics2D g2d, ArrayList<CollisionBox> boxes) {
-		try {
-		for(CollisionBox box : boxes) {
-			g2d = drawCollisionBox(g2d, box);
-		}
-		} catch (ConcurrentModificationException e) {
-			System.out.println("Gandled Concurrent Modification Error: DRAW_COLLISION_BOXES()");
-		}
-		
-		return g2d;
-	}
-
-	public static Graphics2D drawCollisionBox(Graphics2D g2d, GameObject obj) {
-		return drawCollisionBox(g2d, obj.getCollisionBoxes());
-	}
-
+	
+	/**
+	 * Initialize the font used in this static class
+	 */
 	public static void initFont() {
+		
+		//find the file in the file system
 		try {
-			// create the font to use. Specify the size!
+			
 			File[] f = new File("./Press_Start_2P").listFiles();
+			
+			//set the font to whats in the file
 			font = Font.createFont(Font.TRUETYPE_FONT, new File(".\\Press_Start_2P\\VT323-Regular.ttf"))
 					.deriveFont(24f);
+			
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			// register the font
+
+			//register font
 			ge.registerFont(font);
+			
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (FontFormatException e) {

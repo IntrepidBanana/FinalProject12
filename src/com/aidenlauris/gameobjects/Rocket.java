@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.Date;
 
 import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
@@ -12,16 +13,36 @@ import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.render.PaintHelper;
 
+/**
+ * @author Lauris & Aiden
+ * Jan 22, 2019
+ * 
+ * Fires a rocket that travels toward the nearest enemy
+ *
+ */
 public class Rocket extends Projectile {
 
+	//the target of the rocket
 	private GameObject target = this;
 
+	
+	
+	/**
+	 * Initiates rocket data
+	 * @param damage damage of rocket
+	 */
 	public Rocket(int damage) {
+		
+		
 		HurtBox box = new HurtBox(this, 12, 12, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
+		
+		
 		setKnockback(10f);
 
+		
+		//initiates initial force
 		ForceAnchor fa = new ForceAnchor(12f, this, this, -1);
 		fa.hasVariableSpeed(false);
 		fa.setId("target");
@@ -33,13 +54,19 @@ public class Rocket extends Projectile {
 
 		super.update();
 
+		
+		
+		//finds closest distance  of enemy
 		double dist = Integer.MAX_VALUE;
-
 		for (int i = 0; i < GameLogic.enemies.size(); i++) {
+		
+			//this is used when the enemies is rapidly changing
 			if (i >= GameLogic.enemies.size()) {
 				i--;
 				continue;
 			}
+			
+		
 			Enemy e = GameLogic.enemies.get(i);
 			if (e == null) {
 				continue;
@@ -50,6 +77,8 @@ public class Rocket extends Projectile {
 			}
 
 		}
+		
+		//sets the anchor to the closest enemy
 		if (getForceSet().getForce("target") != null) {
 			((ForceAnchor) getForceSet().getForce("target")).setAnchor(target);
 		}
@@ -57,6 +86,7 @@ public class Rocket extends Projectile {
 
 	@Override
 	public void kill() {
+		//spawn an explosion
 		GameLogic.addGameObject(new Explosion(x, y, 200, 30f, 150f));
 		removeSelf();
 	}
@@ -67,6 +97,8 @@ public class Rocket extends Projectile {
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 
+		
+		//creates rocket projectile
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
 		// int trail = (int) (24 * time + 48);
 		int trail = 12;
@@ -84,6 +116,9 @@ public class Rocket extends Projectile {
 
 		float tx = target.x;
 		float ty = target.y;
+		
+		
+		//creates an aiming reticle
 		if (time %15 == 0) {
 			Particle p = new Particle(tx, ty);
 			p.setRotationSpeed(1);

@@ -11,9 +11,11 @@ import com.aidenlauris.gameobjects.Projectile;
 
 public class Cannon extends Gun {
 
+	/**
+	 * creates a cannon with set values
+	 */
 	public Cannon() {
 		setAtkSpeed(30);
-		setQuickRelease(30);
 		setLength(30);
 		setAccuracy(0);
 		setAuto(false);
@@ -26,14 +28,12 @@ public class Cannon extends Gun {
 
 	@Override
 	public Projectile bulletType() {
+		
+		//factory for cannon shell
 		CannonShell p = new CannonShell(getDamage());
 		p.setMoveSpeed(30f);
 		p.setReduction(0.08f);
 		return p;
 	}
 
-	@Override
-	public String item() {
-		return this.toString();
-	}
 }

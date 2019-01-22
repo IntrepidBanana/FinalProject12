@@ -1,7 +1,7 @@
 /*Aiden Gimpel, Lauris Petlah
  * January 20th, 2019
  * SpinnerBlade
- * type of projectile for Spinners
+ * type of projectile that spins around a main entity
  */
 
 package com.aidenlauris.gameobjects;
@@ -21,22 +21,51 @@ import com.aidenlauris.render.PaintHelper;
 
 public class SpinnerBlade extends Projectile {
 
+	// parent the spinner is connected to
 	public Entity parent = null;
+
+	// current angle
 	private float theta = 0;
+
+	// speed of rotation
 	private float speed = 0;
+
+	// dist away from parent
 	private int offset = 25;
+
+	// color of spinner
 	public Color color = Color.lightGray;
 	public boolean trail = true;
+
+	// number of chains
 	public int chains = 4;
+
+	// how often the chain updates
 	public int chainUpdate = 20;
 
+	/**
+	 * Initiates blade data
+	 * 
+	 * @param parent
+	 *            parent object
+	 * @param damage
+	 *            damage
+	 * @param angle
+	 *            start angle
+	 * @param speed
+	 *            speed of rotation
+	 * @param offset
+	 *            distance away from parent
+	 */
 	public SpinnerBlade(Entity parent, int damage, float angle, float speed, int offset) {
-		this.parent = parent;
-		team = Team.ENEMY;
+
 		HurtBox hb = new HurtBox(this, 15, 15, damage);
 		hb.addHint(Wall.class);
-
 		addCollisionBox(hb);
+
+		// initiates values
+		this.parent = parent;
+		team = Team.ENEMY;
 		theta = angle;
 		this.speed = speed;
 		this.offset = offset;
@@ -57,14 +86,18 @@ public class SpinnerBlade extends Projectile {
 
 	@Override
 	public void update() {
+
+		// remove this object if its killed
 		if (parent.health <= 0) {
 			kill();
 		}
-		double a = Math.toRadians(theta);
 
+		// calculate the angle and position of this object
+		double a = Math.toRadians(theta);
 		x = (float) (parent.x + offset * Math.cos(a));
 		y = (float) (parent.y + offset * Math.sin(a));
 
+		// update theta
 		theta = (theta + speed) % 360;
 		setTheta((float) Math.toRadians(theta));
 
@@ -72,21 +105,26 @@ public class SpinnerBlade extends Projectile {
 
 	@Override
 	public void damage(HurtBox box) {
+		// cant be killed
 	}
 
 	@Override
 	public void damage(float damage) {
+		// cant be killed
 	}
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
+		
+		
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 
-		AffineTransform transform = new AffineTransform();
-		AffineTransform old = g2d.getTransform();
 
 		double a = Math.toRadians(theta + speed * 5);
+		
+		
+		//creating the chain particle
 		if (trail) {
 			double ox = offset * Math.cos(a);
 			double oy = offset * Math.sin(a);
@@ -94,7 +132,7 @@ public class SpinnerBlade extends Projectile {
 			if (Time.global() % chainUpdate == 0) {
 				for (int i = 0; i < chains; i++) {
 					float dx = (float) ((i / (chains * 1.0f)) * ox);
-					float dy = (float) ((i /( chains * 1.0f)) * oy);
+					float dy = (float) ((i / (chains * 1.0f)) * oy);
 
 					Particle p = new Particle(parent.x + dx, parent.y + dy);
 					p.setFadeMinimum(0);
@@ -108,7 +146,12 @@ public class SpinnerBlade extends Projectile {
 				}
 			}
 		}
+		
+		
+		//creation of the rotating blade
 		long t = System.currentTimeMillis() / 2;
+		AffineTransform transform = new AffineTransform();
+		AffineTransform old = g2d.getTransform();
 		transform.rotate(Math.toRadians(t), drawX, drawY);
 		g2d.setColor(color);
 		g2d.transform(transform);

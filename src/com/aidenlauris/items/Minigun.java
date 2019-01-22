@@ -3,8 +3,11 @@ package com.aidenlauris.items;
 import com.aidenlauris.gameobjects.Bullet;
 import com.aidenlauris.gameobjects.Projectile;
 
-public class Minigun extends Gun{
+public class Minigun extends MachineGun{
 
+	/**
+	 * creates a minigun with set values
+	 */
 	public Minigun() {
 		setAtkSpeed(1);
 		setLength(50);
@@ -15,11 +18,5 @@ public class Minigun extends Gun{
 		setSpawnSound("machine.wav");
 	}
 	
-	@Override
-	public Projectile bulletType() {
-		Bullet b = new Bullet(getDamage());
-		b.setMoveSpeed(20f);
-		return b;
-	}
 
 }

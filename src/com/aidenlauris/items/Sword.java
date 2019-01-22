@@ -7,7 +7,6 @@
 package com.aidenlauris.items;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
 import com.aidenlauris.gameobjects.MeleeSwing;
 import com.aidenlauris.gameobjects.Particle;
@@ -16,6 +15,9 @@ import com.aidenlauris.gameobjects.util.Force;
 
 public class Sword extends Gun {
 
+	/**
+	 * creates a sword with preset values
+	 */
 	public Sword() {
 
 		setLength(20);
@@ -36,6 +38,8 @@ public class Sword extends Gun {
 
 	@Override
 	public Projectile bulletType() {
+		
+		//melee swing factory
 		MeleeSwing b = new MeleeSwing(getDamage());
 		b.setMoveSpeed(20f);
 		b.setReduction(0.2f);
@@ -43,13 +47,17 @@ public class Sword extends Gun {
 	}
 
 	@Override
-	public Graphics2D attackAnimation(Graphics2D g2d, float playerX, float playerY, float theta) {
+	public void attackAnimation(float playerX, float playerY, float theta) {
 
+		//creates a sword swipe
+		
+		//angle
 		float spread = 120;
 		float startAngle = (float) (theta + Math.toRadians(spread / 2));
 
 		int particleCount = 15;
 
+		//create particle
 		for (int i = 0; i <= particleCount; i++) {
 			float a = (float) (-Math.toRadians(spread) * i / particleCount + startAngle);
 
@@ -75,6 +83,5 @@ public class Sword extends Gun {
 		
 		
 
-		return super.attackAnimation(g2d, playerX, playerY, theta);
 	}
 }

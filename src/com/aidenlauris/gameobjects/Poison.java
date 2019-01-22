@@ -21,15 +21,19 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Poison extends Entity {
 	
-	long alert = Time.alert(180);
+	//timers for entity actions
+	long lifespan = Time.alert(145);
 	long damageTimer = Time.alert(10);
 
+	
+	/**
+	 * Initiates this entity at a coordinate
+	 * @param x x coordinate
+	 * @param y y coordinate
+	 */
 	public Poison(float x, float y) {
 		super(x, y);
-		getCollisionBoxes().clear();
-//		addCollisionBox(new HitBox(this, 25, 25, false));
-		addCollisionBox(new HurtBox(this, 30, 30, 0.000004f));
-		this.z = -1;
+		addCollisionBox(new HurtBox(this, 30, 30, 1));
 		team = Team.ENEMY;
 	}
 
@@ -37,8 +41,10 @@ public class Poison extends Entity {
 	@Override
 	public void collisionOccured(CollisionBox theirBox, CollisionBox myBox) {
 		
+		
+		//since this is a static entity, we dont want it to damage the player every tick, we make it so that we only damage the player every second instead
 		if(theirBox.getOwner() instanceof Player && Time.alertPassed(damageTimer)) {
-			((Entity)theirBox.getOwner()).damage(5);
+			((Entity)theirBox.getOwner()).damage(10);
 			damageTimer = Time.alert(60);
 			
 		}
@@ -47,14 +53,15 @@ public class Poison extends Entity {
 
 	@Override
 	public void update() {
-		
-		if (Time.alertPassed(alert)) {
+		//kill after alert passed
+		if (Time.alertPassed(lifespan)) {
 			kill();
 		}
 	}
 @Override
 public Graphics2D draw(Graphics2D g2d) {
 	
+	//draw a green rectangle
 	float drawX, drawY;
 	drawX = PaintHelper.x(x);
 	drawY = PaintHelper.y(y);

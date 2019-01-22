@@ -16,17 +16,19 @@ import com.aidenlauris.render.PaintHelper;
 
 public class ShotgunShell extends Projectile {
 
-	public ShotgunShell(float x, float y, float theta, float damage, float offset, float reduction) {
-		super(x + (float) Math.random() * 20 - 10, y + (float) Math.random() * 20 - 10, 12f, damage, theta, offset,
-				reduction);
-		setDamage(damage);
-		addCollisionBox(new HurtBox(this, -7.5f, -7.5f, 15, 15, damage));
-	}
 
+	/**
+	 * creates the projectile with a set damage
+	 * @param damage damage of projectile
+	 */
 	public ShotgunShell(float damage) {
-		HurtBox box = new HurtBox(this, -7.5f, -7.5f, 15, 15, damage);
+		
+		
+		HurtBox box = new HurtBox(this,  15, 15, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
+		
+		
 		setKnockback(5f);
 		health = 2;
 //		setSpawnSound("shotgun.wav");
@@ -34,7 +36,12 @@ public class ShotgunShell extends Projectile {
 	
 	@Override
 	public void update() {
-		setDamage(getDamage()*0.9f);
+		
+		
+		//damage drop off
+		setDamage(getDamage()*0.8f);
+		
+		
 		super.update();
 	}
 
@@ -49,6 +56,8 @@ public class ShotgunShell extends Projectile {
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
 
+		
+		//draw shotgun bullet
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		float theta = (float) (getForceSet().getNetTheta() + Math.PI);
@@ -60,7 +69,7 @@ public class ShotgunShell extends Projectile {
 		AffineTransform old = g2d.getTransform();
 		transform.rotate(theta, drawX, drawY);
 		g2d.transform(transform);
-		g2d.setColor(Color.red);
+		g2d.setColor(Color.orange);
 		g2d.fill(s);
 		g2d.setTransform(old);
 		return g2d;

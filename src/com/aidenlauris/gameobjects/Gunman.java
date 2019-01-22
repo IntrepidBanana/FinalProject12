@@ -73,7 +73,7 @@ public class Gunman extends Enemy {
 		b.y = this.y;
 		Player p = Player.getPlayer();
 		b.setMoveSpeed(6);
-		b.setLifeSpan(180f);
+		b.setLifeSpan(180);
 		b.setGunOffset(50);
 		b.team = team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);

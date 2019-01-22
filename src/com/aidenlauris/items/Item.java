@@ -7,53 +7,62 @@
 package com.aidenlauris.items;
 
 public abstract class Item {
-
-	private double weight;
-	private int stackSize;
+	
+	//amount of this item
 	private int count;
 	
-	public Item(double weight, int stackSize) {
-		this.weight = weight;
-		this.stackSize = stackSize;
+	/**
+	 * initializes this item
+	 */
+	public Item() {
 	}
 
-	public double getWeight() {
-		return weight;
-	}
 
-	public void setWeight(double weight) {
-		this.weight = weight;
-	}
+	
+	
+	
 
-	public int getStackSize() {
-		return stackSize;
-	}
-
-	public void setStackSize(int stackSize) {
-		this.stackSize = stackSize;
-	}
-
+	/**
+	 * @return the amount of this item
+	 */
 	public int getCount() {
 		return count;
 	}
 
+	/**
+	 * @param count the amount of this item
+	 */
 	public void setCount(int count) {
 		this.count = count;
 	}
 
+	/**
+	 * @param count adds by this amount from the count
+	 */
 	public void addToCount(int count) {
 		setCount(getCount() + count); 
 	}
 	
+	/**
+	 * @param count removes by this amount from the count
+	 */
 	public void removeFromCount(int count) {
 		addToCount(-count);
 	}
 	
+	/**
+	 * @return the name of this item
+	 */
 	public String item() {
 		return toString();
 	}
 
+	/**
+	 * this event is called whenever this item used
+	 */
 	public void useItem() {
+		
+		//default stuff
 		System.out.println("there doesnt seem to be a use for this item...");
 	}
 

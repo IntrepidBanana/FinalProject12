@@ -9,6 +9,7 @@ package com.aidenlauris.gameobjects;
 import java.util.FormatterClosedException;
 
 import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
@@ -19,14 +20,21 @@ import com.aidenlauris.render.SoundHelper;
 
 public abstract class Projectile extends Entity {
 
+	
+	//data for projectile
 	private float theta = 0;
 	private float gunOffset = 0;
-	private float lifeSpan = 15 * GameLogic.FRAMERATE;
+	private long lifeSpan = 0;// TIMER
+	private long realLifeSpan = 15*GameLogic.FRAMERATE;
 	private float damage = 1;
 	private float reduction = 0;
 	private float knockback = 1;
-//	private String spawnSound = "pew.wav";
 
+	
+	
+	/**
+	 * Creates a projectile
+	 */
 	public Projectile() {
 		super(0, 0);
 		team = Team.PLAYER;
@@ -34,23 +42,17 @@ public abstract class Projectile extends Entity {
 
 	}
 
-	public Projectile(float x, float y, float moveSpeed, float damage, float theta, float gunOffset, float reduction) {
-		super((float) (x + gunOffset * Math.cos(theta)), (float) (y + gunOffset * Math.sin(theta)), moveSpeed, 1);
-		this.setDamage(damage);
-		this.setTheta(theta);
-		addCollisionBox(new HurtBox(this, -2, -2, 4, 4, 0));
-		setReduction(reduction);
-		// init();
-		// TODO Auto-generated constructor stub
-	}
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
 
+		//if there was no high speed access and we are going fast
 		if (getForceSet().getNetMagnitude() >= 40 && !highSpeedAccess) {
 			return;
 		}
 
+		//hurt any entity that it collided with
+		// kill the projectile if not
 		if (box.getOwner() instanceof Entity && !(box.getOwner() instanceof Projectile) && !(box.getOwner() instanceof Poison)) {
 			Entity owner = (Entity) box.getOwner();
 			if (owner.team != this.team) {
@@ -65,86 +67,130 @@ public abstract class Projectile extends Entity {
 				this.kill();
 			}
 		}
+		//turn off high speed access
 		highSpeedAccess = false;
 
 	}
 
+	/**
+	 * @return damage
+	 */
 	public float getDamage() {
 		return damage;
 	}
 
-	public float getLifeSpan() {
+	/**
+	 * @return lifespan
+	 */
+	public long getLifeSpan() {
 		return lifeSpan;
 	}
 
+	/**
+	 * @return rate of reduction
+	 */
 	public float getReduction() {
 		return reduction;
 	}
 
+	/**
+	 * @return angle
+	 */
 	public float getTheta() {
 		return theta;
 	}
 
+	@Override
 	public void init() {
+		
+		//creates the bullet with the set values
 		x = (float) (x + gunOffset * Math.cos(theta));
 		y = (float) (y + gunOffset * Math.sin(theta));
 		Force f = new Force(getMoveSpeed(), getTheta());
 		f.setReduction(getReduction());
 		getForceSet().addForce(f);
-		
+		lifeSpan = Time.alert(realLifeSpan);
 		GameLogic.addGameObject(this);
-		if (distToPlayer() < 600) {
-//		SoundHelper.makeSound(getSpawnSound());
-		}
 	}
 
+	/**
+	 * validates the life span of this bullet
+	 */
 	private void lifeSpanTick() {
-		setLifeSpan(getLifeSpan() - 1);
-		if (getLifeSpan() <= 0) {
+		if(Time.alertPassed(getLifeSpan())){
 			kill();
 		}
 	}
 
+	/**
+	 * @param damage damage of bullet
+	 */
 	public void setDamage(float damage) {
 		this.damage = damage;
 	}
 
-	public void setLifeSpan(float lifeSpan) {
-		this.lifeSpan = lifeSpan;
+	/**
+	 * @param lifeSpan length of bullets life
+	 */
+	public void setLifeSpan(long lifeSpan) {
+		realLifeSpan = lifeSpan;
 	}
 
+	/**
+	 * @param reduction sets rate of reduction
+	 */
 	public void setReduction(float reduction) {
 		this.reduction = reduction;
 	}
 
+	/**
+	 * @param theta set angle of bullet
+	 */
 	public void setTheta(float theta) {
 		this.theta = theta;
 	}
 
 	@Override
 	public void update() {
+		
 		tickUpdate();
+		
+		//if low force magnitude or dist to player is far, kill the bullet.
 		if (getForceSet().getNetMagnitude() < 1) {
 			kill();
 		}
 		if (distToPlayer() > 3000) {
 			kill();
 		}
+		
+		//validate
 		lifeSpanTick();
 	}
 
+	/**
+	 * @return length of the gun
+	 */
 	public float getGunOffset() {
 		return gunOffset;
 	}
 
+	/**
+	 * @param gunOffset set length of gun
+	 */
 	public void setGunOffset(float gunOffset) {
 		this.gunOffset = gunOffset;
 	}
 
+	/**
+	 * @return get knockback of the bullet
+	 */
 	public float getKnockback() {
 		return knockback;
 	}
 
+	/**
+	 * @param knockback sets the knockback
+	 */
 	public void setKnockback(float knockback) {
 		this.knockback = knockback;
 	}

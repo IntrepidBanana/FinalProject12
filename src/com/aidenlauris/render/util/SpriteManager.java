@@ -9,27 +9,42 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+/**
+ * @author Aiden & Lauris
+ * Jan 22, 2019
+ * 
+ * Manages starting and getting sprites.
+ */
 public class SpriteManager {
 
+	
+	
+	/**
+	 * @author Aiden & Lauris
+	 * Jan 22, 2019
+	 * 
+	 * the state an sprite can be
+	 */
 	public enum State{
 		Idle,
 		Move1,
 		Move2;
 	}
 
+	
+	//total sprite sheet for player 
 	private static BufferedImage playersheet;
-	private static BufferedImage slugsheet;
-	private static BufferedImage tilesheet;
+	
+	//map with sprites ordered by state
 	public static Map<State, BufferedImage> playerSprites = new HashMap<>();
-	public static Map<State, BufferedImage> slugSprites = new HashMap<>();
 	
 	
-	public static ArrayList<BufferedImage> tileSprites = new ArrayList<>()	;
+	/**
+	 * Initialize sprite sheets by reading from file
+	 */
 	public static void initSpriteSheets() {
 		try {
 			playersheet = ImageIO.read(new File(".\\Assets\\Sprites\\player.png"));
-			slugsheet = ImageIO.read(new File(".\\Assets\\Sprites\\slug.png"));
-			tilesheet = ImageIO.read(new File(".\\Assets\\Sprites\\tiles.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -38,23 +53,18 @@ public class SpriteManager {
 	}
 	
 	
-	public static void parseSprites() {
+	/**
+	 * Interpreting sprite values and placing them into the appropriate sprite field
+	 */
+	private static void parseSprites() {
 		int iter = 0;
 		for(State s : State.values()) {
 			playerSprites.put(s, playersheet.getSubimage(iter*24, 0, 24, 24));
-			slugSprites.put(s, slugsheet.getSubimage(iter*24, 0, 24, 24));
 			iter++;
 		}
 		
-		for(int i = 0; i < 8; i++) {
-			tileSprites.add(tilesheet.getSubimage(i*32, 0, 32, 32));
-		}
 	
 		
 	}
 	
-	public static BufferedImage getTile() {
-		int index = (int) (Math.random()*8);
-		return tileSprites.get(index);
-	}
 }

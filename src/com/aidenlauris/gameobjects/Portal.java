@@ -47,7 +47,7 @@ public class Portal extends Entity {
 		}
 
 		double theta = Math.toRadians(Math.random() * 360);
-		for (int i = 1; i <= 1; i++) {
+		for (int i = 1; i <= 2; i++) {
 			theta += Math.toRadians(120);
 			float dx = (float) (x + Math.cos(theta) * 30);
 			float dy = (float) (y + Math.sin(theta) * 30);
@@ -66,7 +66,6 @@ public class Portal extends Entity {
 			ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
 			fa.setOffset(85 * (int) (Math.random() * 3));
 			fa.setLifeSpan(Integer.MAX_VALUE);
-			// fa.hasVariableSpeed(false);
 
 			part.getForceSet().addForce(fa);
 

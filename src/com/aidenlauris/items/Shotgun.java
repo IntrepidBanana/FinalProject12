@@ -10,8 +10,10 @@ import com.aidenlauris.gameobjects.ShotgunShell;
 
 public class Shotgun extends Gun {
 
+	/**
+	 * Creates a shotgun with preset values
+	 */
 	public Shotgun() {
-//		super(1,1,30,25);
 		setLength(25);
 		setAuto(false);
 
@@ -29,12 +31,12 @@ public class Shotgun extends Gun {
 		setSpawnSound("shotgun.wav");
 		
 		
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Projectile bulletType() {
 		
+		//shotgun shell factory
 		ShotgunShell b = new ShotgunShell(getDamage());
 		b.setMoveSpeed(20f);
 		b.setReduction(0.05f);
@@ -44,8 +46,4 @@ public class Shotgun extends Gun {
 		
 	}
 
-	@Override
-	public String item() {
-		return this.toString();
-	}
 }

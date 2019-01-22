@@ -28,7 +28,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.plaf.FontUIResource;
 
-import com.Tile;
 import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.game.util.IOHandler;
 import com.aidenlauris.game.util.Keys;
@@ -40,44 +39,38 @@ import com.aidenlauris.gameobjects.AmmoDropEntity;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Wall;
 import com.aidenlauris.gameobjects.util.GameObject;
-import com.aidenlauris.render.util.DrawCompare;
 import com.aidenlauris.render.util.SpriteManager;
 
+/**
+ * @author Aiden & Lauris
+ * Jan 22, 2019
+ * 
+ * Handles all rendering done by game
+ */
 public class RenderHandler extends JPanel {
 
-	int camSize = 720;
-	Camera camera;
-	IOHandler io;
-	boolean keys[] = new boolean[4];
-	int timePressed[] = new int[4];
-	double camSpeed = 1;
-	long startTime;
-	private BufferedImage lightMap;
+	
+
 	public long fpsTimer;
-	public Tile[][] tiles = new Tile[118][118];
 	
 	
 	public RenderHandler(IOHandler io) {
-		GameLogic.init();
 
-		this.io = io;
-		this.camera = new Camera();
+		//initialize values
+		Camera camera = new Camera();
 		GameLogic.setCamera(camera);
-		this.io.setCamera(camera);
+		io.setCamera(camera);
 		addKeyListener(io);
 		addMouseListener(io);
 		addMouseMotionListener(io);
-		startTime = System.currentTimeMillis();
 		PaintHelper.initFont();
 		Keys k = new Keys();
 		SpriteManager.initSpriteSheets();
 
-		lightMap = new BufferedImage(GameLogic.camx, GameLogic.camy, BufferedImage.TYPE_INT_ARGB);
 		repaint();
 
 		setBackground(new Color(0, 45, 48));
 
-		// gameLoop();
 	}
 
 	@Override
@@ -85,6 +78,8 @@ public class RenderHandler extends JPanel {
 
 		super.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
+
+		// render the game
 		g2d = playState(g2d);
 	}
 
@@ -95,8 +90,12 @@ public class RenderHandler extends JPanel {
 		GameLogic.sightPolygon.clear();
 
 		
+		//since this method is called really quickly, concurrent modification may occur
+		//this attempts to prevent that
 		int sizeMishap = 0;
 		for (int i = 0; i < objects.size() - sizeMishap; i++) {
+			
+			//validates everything
 			if (i >= objects.size()) {
 				break;
 			}
@@ -107,19 +106,32 @@ public class RenderHandler extends JPanel {
 				continue;
 
 			}
+			
+			//if distance to object is too far, dont draw
 			if (Math.hypot(PaintHelper.x(e.x - GameLogic.camx / 2), PaintHelper.y(e.y - GameLogic.camy / 2)) > 1080) {
 				continue;
 			}
+			
+			//draw the entity
 			g2d = e.draw(g2d);
+			
+			
+			//if its a wall add the value to the sight polygon manager
 			if (e instanceof Wall) {
 				GameLogic.sightPolygon.addPath((Wall) e);
 			}
 		}
+		
+		//draw sight polygon
 		g2d = GameLogic.sightPolygon.draw(g2d);
+		
+		//draw menu
 		g2d = GameLogic.menuLayer.draw(g2d);
-		Cursor c = GameLogic.getCursor();
-		g2d = c.draw(g2d);
+		
+		//draw the cursor
+		g2d = GameLogic.getCursor().draw(g2d);
 
+		//calculate the valid delta time variable
 		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
 g2d.setColor(Color.white);
 		g2d.drawString("FPS: " + fpsTimer + " Delta: " + (Math.round(Time.delta()*100)/100.0), 16, 16);

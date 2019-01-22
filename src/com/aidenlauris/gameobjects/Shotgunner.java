@@ -18,18 +18,25 @@ import com.aidenlauris.render.SoundHelper;
 
 public class Shotgunner extends Enemy {
 	
-	private Particle part;
+	private Particle body;
 
+	/**
+	 * initiates enemy
+	 * @param x start x
+	 * @param y start y
+	 */
 	public Shotgunner(float x, float y) {
 		super(x, y, 50, 10, 3);
-		part = new Particle(x, y);
-		part.setColor(Color.red);
-		part.setSize(25);
-		part.setSizeDecay(25);
-		part.setFadeMinimum(255);
-		part.setRotationSpeed(5);
-		part.setLifeSpan(Integer.MAX_VALUE);
-		part.init();
+		
+		//creates body particle
+		body = new Particle(x, y);
+		body.setColor(Color.red);
+		body.setSize(25);
+		body.setSizeDecay(25);
+		body.setFadeMinimum(255);
+		body.setRotationSpeed(5);
+		body.setLifeSpan(Integer.MAX_VALUE);
+		body.init();
 	}
 
 	@Override
@@ -48,8 +55,8 @@ public class Shotgunner extends Enemy {
 	}
 
 	public void update() {
-		part.x = x;
-		part.y = y;
+		body.x = x;
+		body.y = y;
 		tickUpdate();
 
 		float dist = (float) Math
@@ -74,7 +81,7 @@ public class Shotgunner extends Enemy {
 			Player p = Player.getPlayer();
 			b.setMoveSpeed(10);
 			b.setReduction(0.03f);
-			b.setLifeSpan(60f);
+			b.setLifeSpan(60);
 			b.setGunOffset(50);
 			b.team = team.ENEMY;
 			b.health = 1;
@@ -90,7 +97,7 @@ public class Shotgunner extends Enemy {
 	@Override
 	public void kill() {
 
-		part.kill();
+		body.kill();
 		super.kill();
 	}
 

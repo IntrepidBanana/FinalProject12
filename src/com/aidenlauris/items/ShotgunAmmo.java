@@ -8,10 +8,16 @@ package com.aidenlauris.items;
 
 public class ShotgunAmmo extends Ammo {
 
+	/**
+	 * initiates empty ammo item
+	 */
 	public ShotgunAmmo() {
-		setStackSize(24);
 	}
 	
+	/**
+	 * initiates ammo item with set count
+	 * @param count count of ammunition
+	 */
 	public ShotgunAmmo(int count){
 		this();
 		setCount(count);

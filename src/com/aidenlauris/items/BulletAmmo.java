@@ -8,9 +8,15 @@ package com.aidenlauris.items;
 
 public class BulletAmmo extends Ammo {
 	
+	/**
+	 * Initates empty bullet ammo
+	 */
 	public BulletAmmo() {
-		setStackSize(100);
 	}
+	/**
+	 * initiates bullet with a set count
+	 * @param count
+	 */
 	public BulletAmmo(int count){
 		this();
 		setCount(count);

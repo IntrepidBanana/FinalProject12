@@ -22,34 +22,41 @@ import com.aidenlauris.render.util.SpriteManager;
 import com.aidenlauris.render.util.SpriteManager.State;
 
 public class Slug extends Enemy {
-	protected Particle part;
+	protected Particle body;
 
+	/**
+	 * initiates enemy data at a start position
+	 * @param x start x
+	 * @param y start y
+	 */
 	public Slug(float x, float y) {
 		super(x, y, 20, 5, 0.5f);
 		getCollisionBoxes().clear();
 		addCollisionBox(new HitBox(this, 15, 15, true));
 		addCollisionBox(new HurtBox(this, 20, 20, 10));
-		part = new Particle(x, y);
-		part.setColor(Color.yellow);
-		part.setSize(15);
-		part.setSizeDecay(15);
-		part.setFadeMinimum(255);
-		part.setRotationSpeed(12);
-		part.setLifeSpan(Integer.MAX_VALUE);
-		part.init();
+		
+		//start body particle
+		body = new Particle(x, y);
+		body.setColor(Color.cyan);
+		body.setSize(15);
+		body.setSizeDecay(15);
+		body.setFadeMinimum(255);
+		body.setRotationSpeed(12);
+		body.setLifeSpan(Integer.MAX_VALUE);
+		body.init();
 	}
 
 	@Override
 	public void update() {
-		part.x = x;
-		part.y = y;
+		body.x = x;
+		body.y = y;
 		super.update();
 	}
 	@Override
 	public void kill() {
 
 		SoundHelper.makeSound("slug.wav");
-		part.kill();
+		body.kill();
 		super.kill();
 	}
 

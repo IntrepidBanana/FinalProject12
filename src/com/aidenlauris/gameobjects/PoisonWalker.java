@@ -15,11 +15,19 @@ import com.aidenlauris.gameobjects.util.Force;
 
 public class PoisonWalker extends Enemy {
 
+	
 	private Particle part;
 
+	/**
+	 * Initiates the enemy at the coordinate
+	 * @param x x coord
+	 * @param y y coord
+	 */
 	public PoisonWalker(float x, float y) {
 		super(x, y, 50, 10, 2);
 
+		
+		//sets the particle for the body
 		part = new Particle(x, y);
 
 		part.setRotation(3);
@@ -52,8 +60,9 @@ public class PoisonWalker extends Enemy {
 
 		tickUpdate();
 
-		float dist = (float) Math
-				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
+		
+		// move logic
+		float dist = distToPlayer();
 		time++;
 
 		move();
@@ -75,8 +84,4 @@ public class PoisonWalker extends Enemy {
 		super.kill();
 	}
 	
-	@Override
-	public Graphics2D draw(Graphics2D g2d) {
-		return g2d;
-	}
 }
