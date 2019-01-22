@@ -68,6 +68,9 @@ public class RenderHandler extends JPanel {
 		SpriteManager.initSpriteSheets();
 
 		repaint();
+		
+		
+		//background color
 
 		setBackground(new Color(0, 45, 48));
 
@@ -82,11 +85,19 @@ public class RenderHandler extends JPanel {
 		// render the game
 		g2d = playState(g2d);
 	}
-
+	
+	
+	/**
+	 * Renders all components and things to draw
+	 * @param g2d graphics unit
+	 * @return updated graphics unit
+	 */
 	public Graphics2D playState(Graphics2D g2d) {
 
+		//all objects to draw
 		ArrayList<GameObject> objects = GameLogic.objectsToDraw;
 
+		//reset viewcones
 		GameLogic.sightPolygon.clear();
 
 		
@@ -133,7 +144,10 @@ public class RenderHandler extends JPanel {
 
 		//calculate the valid delta time variable
 		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
-g2d.setColor(Color.white);
+		
+		
+		//adds the level and fps 
+		g2d.setColor(Color.white);
 		g2d.drawString("FPS: " + fpsTimer + " Delta: " + (Math.round(Time.delta()*100)/100.0), 16, 16);
 		g2d.drawString("Level: " + GameLogic.globalDifficulty, GameLogic.camx/2 -48, 16);
 		return g2d;
