@@ -9,7 +9,7 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.util.Random;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.items.BulletAmmo;
@@ -22,6 +22,11 @@ public class Chaser extends Enemy {
 
 	private Particle part;
 
+	/**
+	 * initiates enemy with coordinate x, y
+	 * @param x coord x
+	 * @param y coord y
+	 */
 	public Chaser(float x, float y) {
 		super(x, y, 25, 10, 3.5f);
 		part = new Particle(x, y);
@@ -41,6 +46,8 @@ public class Chaser extends Enemy {
 		Random rand = new Random();
 		int death = rand.nextInt(2);
 
+		
+		//spawns bullet in random location on death
 		if (death == 0) {
 			for (int i = 0; i < 450; i += 90) {
 				Bullet b = new Bullet(2);
@@ -55,7 +62,7 @@ public class Chaser extends Enemy {
 				b.setTheta(theta);
 				b.init();
 
-				WorldMap.addGameObject(new Corpse(x, y, this));
+				GameLogic.addGameObject(new Corpse(x, y, this));
 				removeSelf();
 
 			}
@@ -84,6 +91,7 @@ public class Chaser extends Enemy {
 		part.x = x;
 		part.y = y;
 
+		//funky particles
 		if (time % 5 == 0) {
 			Particle p = new Particle(x, y);
 			p.setColor(new Color(121, 75, 123));
@@ -100,7 +108,7 @@ public class Chaser extends Enemy {
 
 	public void move() {
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		if (dist < 400) {
 			ForceAnchor f = new ForceAnchor(3f, this, Player.getPlayer(), -1);
 

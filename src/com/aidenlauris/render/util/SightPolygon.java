@@ -10,7 +10,7 @@ import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Ray;
 import com.aidenlauris.gameobjects.Wall;
@@ -19,16 +19,6 @@ import com.aidenlauris.render.PaintHelper;
 public class SightPolygon {
 	ArrayList<Path2D> paths = new ArrayList<>();
 	
-	public void findAllPaths(){
-		ArrayList<Wall> walls = WorldMap.getAllWalls();
-
-		paths.clear();
-		for(Wall w : walls) {
-			
-			paths.addAll(w.getShadow());		
-		}
-		
-	}
 	
 	public void addPath(Wall wall){
 		paths.addAll(wall.getShadow());

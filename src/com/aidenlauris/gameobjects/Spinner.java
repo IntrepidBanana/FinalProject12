@@ -8,8 +8,8 @@ package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HurtBox;

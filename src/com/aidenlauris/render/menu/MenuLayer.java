@@ -11,7 +11,6 @@ public class MenuLayer {
 			components.add(e);
 			e.parent = this;
 		}
-		System.out.println(components.size());
 	}
 
 	public Graphics2D draw(Graphics2D g2d) {

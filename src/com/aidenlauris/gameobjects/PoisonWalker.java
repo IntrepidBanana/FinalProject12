@@ -9,8 +9,8 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
 
 public class PoisonWalker extends Enemy {
@@ -34,7 +34,7 @@ public class PoisonWalker extends Enemy {
 	@Override
 	public void move() {
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 
 		Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 		f.setId("PoisonMove");
@@ -53,17 +53,14 @@ public class PoisonWalker extends Enemy {
 		tickUpdate();
 
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		time++;
-		if (isStunned()) {
-			return;
-		}
 
 		move();
 
 		if (time % 10 == 0) {
 
-			WorldMap.addGameObject(new Poison(this.x, this.y));
+			GameLogic.addGameObject(new Poison(this.x, this.y));
 		}
 		if (dist < 500 && Time.alertPassed(alert)) {
 			// WorldMap.addGameObject(new Poison(this.x, this.y));

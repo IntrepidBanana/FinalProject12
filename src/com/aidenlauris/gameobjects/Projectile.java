@@ -8,7 +8,7 @@ package com.aidenlauris.gameobjects;
 
 import java.util.FormatterClosedException;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
@@ -21,7 +21,7 @@ public abstract class Projectile extends Entity {
 
 	private float theta = 0;
 	private float gunOffset = 0;
-	private float lifeSpan = 15 * WorldMap.FRAMERATE;
+	private float lifeSpan = 15 * GameLogic.FRAMERATE;
 	private float damage = 1;
 	private float reduction = 0;
 	private float knockback = 1;
@@ -92,7 +92,7 @@ public abstract class Projectile extends Entity {
 		f.setReduction(getReduction());
 		getForceSet().addForce(f);
 		
-		WorldMap.addGameObject(this);
+		GameLogic.addGameObject(this);
 		if (distToPlayer() < 600) {
 //		SoundHelper.makeSound(getSpawnSound());
 		}
@@ -149,6 +149,7 @@ public abstract class Projectile extends Entity {
 		this.knockback = knockback;
 	}
 
+	
 //	public String getSpawnSound() {
 //		return spawnSound;
 //	}

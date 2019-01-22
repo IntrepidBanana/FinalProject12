@@ -1,20 +1,22 @@
 package com.aidenlauris.game.util;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.util.GameObject;
 
+/**
+ * @author Lauris & Aiden
+ * Jan 21, 2019
+ * All mouse activities and mouse logic including: presses, mousewheel, movement
+ */
 public class Mouse {
+	
+	
+	//all variables
 	private static float mouseX = 0;
 	private static float mouseY = 0;
 	private static boolean leftPressed = false;
-	private static boolean rightPressed = false;
-	private static GameObject focus = null;
-	private static int rotation = 0;
 
-	public Mouse() {
-		// TODO Auto-generated constructor stub
-	}
 
 	/**
 	 * Gets the coordinate of the mouse relative to the top left of the screen
@@ -34,25 +36,24 @@ public class Mouse {
 		return getMouseY();
 	}
 
-	public static boolean isPressed() {
-		return leftPressed || rightPressed;
-	}
 
+	/**
+	 * returns whether the left button is pressed
+	 * @return left button is pressed
+	 */
 	public static boolean isLeftPressed() {
 		return leftPressed;
 	}
 
-	public static boolean isRightPressed() {
-		return rightPressed;
-	}
 
+	/**
+	 * sets the value of whether the mouse is pressed or not
+	 * @param b boolean if button is pressed
+	 */
 	public static void setLeft(boolean b) {
 		leftPressed = b;
 	}
 
-	public static void setRight(boolean b) {
-		rightPressed = b;
-	}
 
 	/**
 	 * gets the coordinate of the mouse relative to the world map
@@ -102,78 +103,58 @@ public class Mouse {
 		return 0;
 	}
 
+	/**
+	 * gets the value of the camera
+	 * @return the Camera class
+	 */
 	private static Camera getCamera() {
-		return WorldMap.getCamera();
+		return GameLogic.getCamera();
 	}
 
-	public float dist() {
-		return (float) Math.hypot(planeX(), planeY());
-	}
 
+	/**
+	 * returns the radians from the center of the camera to given point
+	 * @param originX x Coordinate of point
+	 * @param originY y Coordinate of point
+	 * @return angle between center and point
+	 */
 	public static float theta(float originX, float originY) {
 		return (float) Math.atan2(realY() - originY, realX() - originX);
 	}
 
+	/**
+	 * gets mouse x position
+	 * @return mouse x position
+	 */
 	public static float getMouseX() {
 		return mouseX;
 	}
 
-	public static void setMouseX(double d) {
-		mouseX = (float) d;
+	/**
+	 * sets the mouse x position
+	 * @param x new x position
+	 */
+	public static void setMouseX(double x) {
+		mouseX = (float) x;
 	}
 
+	/**
+	 * gets mouse y position
+	 * @return mouse y position
+	 */
 	public static float getMouseY() {
 		return mouseY;
 	}
 
-	public static void setMouseY(double d) {
-		mouseY = (float) d;
+	/**
+	 * sets mouse y position
+	 * @param y
+	 */
+	public static void setMouseY(double y) {
+		mouseY = (float) y;
 	}
 
-	public static GameObject getFocus() {
-		return focus;
-	}
 
-	public static void setFocus(GameObject focus) {
-		Mouse.focus = focus;
-	}
 
-	public static float distToMouse(float x, float y) {
-		return (float) Math.hypot(x - realX(), y - realY());
-	}
-
-	public static boolean withinBox(float x1, float y1, float wid, float len) {
-		if (realX() >= x1 && realX() <= x1 + wid) {
-			if (realY() >= y1 && realY() <= y1 + len) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static boolean withinBoxRelativeToCamera(float x1, float y1, float wid, float len) {
-		if (getX() >= x1 && getX() <= x1 + wid) {
-			if (getY() >= y1 && getY() <= y1 + len) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static int getWheelRotation() {
-		int r = getRotation();
-		if (r != 0) {
-			setRotation(0);
-		}
-		return r;
-	}
-
-	private static int getRotation() {
-		return rotation;
-	}
-
-	public static void setRotation(int rotation) {
-		Mouse.rotation = rotation;
-	}
 
 }

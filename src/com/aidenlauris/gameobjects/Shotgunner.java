@@ -8,8 +8,8 @@ package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.items.Pistol;
 import com.aidenlauris.items.Shotgun;
@@ -35,7 +35,7 @@ public class Shotgunner extends Enemy {
 	@Override
 	public void move() {
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 
 		Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 		f.setId("Shotgun");
@@ -53,11 +53,8 @@ public class Shotgunner extends Enemy {
 		tickUpdate();
 
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		time++;
-		if (isStunned()) {
-			return;
-		}
 
 		move();
 

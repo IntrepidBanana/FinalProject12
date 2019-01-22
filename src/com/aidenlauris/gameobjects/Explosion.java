@@ -39,6 +39,9 @@ public class Explosion extends Entity {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see com.aidenlauris.gameobjects.util.Entity#collisionOccured(com.aidenlauris.gameobjects.util.CollisionBox, com.aidenlauris.gameobjects.util.CollisionBox)
+	 */
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
 		if (!(box.getOwner() instanceof Entity)) {
@@ -49,7 +52,7 @@ public class Explosion extends Entity {
 			float dist = (float) Math.hypot(box.x - myBox.x, box.y - myBox.y);
 			float effectiveMagnitude = (float) Math.max(magnitude / (-3 * (size / 2)) * dist + magnitude, 0);
 			((Entity) box.getOwner()).damage((HurtBox) myBox);
-			((Entity) box.getOwner()).knockBack(effectiveMagnitude, myBox.getX(), myBox.getY(), box.getX(), box.getY());
+			((Entity) box.getOwner()).knockBack(effectiveMagnitude, myBox.getX(), myBox.getY());
 		}
 	}
 
@@ -61,11 +64,4 @@ public class Explosion extends Entity {
 		lifespan--;
 	}
 
-	@Override
-	public Graphics2D draw(Graphics2D g2d) {
-		
-		
-		g2d = PaintHelper.drawCollisionBox(g2d, this);
-		return g2d;
-	}
 }

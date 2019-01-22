@@ -7,31 +7,45 @@
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.Team;
-import com.aidenlauris.items.LaserGun;
-import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.render.SoundHelper;
 
 public class BeamShooter extends Enemy {
 
-	boolean spinnersCreated = false;
-	long moveAlert = 0;
-	long prepAttack = Time.alert(180);
-	long attack = 0;
+	//whether the spinner blades have been created
+	private boolean spinnersCreated = false;
+	
+	//alert timers
+	private long moveAlert = 0;
+	private long prepAttack = Time.alert(180);
+	private long attack = 0;
+	
+	
+	//whether the shooter is attacking
 	private boolean attacking;
+
+	
+	//main particle
 	private Particle part;
 	
-	float px = 0;
-	float py = 0;
+	
+	//the coordinates of the firing position
+	private float firingx = 0;
+	private float firingy = 0;
 
+	/**
+	 * initiates enemy with coordinate x, y
+	 * @param x coord x
+	 * @param y coord y
+	 */
 	public BeamShooter(float x, float y) {
 		super(x, y, 200, 10, 1);
 		
+
+		//initiates main particle of body
 		part = new Particle(x, y);
 		part.setRotationSpeed(3);
 		part.setSize(64);
@@ -43,8 +57,7 @@ public class BeamShooter extends Enemy {
 
 	@Override
 	public void move() {
-		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+		float dist = distToPlayer();
 
 		Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 		f.setId("BeamMove");
@@ -59,13 +72,15 @@ public class BeamShooter extends Enemy {
 	public void update() {
 		tickUpdate();
 		
+		//updates the particle
 		part.x = x;
 		part.y = y;
 		
+		//creates the spinner
 		if (!spinnersCreated) {
-			SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 80);
-			SpinnerBlade b = new SpinnerBlade(this, 20, 120, 1, 80);
-			SpinnerBlade c = new SpinnerBlade(this, 20, 240, 1, 80);
+			SpinnerBlade a = new SpinnerBlade(this, 20, 0, 1, 70);
+			SpinnerBlade b = new SpinnerBlade(this, 20, 120, 1, 70);
+			SpinnerBlade c = new SpinnerBlade(this, 20, 240, 1, 70);
 			a.color = new Color(255, 0, 125);
 			b.color = new Color(255, 0, 125);
 			c.color = new Color(255, 0, 125);
@@ -77,48 +92,60 @@ public class BeamShooter extends Enemy {
 			c.chains = 3;
 			spinnersCreated = true;
 		}
-		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+		
+		
+		float dist = distToPlayer();
 		time++;
-		if (isStunned()) {
-			return;
-		}
 
-		if (dist < 500 && Time.alertPassed(prepAttack)) {
+		
+		//starts the attack cycle
+		if (dist < 900 && Time.alertPassed(prepAttack)) {
 			prepAttack = Time.alert(180);
 			moveAlert = Time.alert(75);
 			attack = Time.alert(55);
-			px = Player.getPlayer().x;
-			py = Player.getPlayer().y;
+			firingx = Player.getPlayer().x;
+			firingy = Player.getPlayer().y;
 			attacking = true;
 
 			prep();
 
 		}
 
+		//attack 
 		if (Time.alertPassed(attack) && attacking) {
 			attack();
 			attacking = false;
 		}
+		
+		
 		if (Time.alertPassed(moveAlert)) {
+			//able to move again
 			move();
 		} else {
-
+			//remove all movement
 			getForceSet().removeForce("BeamMove");
 		}
 
 	}
 
+	/**
+	 * starts the particle effect for the charge up of the beam
+	 */
 	private void prep() {
 
-		float theta = (float) Math.atan2(py - this.y, px - this.x);
-		Ray r = new Ray(x, y, px, py);
+		
+		//sets angle
+		float theta = (float) Math.atan2(firingy - this.y, firingx - this.x);
 
+		//fires a ray to figure out end point of prep beam
+		Ray r = new Ray(x, y, firingx, firingy);
 		float fx = r.fx;
 		float fy = r.fy;
 
 		double dist = Math.hypot(x - fx, y - fy);
 
+		
+		//creates a particle between here and ray end point
 		float particles = 60;
 		for (int i = 1; i <= particles; i++) {
 			float offset = (float) ((i / particles) * dist);
@@ -143,6 +170,7 @@ public class BeamShooter extends Enemy {
 
 	public void attack() {
 
+		//spawns a beam
 		Beam b = new Beam(30, this.x, this.y);
 		b.x = this.x;
 		b.y = this.y;
@@ -150,7 +178,7 @@ public class BeamShooter extends Enemy {
 		b.setLifeSpan(60);
 		b.setGunOffset(50);
 		b.team = Team.ENEMY;
-		float theta = (float) Math.atan2(py - this.y, px - this.x);
+		float theta = (float) Math.atan2(firingy - this.y, firingx - this.x);
 		b.setTheta(theta);
 		b.init();
 
@@ -160,6 +188,7 @@ public class BeamShooter extends Enemy {
 
 	@Override
 	public void knockBack(float magnitude, float theta) {
+		//removes ability to get knocked back
 	}
 
 	@Override
@@ -169,10 +198,4 @@ public class BeamShooter extends Enemy {
 	}
 
 	
-	@Override
-	public Graphics2D draw(Graphics2D g2d) {
-		
-		
-		return g2d;
-	}
 }

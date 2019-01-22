@@ -9,10 +9,9 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Force;
@@ -20,17 +19,24 @@ import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.gameobjects.util.Team;
-import com.aidenlauris.items.BulletAmmo;
-import com.aidenlauris.items.EnergyCell;
-import com.aidenlauris.items.ExplosiveAmmo;
-import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.render.PaintHelper;
 
 public class Enemy extends Entity {
 
-	protected long alert = Time.alert(60);
+	//chance to drop things
 	private final float DROP_CHANCE = 0.2f;
+	
+	//move alert
+	protected long alert = Time.alert(60);
 
+	/**
+	 * initiates an enemy with a set of values
+	 * @param x x coord of enemy
+	 * @param y y coord of enemy
+	 * @param health health of enemy
+	 * @param strength strength of enemy (not really used)
+	 * @param speed movement speed
+	 */
 	public Enemy(float x, float y, int health, int strength, float speed) {
 		super(x, y, 1, 1);
 
@@ -47,30 +53,30 @@ public class Enemy extends Entity {
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
+		
+		//damage player if enemy and player collide
 		if (myBox instanceof HurtBox && box.getOwner() instanceof Player) {
 			((Entity) box.getOwner()).damage((HurtBox) myBox);
 			float theta = (float) Math.atan2(Player.getPlayer().y - this.y, Player.getPlayer().x - this.x);
 			Player.getPlayer().knockBack(25, (float) (theta));
 			return;
 		}
-		if (box instanceof HurtBox && box.getOwner() instanceof Entity) {
-			Entity owner = (Entity) box.getOwner();
-		}
+
+		//collide with any solid box
 		if (box.isSolid) {
 			collide(box, myBox);
 		}
 
 	}
 
+	@Override
 	public void update() {
+
+		//default operations
 		tickUpdate();
 
-		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+		float dist = distToPlayer();
 		time++;
-		if (isStunned()) {
-			return;
-		}
 		move();
 
 		if (dist < 80) {
@@ -79,9 +85,14 @@ public class Enemy extends Entity {
 
 	}
 
+	/**
+	 * the move event that is called by an enemy
+	 */
 	public void move() {
+		
+		//default operation with 2 states. moving randomly and following player
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		if (dist < 400) {
 			ForceAnchor f = new ForceAnchor(3f, this, Player.getPlayer(), -1);
 
@@ -103,16 +114,24 @@ public class Enemy extends Entity {
 		}
 	}
 
+	/**
+	 * attack event called by enemy
+	 */
 	public void attack() {
 	}
 
 	@Override
 	public void kill() {
-		AmmoDropEntity.drop(x, y, DROP_CHANCE*2, 1, 3);
-		HealthDropEntity.drop(x, y, DROP_CHANCE, 1, 1);
-		GunDrop.drop(x, y, DROP_CHANCE);
-		WorldMap.addGameObject(new Corpse(x, y, this));
 		
+		//on kill drop items
+		AmmoDropEntity.drop(x, y, DROP_CHANCE*2, 1, 3);
+		HealthDropEntity.drop(x, y, DROP_CHANCE);
+		GunDrop.drop(x, y, DROP_CHANCE/2);
+		
+		//on kill make a corpse
+		GameLogic.addGameObject(new Corpse(x, y, this));
+		
+		//make particles
 		for(int i = 0; i < 10; i++) {
 			float theta = (float) Math.toRadians(Math.random()*360);
 			
@@ -134,14 +153,4 @@ public class Enemy extends Entity {
 		removeSelf();
 	}
 
-	@Override
-	public Graphics2D draw(Graphics2D g2d) {
-		float drawX, drawY;
-		drawX = PaintHelper.x(x);
-		drawY = PaintHelper.y(y);
-
-		g2d = super.draw(g2d);
-//		g2d.drawString(this.getClass().getSimpleName(), drawX, drawY);
-		return g2d;
-	}
 }

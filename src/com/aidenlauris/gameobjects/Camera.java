@@ -1,13 +1,12 @@
 /*Aiden Gimpel, Lauris Petlah
  * January 20th, 2019
  * Camera
- * Camera to show the game and move he screen
+ * Camera to show the game and move the screen
  */
 
 package com.aidenlauris.gameobjects;
 
-import com.aidenlauris.game.IOHandler;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.game.util.Mouse;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
@@ -16,72 +15,106 @@ import com.aidenlauris.gameobjects.util.ForceAnchor;
 
 public class Camera extends Entity {
 
-	// x and y are the centers
-	float mouseOffsetX = 0;
-	float mouseOffsetY = 0;
-	float destX = 0;
-	float destY = 0;
-	int sizeX = 720;
-	int sizeY = 720;
+	// offsets caused by mouse
+	private float mouseOffsetX = 0;
+	private float mouseOffsetY = 0;
+	
+	//size of camera initially
+	public int sizeX;
+	public int sizeY;
+	
+	//player location
 	public Player player = Player.getPlayer();
 
+	/**
+	 * Initialize camera
+	 */
 	public Camera() {
-		super(0, 0, 1f, 1);
-		this.sizeX = WorldMap.camx;
-		this.sizeY = WorldMap.camy;
+		super(0, 0);
+		this.sizeX = GameLogic.camx;
+		this.sizeY = GameLogic.camy;
 	}
 
-	public int getSize() {
-		return sizeX;
-	}
-
+	/**
+	 * @return x radius of camera
+	 */
 	public int getRadiusX() {
 		return sizeX / 2;
 	}
 
+	/**
+	 * @return y radius of camera
+	 */
 	public int getRadiusY() {
 		return sizeY / 2;
 	}
 
 	@Override
 	public void update() {
+		//updates mouseoffsets and the next location to move to
+		
 		player = Player.getPlayer();
 		mouseOffsetX = Mouse.planeX();
 		mouseOffsetY = Mouse.planeY();
-		destX = (Mouse.realX() + player.x) / 2;
-		destY = (Mouse.realY() + player.y) / 2;
 		moveTo(player.x + mouseOffsetX / 5, player.y + mouseOffsetY / 5);
 		tickUpdate();
 	}
 
+	/**
+	 * @return left most coordinate of camera
+	 */
 	public float camX() {
 		return x - getRadiusX();
-		// return player.x-getRadiusX() + mouseOffsetX/5;
-		// return x - getRadius() + (mouseOffsetX / 20);
 	}
 
+	/**
+	 * @return upper most coordinate of camera
+	 */
 	public float camY() {
 		return y - getRadiusY();
-		// return player.y-getRadiusY() + mouseOffsetY/5;
-		// return y - getRadius() + (mouseOffsetY / 20);
 	}
 
-	public float relX(double d) {
-		return (float) (d - camX());
+	/**
+	 * returns the inputed coordinate as a value relative to the cameras position
+	 * @param x x input
+	 * @return transformed coordinate
+	 */
+	public float relX(double x) {
+		return (float) (x - camX());
 	}
-
+	
+	/**
+	 * returns the inputed coordinate as a value relative to the cameras position
+	 * @param y y input
+	 * @return transformed coordinate
+	 */
 	public float relY(double y) {
 		return (float) (y - camY());
 	}
 
+	/**
+	 * moves the camera to a specified position with a smoothed transition
+	 * @param dx destination x coordinate
+	 * @param dy destination y coordinate
+	 */
 	private void moveTo(float dx, float dy) {
+		
+		
 		float distToX = dx - this.x;
 		float distToY = dy - this.y;
+		
+		//goto that point at a speed of 20 percent per update
 		this.x += distToX * 0.2;
 		this.y += distToY * 0.2;
 
 	}
 
+	/**
+	 * induce a camera shake 
+	 * @param theta angle of the originated location
+	 * @param angle randomized level of spread
+	 * @param power power of the camera shake
+	 */
 	public void cameraShake(double theta, float angle, float power) {
 
 		angle = (float) Math.toRadians(Math.random() * angle * 2 - angle);
@@ -94,30 +127,12 @@ public class Camera extends Entity {
 
 	}
 
-	public void cameraShake(float power, int spawns) {
-		ForceAnchor f = new ForceAnchor(5f, this, player, -1f);
-		f.setId("cameraAnchor");
-		getForceSet().addForce(f);
-		for (int i = 0; i < spawns; i++) {
-			Force a, b;
-			a = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
-			b = new Force(power, (float) (Math.toRadians(Math.random() * 360)));
-
-			a.setLifeSpan(30);
-			b.setLifeSpan(30);
-
-			getForceSet().addForce(a, 10 * i);
-			getForceSet().addForce(b, 10 * i);
-		}
-
-		getForceSet().removeForce("cameraAnchor");
-
-	}
-
 	@Override
-	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
+	public void collisionOccured(CollisionBox theirBox, CollisionBox myBox) {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+
 
 }

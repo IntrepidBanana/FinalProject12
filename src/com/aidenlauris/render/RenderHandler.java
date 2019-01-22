@@ -29,10 +29,10 @@ import javax.swing.JPanel;
 import javax.swing.plaf.FontUIResource;
 
 import com.Tile;
-import com.aidenlauris.game.IOHandler;
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
-import com.aidenlauris.game.util.GameState;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.IOHandler;
+import com.aidenlauris.game.util.Keys;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.game.util.XY;
 import com.aidenlauris.gameobjects.Camera;
 import com.aidenlauris.gameobjects.Cursor;
@@ -43,7 +43,7 @@ import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.render.util.DrawCompare;
 import com.aidenlauris.render.util.SpriteManager;
 
-public class PainterLoop extends JPanel {
+public class RenderHandler extends JPanel {
 
 	int camSize = 720;
 	Camera camera;
@@ -54,27 +54,25 @@ public class PainterLoop extends JPanel {
 	long startTime;
 	private BufferedImage lightMap;
 	public long fpsTimer;
-	public GameState gameState = new GameState();
 	public Tile[][] tiles = new Tile[118][118];
 	
 	
-	public PainterLoop(IOHandler io) {
-		WorldMap.init();
+	public RenderHandler(IOHandler io) {
+		GameLogic.init();
 
 		this.io = io;
 		this.camera = new Camera();
-		WorldMap.setCamera(camera);
+		GameLogic.setCamera(camera);
 		this.io.setCamera(camera);
 		addKeyListener(io);
 		addMouseListener(io);
 		addMouseMotionListener(io);
-		addMouseWheelListener(io);
 		startTime = System.currentTimeMillis();
 		PaintHelper.initFont();
-
+		Keys k = new Keys();
 		SpriteManager.initSpriteSheets();
 
-		lightMap = new BufferedImage(WorldMap.camx, WorldMap.camy, BufferedImage.TYPE_INT_ARGB);
+		lightMap = new BufferedImage(GameLogic.camx, GameLogic.camy, BufferedImage.TYPE_INT_ARGB);
 		repaint();
 
 		setBackground(new Color(0, 45, 48));
@@ -92,9 +90,9 @@ public class PainterLoop extends JPanel {
 
 	public Graphics2D playState(Graphics2D g2d) {
 
-		ArrayList<GameObject> objects = WorldMap.objectsToDraw;
+		ArrayList<GameObject> objects = GameLogic.objectsToDraw;
 
-		WorldMap.sightPolygon.clear();
+		GameLogic.sightPolygon.clear();
 
 		
 		int sizeMishap = 0;
@@ -109,23 +107,23 @@ public class PainterLoop extends JPanel {
 				continue;
 
 			}
-			if (Math.hypot(PaintHelper.x(e.x - WorldMap.camx / 2), PaintHelper.y(e.y - WorldMap.camy / 2)) > 1080) {
+			if (Math.hypot(PaintHelper.x(e.x - GameLogic.camx / 2), PaintHelper.y(e.y - GameLogic.camy / 2)) > 1080) {
 				continue;
 			}
 			g2d = e.draw(g2d);
 			if (e instanceof Wall) {
-				WorldMap.sightPolygon.addPath((Wall) e);
+				GameLogic.sightPolygon.addPath((Wall) e);
 			}
 		}
-		g2d = WorldMap.sightPolygon.draw(g2d);
-		g2d = WorldMap.menuLayer.draw(g2d);
-		Cursor c = WorldMap.getCursor();
+		g2d = GameLogic.sightPolygon.draw(g2d);
+		g2d = GameLogic.menuLayer.draw(g2d);
+		Cursor c = GameLogic.getCursor();
 		g2d = c.draw(g2d);
 
 		Time.setDelta(Math.min(Math.max(0.75f, fpsTimer / 60.0 + 0.08f), 1f));
 g2d.setColor(Color.white);
 		g2d.drawString("FPS: " + fpsTimer + " Delta: " + (Math.round(Time.delta()*100)/100.0), 16, 16);
-		g2d.drawString("Level: " + WorldMap.globalDifficulty, WorldMap.camx/2 -48, 16);
+		g2d.drawString("Level: " + GameLogic.globalDifficulty, GameLogic.camx/2 -48, 16);
 		return g2d;
 	}
 

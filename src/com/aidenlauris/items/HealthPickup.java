@@ -19,7 +19,6 @@ public class HealthPickup extends Item {
 	@Override
 	public void useItem() {
 		Player p = Player.getPlayer();
-		System.out.println(p.health + " " + p.maxHealth);
 		p.health = Math.min(p.maxHealth, p.health + 25);
 	}
 	

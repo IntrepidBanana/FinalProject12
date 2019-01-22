@@ -1,11 +1,9 @@
-package com.aidenlauris.game;
+package com.aidenlauris.items;
 
 import java.awt.Graphics2D;
 
 import com.aidenlauris.gameobjects.Projectile;
 import com.aidenlauris.gameobjects.Rocket;
-import com.aidenlauris.items.ExplosiveAmmo;
-import com.aidenlauris.items.Gun;
 
 public class RocketLauncher extends Gun {
 

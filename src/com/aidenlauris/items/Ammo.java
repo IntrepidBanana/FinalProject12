@@ -4,10 +4,7 @@
  * ammunition for weapons super class
  */
 
-package com.aidenlauris.gameobjects;
-
-import com.aidenlauris.items.Consumable;
-import com.aidenlauris.items.Item;
+package com.aidenlauris.items;
 
 public class Ammo extends Item implements Consumable {
 

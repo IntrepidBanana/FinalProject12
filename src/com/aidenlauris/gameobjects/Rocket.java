@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HurtBox;
@@ -35,12 +35,12 @@ public class Rocket extends Projectile {
 
 		double dist = Integer.MAX_VALUE;
 
-		for (int i = 0; i < WorldMap.enemies.size(); i++) {
-			if (i >= WorldMap.enemies.size()) {
+		for (int i = 0; i < GameLogic.enemies.size(); i++) {
+			if (i >= GameLogic.enemies.size()) {
 				i--;
 				continue;
 			}
-			Enemy e = WorldMap.enemies.get(i);
+			Enemy e = GameLogic.enemies.get(i);
 			if (e == null) {
 				continue;
 			}
@@ -57,7 +57,7 @@ public class Rocket extends Projectile {
 
 	@Override
 	public void kill() {
-		WorldMap.addGameObject(new Explosion(x, y, 200, 30f, 150f));
+		GameLogic.addGameObject(new Explosion(x, y, 200, 30f, 150f));
 		removeSelf();
 	}
 

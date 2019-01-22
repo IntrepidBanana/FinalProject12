@@ -8,8 +8,8 @@ package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.items.Pistol;
@@ -19,6 +19,11 @@ public class Gunman extends Enemy {
 
 	private Particle part;
 
+	/**
+	 * initiates enemy with coordinate x, y
+	 * @param x coord x
+	 * @param y coord y
+	 */
 	public Gunman(float x, float y) {
 		super(x, y, 50, 10, 3);
 		part = new Particle(x, y);
@@ -33,8 +38,6 @@ public class Gunman extends Enemy {
 
 	@Override
 	public void move() {
-		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
 
 		Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random() * 360));
 		f.setId("GunMove");
@@ -52,11 +55,8 @@ public class Gunman extends Enemy {
 		part.x = x;
 		part.y = y;
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		time++;
-		if (isStunned()) {
-			return;
-		}
 
 		move();
 

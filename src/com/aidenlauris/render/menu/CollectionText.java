@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import com.aidenlauris.game.Time;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.render.PaintHelper;
 

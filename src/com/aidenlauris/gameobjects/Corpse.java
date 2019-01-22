@@ -5,6 +5,7 @@
  */
 
 package com.aidenlauris.gameobjects;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -21,56 +22,65 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Corpse extends Entity {
 
+	// owner of corpse
 	private Entity owner;
+
+	// size of corpse
 	private float wid = 0;
 	private float hgt = 0;
-	
-	
-	Corpse(float x, float y, Entity e) {
+
+	/**
+	 * initiates corpse with coordinate x, y based on owner
+	 * 
+	 * @param x
+	 *            coord x
+	 * @param y
+	 *            coord y
+	 * @param e
+	 *            owner of corpse
+	 */
+	public Corpse(float x, float y, Entity e) {
 		super(x, y);
-//		forces = e.forces;
+		owner = e;
+		team = Team.ENEMY;
+		health = 1;
+		// add a force equivalent to the forces taken by the entity at time of death
 		Force f = new Force(e.getForceSet().getNetMagnitude(), e.getForceSet().getNetTheta());
 		f.setReduction(0.1f);
 		getForceSet().addForce(f);
-		owner = e;
-		 wid = CollisionHelper.width(owner);
-		 hgt = CollisionHelper.length(owner);
-		team = Team.ENEMY;
-		health = 10;
-		invincibility = 10;
+
+		wid = CollisionHelper.width(owner);
+		hgt = CollisionHelper.length(owner);
 	}
 
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
-		if (box.isSolid) {
-			collide(box, myBox);
-		}
 
 	}
 
 	@Override
 	public void update() {
-		invincibility = 10;
 		tickUpdate();
-		if(time > 120) {
+		
+		//kill after 2 seconds
+		if (time > 120) {
 			kill();
 		}
 	}
-	
+
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
 
+		//draws the corpse 
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 
 		
-		Shape s = new Rectangle2D.Float(drawX- wid/2, drawY-hgt/2, wid, hgt);
-		
+		Shape s = new Rectangle2D.Float(drawX - wid / 2, drawY - hgt / 2, wid, hgt);
+
 		g2d.setColor(Color.darkGray);
 		g2d.fill(s);
-		
-		
-		
+
 		return g2d;
 	}
 

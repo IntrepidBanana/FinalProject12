@@ -9,8 +9,8 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.ForceAnchor;

@@ -8,19 +8,33 @@ package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Force;
+import com.aidenlauris.gameobjects.util.Team;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.render.SoundHelper;
 
 public class MachineGunner extends Enemy {
 	
+	
+	//timer for shooting
 	private long shootTime = Time.alert(20);
+	
+	
+	//num of bullets shot
 	private int bullets;
+	
+	
 	private Particle part;
-
+	
+	
+	/**
+	 * initiates enemy with coordinate x, y
+	 * @param x coord x
+	 * @param y coord y
+	 */
 	public MachineGunner(float x, float y) {
 		super(x, y, 50, 10, 3.5f);
 		part = new Particle(x, y);
@@ -37,7 +51,7 @@ public class MachineGunner extends Enemy {
 	@Override
 	public void move() {
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 
 		  
 			Force f = new Force(getMoveSpeed(), (float) Math.toRadians(Math.random()*360));
@@ -57,15 +71,13 @@ public class MachineGunner extends Enemy {
 		tickUpdate();
 
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		time++;
-		if (isStunned()) {
-			return;
-		}
 		
 		move();
 		
 		
+		//shoots 4 bullets in quick succession
 		if (dist < 500 && Time.alertPassed(shootTime) && bullets < 4) {
 			attack();
 			bullets++;
@@ -88,8 +100,7 @@ public class MachineGunner extends Enemy {
 		b.setLifeSpan(180f);
 		b.setGunOffset(50);
 		b.setKnockback(0);
-		b.team = team.ENEMY;
-		this.team = team.ENEMY;
+		b.team = Team.ENEMY;
 		float theta = (float) Math.atan2(p.y - this.y, p.x - this.x);
 		b.setTheta(theta);
 		b.init();

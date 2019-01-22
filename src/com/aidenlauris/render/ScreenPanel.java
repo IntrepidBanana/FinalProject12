@@ -14,13 +14,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import com.Tile;
-import com.aidenlauris.game.IOHandler;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.IOHandler;
 import com.aidenlauris.gameobjects.Camera;
 
 public class ScreenPanel extends JPanel implements KeyListener {
 
-	WorldMap wm = new WorldMap();
+	GameLogic wm = new GameLogic();
 	int camSize = 720;
 	Camera camera;
 	IOHandler io;
@@ -83,14 +83,6 @@ public class ScreenPanel extends JPanel implements KeyListener {
 		cameraSmooth(dx, dy);
 		Graphics2D g2d = (Graphics2D) g;
 
-		Shape point = new Rectangle2D.Double(dx + camera.getSize() / 2 - camera.x - 2.5,
-				dy + camera.getSize() / 2 - camera.y - 2.5, 5.0, 5.0);
-		g2d.draw(point);
-
-		Shape dist = new Line2D.Double(dx - camera.x + camera.getSize() / 2, (dy + (camera.getSize() / 2) - camera.y),
-				camera.getSize() / 2, camera.getSize() / 2);
-
-		g2d.draw(dist);
 
 		repaint();
 	}

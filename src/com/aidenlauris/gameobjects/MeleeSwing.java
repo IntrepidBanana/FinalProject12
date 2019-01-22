@@ -13,6 +13,12 @@ import com.aidenlauris.gameobjects.util.Team;
 
 public class MeleeSwing extends Projectile {
 	
+	/**
+	 * initiates all the values for this projectile
+	 * 
+	 * @param damage
+	 *            of bullet
+	 */
 	public MeleeSwing(float damage) {
 		setKnockback(2f);
 		HurtBox box = new HurtBox(this, 10,10, damage);
@@ -23,6 +29,7 @@ public class MeleeSwing extends Projectile {
 	
 	@Override
 	public void collisionOccured(CollisionBox box, CollisionBox myBox) {
+		
 		
 		if(box.getOwner() instanceof Entity) {
 			Entity owner = (Entity) box.getOwner();

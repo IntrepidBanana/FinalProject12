@@ -11,8 +11,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HurtBox;
@@ -52,7 +52,7 @@ public class SpinnerBlade extends Projectile {
 
 	@Override
 	public void init() {
-		WorldMap.addGameObject(this);
+		GameLogic.addGameObject(this);
 	}
 
 	@Override

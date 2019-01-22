@@ -9,8 +9,8 @@ package com.aidenlauris.gameobjects;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
@@ -45,7 +45,7 @@ public class Portal extends Entity {
 				timeHasStarted = true;
 			}
 		}
-		
+
 		double theta = Math.toRadians(Math.random() * 360);
 		for (int i = 1; i <= 1; i++) {
 			theta += Math.toRadians(120);
@@ -59,8 +59,10 @@ public class Portal extends Entity {
 			part.setRotationSpeed(8);
 			part.setFadeMinimum(0);
 			part.setColor(Color.cyan);
-			
-			
+			if ((int) (Math.random() * 2) == 1) {
+				part.setColor(new Color(107, 45, 103));
+			}
+
 			ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
 			fa.setOffset(85 * (int) (Math.random() * 3));
 			fa.setLifeSpan(Integer.MAX_VALUE);
@@ -71,42 +73,17 @@ public class Portal extends Entity {
 			part.init();
 
 		}
-		
-		for (int i = 1; i <= 3; i++) {
-			theta += Math.toRadians(120);
-			float dx = (float) (x + Math.cos(theta) * 30);
-			float dy = (float) (y + Math.sin(theta) * 30);
 
-			Particle part = new Particle(dx, dy);
-			part.setLifeSpan(120);
-			part.setSize(6);
-			part.setSizeDecay(3);
-			part.setRotationSpeed(8);
-			part.setFadeMinimum(0);
-			part.setColor(new Color(107,45,103));
-			
-			
-			ForceAnchor fa = new ForceAnchor((float) (1f + Math.random() * 3f), part, this, -1f);
-			fa.setOffset(85 * (int) (Math.random() * 3));
-			fa.setLifeSpan(Integer.MAX_VALUE);
-			// fa.hasVariableSpeed(false);
 
-			part.getForceSet().addForce(fa);
-
-			part.init();
-
-		}
-		
-		
 	}
-	
+
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
 		return g2d;
 	}
-	
+
 	public void startGeneration() {
-		WorldMap.init();
+		GameLogic.init();
 	}
 
 	@Override

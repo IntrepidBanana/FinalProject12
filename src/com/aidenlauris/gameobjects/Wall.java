@@ -23,7 +23,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -121,7 +121,7 @@ public class Wall extends Entity {
 	@Override
 	public void update() {
 		if (p == null) {
-			p = WorldMap.getPlayer();
+			p = GameLogic.getPlayer();
 		}
 
 	}

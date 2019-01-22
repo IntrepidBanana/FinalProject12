@@ -11,32 +11,39 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.HurtBox;
 import com.aidenlauris.render.PaintHelper;
 
 public class CannonShell extends Projectile{
 
 
-	
+	/**
+	 * initiates all the values for this projectile
+	 * 
+	 * @param damage
+	 *            of bullet
+	 */
 	public CannonShell(int damage) {
-//		weight = 10;
 		HurtBox box = new HurtBox(this, 8, 8, damage);
 		box.addHint(this.getClass());
 		addCollisionBox(box);
 		setKnockback(10f);
-//		setSpawnSound("cannon.wav");
 	}
 
 	
 	@Override
 	public void kill() {
-		WorldMap.addGameObject(new Explosion(x, y, 200, 30f, 150f));
+		
+		//on kill, spawn an explosion
+		GameLogic.addGameObject(new Explosion(x, y, 200, 30f, 150f));
 		removeSelf();
 	}
 
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
+		
+		//draw the cannon shell
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
 		

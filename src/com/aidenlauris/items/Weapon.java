@@ -8,7 +8,7 @@ package com.aidenlauris.items;
 
 import java.awt.Graphics2D;
 
-import com.aidenlauris.game.Time;
+import com.aidenlauris.game.util.Time;
 
 public abstract class Weapon extends Item {
 

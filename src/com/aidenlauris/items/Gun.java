@@ -19,10 +19,10 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import com.aidenlauris.game.IOHandler;
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
+import com.aidenlauris.game.util.IOHandler;
 import com.aidenlauris.game.util.Mouse;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.Particle;
 import com.aidenlauris.gameobjects.Player;
 import com.aidenlauris.gameobjects.Projectile;
@@ -67,9 +67,6 @@ public abstract class Gun extends Weapon {
 
 	public boolean canFire() {
 		boolean canFire = false;
-		if (Mouse.getFocus() != null) {
-			return false;
-		}
 
 		if (isAuto()) {
 			if (getLengthSinceFire() > getAtkSpeed() || getLengthSinceRelease() > getQuickRelease()) {
@@ -86,7 +83,7 @@ public abstract class Gun extends Weapon {
 	public void fire() {
 		if (canFire()) {
 
-			Player player = WorldMap.getPlayer();
+			Player player = GameLogic.getPlayer();
 			float theta = Mouse.theta(player.x, player.y);
 
 			float totalSpreadAngle = (float) ((bulletCount - 1) * Math.toRadians(spread));
@@ -107,8 +104,8 @@ public abstract class Gun extends Weapon {
 				float angle = (float) (startTheta + (Math.toRadians(spread * i)) + rollAccuracy());
 				Projectile p = bulletType();
 				p.setGunOffset(length);
-				p.x = WorldMap.getPlayer().x;
-				p.y = WorldMap.getPlayer().y;
+				p.x = GameLogic.getPlayer().x;
+				p.y = GameLogic.getPlayer().y;
 				p.setTheta(angle);
 				p.init();
 				if (!ammoType.equals("")) {
@@ -158,7 +155,7 @@ public abstract class Gun extends Weapon {
 				break;
 			}
 			if (!ammoType.equals("")) {
-				WorldMap.getCamera().cameraShake(theta, totalSpreadAngle / 2,
+				GameLogic.getCamera().cameraShake(theta, totalSpreadAngle / 2,
 						bulletType().getKnockback() * Math.min(getBulletCount(), 5));
 			}
 			updateFireTime();

@@ -1,18 +1,16 @@
 /*Aiden Gimpel, Lauris Petlah
  * January 20th, 2019
  * Giant
- * large type of enemy that slowly chases the player
+ * large type of enemy that slowly chases the player and pulls all projectiles
  */
 
 package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
-import com.aidenlauris.gameobjects.util.CollisionBox;
-import com.aidenlauris.gameobjects.util.Entity;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.ForceAnchor;
 import com.aidenlauris.gameobjects.util.GameObject;
@@ -21,13 +19,13 @@ import com.aidenlauris.gameobjects.util.HurtBox;
 
 public class Giant extends Enemy {
 	private Particle part;
+	private ArrayList<Projectile> affectedProjectiles = new ArrayList<>();
 
-	@Override
-	public void kill() {
-		part.kill();
-		super.kill();
-	}
-	
+	/**
+	 * initiates enemy with coordinate x, y
+	 * @param x coord x
+	 * @param y coord y
+	 */
 	public Giant(float x, float y) {
 		super(x, y, 200, 10, 0.5f);
 		getCollisionBoxes().clear();
@@ -43,9 +41,23 @@ public class Giant extends Enemy {
 	}
 
 	@Override
+	public void kill() {
+		part.kill();
+
+		
+		//remove gravity affect on all projectiles
+		for (Projectile p : affectedProjectiles) {
+			p.getForceSet().removeForce("GIANTPULL" + this);
+		}
+
+		super.kill();
+	}
+
+	@Override
 	public void move() {
+		
 		float dist = (float) Math
-				.sqrt(Math.pow(WorldMap.getPlayer().x - x, 2) + Math.pow(WorldMap.getPlayer().y - y, 2));
+				.sqrt(Math.pow(GameLogic.getPlayer().x - x, 2) + Math.pow(GameLogic.getPlayer().y - y, 2));
 		if (dist < 300) {
 			ForceAnchor f = new ForceAnchor(1.5f, this, Player.getPlayer(), -1);
 
@@ -55,7 +67,6 @@ public class Giant extends Enemy {
 			if (getForceSet().getForce("PlayerFollow") == null) {
 				getForceSet().removeForce("Random");
 				getForceSet().addForce(f);
-				// System.out.println("Running Attack");
 			}
 
 		} else {
@@ -75,10 +86,16 @@ public class Giant extends Enemy {
 		super.update();
 		part.x = x;
 		part.y = y;
-		for (GameObject p : WorldMap.nonStaticObjects) {
+
+		
+		// go through all projectiles and add a anchor to this giant
+		for (GameObject p : GameLogic.nonStaticObjects) {
 			if (p instanceof Projectile) {
 				p = (Projectile) p;
-				if (Math.hypot(p.x - x, p.y - y) > 600) {
+				
+				//max range of 600 pixels
+				if (Math.hypot(p.x - x, p.y - y) > 1000) {
+					affectedProjectiles.remove(p);
 					continue;
 				}
 				if (p.getForceSet().getForce("GIANTPULL" + this) == null) {
@@ -88,8 +105,9 @@ public class Giant extends Enemy {
 					}
 					ForceAnchor fa = new ForceAnchor(magnitude, this, p, -1);
 					fa.setId("GIANTPULL" + this);
-					fa.setLifeSpan(1);
+					fa.hasTimeLimit(false);
 					p.addForce(fa);
+					affectedProjectiles.add((Projectile) p);
 				}
 
 			}
@@ -97,6 +115,8 @@ public class Giant extends Enemy {
 
 		float theta = (float) Math.toRadians(Math.random() * 360);
 		double offset = 75;
+		
+		//funky particles
 		for (int i = 0; i <= 3; i++) {
 			float px = (float) (x + Math.cos(theta) * offset);
 			float py = (float) (y + Math.sin(theta) * offset);
@@ -118,8 +138,4 @@ public class Giant extends Enemy {
 
 	}
 
-	@Override
-	public Graphics2D draw(Graphics2D g2d) {
-		return g2d;
-	}
 }

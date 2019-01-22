@@ -20,21 +20,22 @@ import com.aidenlauris.render.PaintHelper;
 
 public class Bullet extends Projectile {
 
-	Bullet(float x, float y, float theta, float damage, float offset, float reduction) {
-		super(x, y, 10f, damage, theta, offset, reduction);
-		addCollisionBox(new HurtBox(this, -6f, -6f, 12, 12, damage));
-	}
+	private Particle part;
 
-	Particle part;
-
+	/**
+	 * initiates all the values for this projectile
+	 * 
+	 * @param damage
+	 *            of bullet
+	 */
 	public Bullet(float damage) {
 		setKnockback(9f);
 		HurtBox box = new HurtBox(this, -6f, -6f, 12, 12, damage);
-		// box.addHint(this.getClass());
+		box.addHint(this.getClass());
 		addCollisionBox(box);
 		health = 1;
-		
-		
+
+		// creates a particle for this projectiles
 		part = new Particle(x, y);
 		part.setColor(Color.orange);
 
@@ -49,7 +50,9 @@ public class Bullet extends Projectile {
 	@Override
 	public void init() {
 		super.init();
-		if (team == team.ENEMY) {
+
+		// adds a funky particle effect for enemies
+		if (team == Team.ENEMY) {
 			part = new Particle(x, y);
 			part.setColor(Color.red);
 			part.setSize(16);
@@ -65,18 +68,15 @@ public class Bullet extends Projectile {
 	@Override
 	public void update() {
 		super.update();
-		if (part != null) {
-			part.x = x;
-			part.y = y;
-		}
+		// update particle
+		part.x = x;
+		part.y = y;
 	}
 
 	@Override
 	public void kill() {
 		Particle.create(x, y, 15f, getTheta(), 40, 1, Color.LIGHT_GRAY);
-		if (part != null) {
-			part.kill();
-		}
+		part.kill();
 		super.kill();
 	}
 
@@ -85,7 +85,9 @@ public class Bullet extends Projectile {
 		// g2d = super.draw(g2d);
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
-		if (team == team.ENEMY) {
+		
+		//adds a funky particle for the enemy
+		if (team == Team.ENEMY) {
 			if (time % 5 == 0) {
 				Particle p = new Particle(x, y);
 				p.setColor(Color.red);

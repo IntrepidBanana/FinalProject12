@@ -1,154 +1,140 @@
 package com.aidenlauris.gameobjects.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
-import com.aidenlauris.game.Time;
+import com.aidenlauris.game.util.Time;
 
+/**
+ * @author Lauris & Aiden Jan 21, 2019
+ * 
+ *         Entities are a subset of gameobject that hold health, knockback,
+ *         damage and other important data
+ */
+/**
+ * @author Lauris & Aiden
+ * Jan 21, 2019
+ */
+/**
+ * @author Lauris & Aiden
+ * Jan 21, 2019
+ */
 public abstract class Entity extends GameObject {
+
+	// classifies whether the entity is an enemy, neutral or on the player team
 	public Team team = Team.NONE;
-	public float weight = 1;
-	private float moveSpeed = 1;
+
+	// data
+	public float moveSpeed = 1;
 	public int maxHealth = 1;
 	public int health = 1;
 	protected long time = 0;
-	protected final int invincibilityFrames = 10;
-	protected int invincibility = 0;
-	protected Map<GameObject, Integer> invincibleAgainst = new HashMap<>();
-	protected long stunTimer = 0;
-	protected boolean stunned = false;
 
+	/**
+	 * basic constructor
+	 * 
+	 * @param x
+	 *            xcoord
+	 * @param y
+	 *            ycoord
+	 */
 	public Entity(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	/**
+	 * constructor that plugs in data automatically
+	 * 
+	 * @param x
+	 *            xcoord
+	 * @param y
+	 *            ycoord
+	 * @param moveSpeed
+	 *            movespeed
+	 * @param health
+	 *            health
+	 */
 	public Entity(float x, float y, float moveSpeed, int health) {
 		this.x = x;
 		this.y = y;
-		setMoveSpeed(moveSpeed);
+		this.moveSpeed = moveSpeed;
 		this.health = health;
 		this.maxHealth = health;
 	}
 
-	public void collide(CollisionBox box, CollisionBox myBox) {
+	
 
-		// 0 mybox is above
-		// 1 mybox is to the right
-		// 2 mybox is below
-		// 3 mybox is to the left
-		int direction = 0;
-		float smallestDifference = myBox.getBottom() - box.getTop();
-		if (box.getRight() - myBox.getLeft() < smallestDifference) {
-			smallestDifference = box.getRight() - myBox.getLeft();
-			direction = 1;
-		}
-
-		if (box.getBottom() - myBox.getTop() < smallestDifference) {
-			smallestDifference = box.getBottom() - myBox.getTop();
-			direction = 2;
-		}
-
-		if (myBox.getRight() - box.getLeft() < smallestDifference) {
-			smallestDifference = myBox.getRight() - box.getLeft();
-			direction = 3;
-		}
-		//
-		// System.out.println();
-		// System.out.println("0 " + (myBox.getBottom() - box.getTop()));
-		// System.out.println("1 " + (box.getRight() - myBox.getLeft()));
-		// System.out.println("2 " + (box.getBottom() - myBox.getTop()));
-		// System.out.println("3 " + (myBox.getRight() - box.getLeft()));
-		// System.out.println(direction);
-		float mag = ((Entity) myBox.getOwner()).moveSpeed;
-		// mag = 1f;
-
-		Entity owner = (Entity) myBox.getOwner();
-		float netX = Math.abs(owner.getForceSet().getX());
-		float netY = Math.abs(owner.getForceSet().getY());
-
-		switch (direction) {
-		case 0:
-			owner.y = -2 + box.getTop() - myBox.len / 2 + (myBox.getY() - owner.y);
-
-			break;
-		case 1:
-
-			owner.x = 2 + box.getRight() + myBox.wid / 2 + (myBox.getX() - owner.x);
-			break;
-		case 2:
-			owner.y = 2 + box.getBottom() + myBox.len / 2 + (myBox.getY() - owner.y);
-			break;
-		case 3:
-
-			owner.x = -2 + box.getLeft() - myBox.wid / 2 + (myBox.getX() - owner.x);
-			break;
-		}
-
-		// ((Entity) myBox.getOwner()).stun(7);
-
-	}
-
+	/**
+	 * knockback this entity from with a force originating from an xy coordinate.
+	 * @param magnitude magnitude of force
+	 * @param x xcoord
+	 * @param y ycoord
+	 */
 	public void knockBack(float magnitude, float x, float y) {
+		
+		//figure out angle
 		float theta = (float) ((float) Math.atan2(y, x) + Math.PI);
 		knockBack(magnitude, theta);
 	}
 
+	/**
+	 * knockback this entity from a force with angle theta
+	 * @param magnitude magnitude of force
+	 * @param theta angle of force
+	 */
 	public void knockBack(float magnitude, float theta) {
 
+		//initiate a force with magnitude and angle theta
 		Force f = new Force(magnitude, (float) (theta));
 		f.setReduction(0.3f);
-		getForceSet().addForce(f);
+		addForce(f);
 	}
 
-	public void knockBack(float magnitude, float originX, float originY, float pointX, float pointY) {
-		float dx = pointX - originX;
-		float dy = pointY - originY;
 
-		knockBack(magnitude, dx, dy);
+	
 
-	}
-
-	public void printAllForces() {
-		System.out.println("\n Total Forces: " + getForceSet().getForces().size());
-		for (Force f : getForceSet().getForces()) {
-			System.out.println(f.getId() + ": " + f.getMagnitude() + "/tick,  " + (-f.getReduction()) + "/tick/tick");
-		}
-	}
-
+	/**
+	 * updates all intra-tick data, such as health and force updates
+	 */
 	public void tickUpdate() {
 		time = Time.global() - initTime;
 		if (health <= 0) {
 			kill();
 		}
 		forceUpdate();
-		if (invincibility > 0) {
-			invincibility--;
-		}
-		if (stunned && Time.alertPassed(stunTimer)) {
-			stunned = false;
-		}
 
 	}
 
+	/**
+	 * damage based on a hurtbox
+	 * @param box hurtbox
+	 */
 	public void damage(HurtBox box) {
 		damage(box.damage);
 
 	}
 
+	/**
+	 * remove health by a float amount
+	 * @param damage float damage
+	 */
 	public void damage(float damage) {
-		if (invincibility <= 0) {
-			health -= (damage);
-		}
+		health -= (damage);
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.aidenlauris.gameobjects.util.GameObject#collisionOccured(com.aidenlauris.gameobjects.util.CollisionBox, com.aidenlauris.gameobjects.util.CollisionBox)
+	 */
 	public abstract void collisionOccured(CollisionBox theirBox, CollisionBox myBox);
 
+	/* (non-Javadoc)
+	 * @see com.aidenlauris.gameobjects.util.GameObject#update()
+	 */
 	public abstract void update();
 
+	/* (non-Javadoc)
+	 * @see com.aidenlauris.gameobjects.util.GameObject#getForceSet()
+	 */
 	public ForceSet getForceSet() {
 		if (moveSpeed == 0) {
 			getForceSet().getForces().clear();
@@ -156,25 +142,19 @@ public abstract class Entity extends GameObject {
 		return super.getForceSet();
 	}
 
+	/**
+	 * @return movespeed
+	 */
 	public float getMoveSpeed() {
 		return moveSpeed;
 	}
 
+	/**
+	 * set movespeed of entity
+	 * @param moveSpeed movespeed of entity
+	 */
 	public void setMoveSpeed(float moveSpeed) {
 		this.moveSpeed = moveSpeed;
 	}
 
-	public void startIFrames() {
-		invincibility = invincibilityFrames;
-	}
-
-	public void stun(int stun) {
-		stunTimer = Time.alert(stun);
-		stunned = true;
-	}
-
-	public boolean isStunned() {
-		return stunned;
-
-	}
 }

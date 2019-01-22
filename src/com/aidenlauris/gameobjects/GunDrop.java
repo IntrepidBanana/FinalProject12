@@ -13,10 +13,9 @@ import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import com.aidenlauris.game.RocketLauncher;
-import com.aidenlauris.game.Time;
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.game.util.Keys;
+import com.aidenlauris.game.util.Time;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.Entity;
 import com.aidenlauris.gameobjects.util.Interactable;
@@ -29,6 +28,7 @@ import com.aidenlauris.items.Item;
 import com.aidenlauris.items.LaserGun;
 import com.aidenlauris.items.MachineGun;
 import com.aidenlauris.items.Minigun;
+import com.aidenlauris.items.RocketLauncher;
 import com.aidenlauris.items.Shotgun;
 import com.aidenlauris.items.ShotgunAmmo;
 import com.aidenlauris.items.Sword;
@@ -36,12 +36,25 @@ import com.aidenlauris.render.PaintHelper;
 
 public class GunDrop extends Entity implements Interactable {
 
+	
+	// true if the player is interacting with this object
 	private boolean interacting;
+	
+	//gun this this object has
 	public Gun gun;
 	private Particle p;
 
+	
+	
+	/**
+	 * initiates this gun drop with a randomized gun
+	 * @param x
+	 * @param y
+	 */
 	public GunDrop(float x, float y) {
 		super(x, y);
+		
+		//randomizes gun drops
 		ArrayList<Gun> guns = new ArrayList<>();
 		guns.add(new MachineGun());
 		guns.add(new Cannon());
@@ -54,6 +67,8 @@ public class GunDrop extends Entity implements Interactable {
 		int index = (int) (Math.random() * guns.size());
 		gun = guns.get(index);
 
+		
+		//funky particle
 		p = new Particle(x, y);
 		p.setLifeSpan(Integer.MAX_VALUE);
 		p.setRotation((int) (System.currentTimeMillis() / 3));
@@ -67,9 +82,15 @@ public class GunDrop extends Entity implements Interactable {
 
 	@Override
 	public void interact() {
+		
+		//swap the player gun with this gun
 		gun = Player.getPlayer().inv.addGun(gun);
 	}
 
+	/**
+	 * checks whether the player can interact with this object
+	 * if within 50 pixels, we can interact. add it to the list of things the player can interact with
+	 */
 	public void interactByProximity() {
 		Player player = Player.getPlayer();
 		if (distToPlayer() < 50) {
@@ -84,12 +105,15 @@ public class GunDrop extends Entity implements Interactable {
 	public void update() {
 		interactByProximity();
 
+		
+		// if nearby and the key is pressed.
 		if (interacting && Keys.isKeyPressed(KeyEvent.VK_E)) {
 			interact();
 		}
 
+		
+		//if no gun...
 		if (gun == null) {
-
 			Player.getPlayer().removeInteractable(this);
 			kill();
 		}
@@ -110,14 +134,11 @@ public class GunDrop extends Entity implements Interactable {
 	@Override
 	public Graphics2D draw(Graphics2D g2d) {
 
-		if (Time.alertPassed(animation)) {
-			animation = Time.alert(1600);
 
-		}
-
+		
+		//adds the text for this objects
 		float drawX = PaintHelper.x(x);
 		float drawY = PaintHelper.y(y);
-		Shape s = new Rectangle2D.Float(drawX - 5, drawY - 5, 10, 10);
 		if (interacting) {
 
 			String str = "[E] " + gun;
@@ -130,11 +151,17 @@ public class GunDrop extends Entity implements Interactable {
 		return g2d;
 	}
 
+	/**
+	 * Spawns a gun drop at a coordinate with a certain chance to spawn
+	 * @param x x coord
+	 * @param y y coord
+	 * @param chance chance this will drop
+	 */
 	public static void drop(float x, float y, double chance) {
 		double roll = Math.random();
 
 		if (chance > roll) {
-			WorldMap.addGameObject(new GunDrop(x, y));
+			GameLogic.addGameObject(new GunDrop(x, y));
 
 		}
 	}

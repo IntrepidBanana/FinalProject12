@@ -7,7 +7,7 @@ package com.aidenlauris.gameobjects;
 
 import java.awt.Color;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.Force;
 import com.aidenlauris.gameobjects.util.HitBox;
 import com.aidenlauris.gameobjects.util.HurtBox;
@@ -34,7 +34,7 @@ public class SuperSlug extends Slug {
 
 		SoundHelper.makeSound("slug.wav");
 		for (int i = 0; i < 4; i++) {
-			WorldMap.addGameObject(new Slug(this.x, this.y));
+			GameLogic.addGameObject(new Slug(this.x, this.y));
 		}
 	}
 

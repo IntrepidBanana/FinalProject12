@@ -6,8 +6,6 @@
 
 package com.aidenlauris.items;
 
-import com.aidenlauris.gameobjects.Ammo;
-
 public class ShotgunAmmo extends Ammo {
 
 	public ShotgunAmmo() {

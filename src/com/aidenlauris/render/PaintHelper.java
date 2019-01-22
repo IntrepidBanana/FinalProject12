@@ -1,4 +1,5 @@
 package com.aidenlauris.render;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -10,8 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 
-import com.aidenlauris.game.WorldMap;
+import com.aidenlauris.game.GameLogic;
 import com.aidenlauris.gameobjects.util.CollisionBox;
 import com.aidenlauris.gameobjects.util.GameObject;
 import com.aidenlauris.gameobjects.util.HitBox;
@@ -21,15 +23,14 @@ public class PaintHelper {
 	public static Font font;
 
 	public static float x(double d) {
-		return WorldMap.getCamera().relX(d);
+		return GameLogic.getCamera().relX(d);
 	}
 
 	public static float y(double d) {
-		return WorldMap.getCamera().relY(d);
+		return GameLogic.getCamera().relY(d);
 	}
 
 	public static Graphics2D drawCollisionBox(Graphics2D g2d, CollisionBox box) {
-
 
 		float drawX, drawY;
 		drawX = PaintHelper.x(box.getLeft());
@@ -46,16 +47,21 @@ public class PaintHelper {
 	}
 
 	public static Graphics2D drawCollisionBox(Graphics2D g2d, ArrayList<CollisionBox> boxes) {
+		try {
 		for(CollisionBox box : boxes) {
 			g2d = drawCollisionBox(g2d, box);
 		}
+		} catch (ConcurrentModificationException e) {
+			System.out.println("Gandled Concurrent Modification Error: DRAW_COLLISION_BOXES()");
+		}
+		
 		return g2d;
 	}
-	
+
 	public static Graphics2D drawCollisionBox(Graphics2D g2d, GameObject obj) {
 		return drawCollisionBox(g2d, obj.getCollisionBoxes());
 	}
-	
+
 	public static void initFont() {
 		try {
 			// create the font to use. Specify the size!
